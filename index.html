@@ -1,113 +1,221 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
+    <meta charset="UTF-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+    <title>abcdRL</title>
+    <script>
+        var domain = document.domain;
+        if (domain == 'git.abcdrl.xyz'){
+            window.location.replace('https://github.com/sdpkjc/abcdrl')
+        }else if (domain == 'github.abcdrl.xyz'){
+            window.location.replace('https://github.com/sdpkjc/abcdrl')
+        }else if (domain == 'gitee.abcdrl.xyz'){
+            window.location.replace('https://gitee.com/sdpkjc/abcdrl')
+        }else if (domain == 'report.abcdrl.xyz'){
+            window.location.replace('https://wandb.ai/openrlbenchmark/abcdrl/reportlist')
+        }else if (domain == 'benchmark.abcdrl.xyz'){
+            window.location.replace('https://wandb.ai/openrlbenchmark/abcdrl/reportlist')
+        }else if (domain == 'docker.abcdrl.xyz'){
+            window.location.replace('https://hub.docker.com/r/sdpkjc/abcdrl')
+        }else if (domain == 'pypi.abcdrl.xyz'){
+            window.location.replace('https://pypi.org/project/abcdrl')
+        }else if (domain == 'abcdrl.xyz'){
+        }else{
+            window.location.replace('https://abcdrl.xyz')    
+        }
+    </script>
 
+    <script>
+        const prefersColorScheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        if (prefersColorScheme === 'dark') 
+            document.documentElement.classList.add('dark')
+        else
+            document.documentElement.classList.remove('dark')
+    </script>
 
-<meta http-equiv="content-type" content="txt/html; charset=utf-8">
-<meta name="DESCRIPTION" content="sdpkjc">
-<meta name="KEYWORDS" content="sdpkjc">
+    <script>
+        const mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)')
 
-<title>sdpkjc</title>
+        mediaQueryList.addEventListener('change', e => {
+            if (e.matches === true)
+                document.documentElement.classList.add('dark')
+            else
+                document.documentElement.classList.remove('dark')
+        })
+    </script>
 
-<style>  
-    body{
-        font-family:Monospace; 
-        /* height:100%; */
-    }  
-    h1{
-        font-size:5em;
-        text-align:center; 
-        font-weight:normal;
-        color:black;
-    }
-    p{
+    <style>
+        @font-face {
+        font-family: 'Inter var';
+        font-style: normal;
+        font-weight: 100 1100;
+        font-display: block;
+        src: url(/SmileySans-Oblique.ttf.woff2) format('woff2');
+        }
+        /* src: url(/fonts/Inter-roman.latin.var.woff2) format('woff2'); */
 
-        /* margin-top:25%; */
-        /* opacity:0.5; */
-    }
-    .ha{
-        margin-top:16%;
-    }
-    .hb{
-        opacity:0.1;
-    }
-    a:link{
-        color:black;
-    }
-    a:visited{
-        color:black;
-    }
-    a:hover{
-        color:black;
-        /* color:transparent; */
-        /* color:currentColor; */
-    }
-    a:active{
-        color:black;
-    }
-    .pc{
-        font-size:1.2em;
-        text-align:center; 
-        font-weight:normal;
-        color:black;
-        opacity:0.07;
-        margin-top:1%;
-    }
-    .GTD{
-        height: 100%;
-        margin: 10%;
-        margin-top:20%;    
-    }
-    .bg1{background-image: url('adam.svg');}
-    .bg1{margin: 50px; border: 1px solid #CDCDCD; padding:5px; height:150px; width:300px; background-repeat: no-repeat; background-position: center center; float:left;}
-</style>
-<!-- <script>
-    function setHeight(el) {
-        el.style.height = el.contentWindow.document.body.scrollHeight + 'px'
-    }
-</script> -->
+        @font-face {
+        font-family: 'Inter var';
+        font-style: italic;
+        font-weight: 100 1100;
+        font-display: block;
+        src: url(/SmileySans-Oblique.ttf.woff2) format('woff2');
+        font-named-instance: 'Italic';
+        }
+    </style>
+
+    <style>
+        html {
+            --bg-color: rgb(255, 255, 255);
+            --a-color: rgb(107, 170, 232);
+            --li-color: rgb(0, 0, 0);
+            --pre-bg-color: rgba(0, 0, 0, 0.05);
+            --code-color: rgb(0, 0, 0);
+        }
+        html.dark {
+            --bg-color: black;
+            --a-color: rgb(107, 170, 232);
+            --li-color: rgb(255, 255, 255);
+            --pre-bg-color: rgba(255, 255, 255, 0.1);
+            --code-color: rgb(255, 255, 255);
+        }
+        em {
+            color: rgb(203, 63, 73);
+        }
+        body {
+            /* -ms-text-size-adjust: 100%; */
+            /* -webkit-text-size-adjust: 100%; */
+            background-color: var(--bg-color);
+            font-family: 'Inter var', -apple-system, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji;
+            -webkit-font-smoothing: subpixel-antialiased;
+            box-sizing: border-box;
+            min-width: 480px;
+            max-width: 980px;
+            margin: 0 auto;
+            /* padding: 45px; */
+            line-height: 1.5;
+            font-size: 1.5rem;
+            word-wrap: break-word;
+        }
+
+        a {
+            background-color: transparent;
+            color: var(--a-color);
+            text-decoration: none;
+        }
+        a:active,
+        a:hover {
+            outline-width: 0;
+            text-decoration: underline;
+        }
+
+        strong {
+            font-weight: inherit;
+            font-weight: bolder;
+        }
+
+        img {
+            box-sizing: content-box;
+            max-width: 100%;
+        }
+
+        pre {
+            background-color: var(--pre-bg-color);
+            margin-bottom: 0;
+            margin-top: 0;
+            /* border-radius: 10px; */
+            font-size: 85%;
+            line-height: 1.45;
+            overflow: auto;
+            padding: 16px;
+        }
+        
+        code[class*="language-"],
+        pre[class*="language-"] {
+            color: var(--code-color);
+            background: none;
+            /* text-shadow: 0 1px white; */
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+            font-size: 1rem;
+            text-align: left;
+            white-space: pre;
+            word-spacing: normal;
+            word-break: normal;
+            word-wrap: normal;
+            line-height: 1.5;
+            -moz-tab-size: 4;
+            -o-tab-size: 4;
+            tab-size: 4;
+            -webkit-hyphens: none;
+            -moz-hyphens: none;
+            -ms-hyphens: none;
+            hyphens: none;
+        }
+
+        li{
+            color: var(--li-color);
+        }
+    </style>
 </head>
 
-
-
 <body>
-    <!-- <div class="bg1">使用独立的svg文件</div> -->
-    <h1 class = "ha"><a href="https://wiki.sdpkjc.icu">Wiki</a>&nbsp&nbsp<a href="https://github.com/sdpkjc/">GitHub</a></h1>
-    <h1 class = "hb">
-        <a href="https://abcdrl.xyz">abcdRL</a>&nbsp&nbsp
-        <a href="https://wiki.sdpkjc.icu/_file/">Files</a>&nbsp&nbsp
-        <a href="https://wiki.sdpkjc.icu/#/p/about?id=%e5%85%b3%e4%ba%8e%e6%88%91">AboutME</a>
-    </h1>
-    <center><img src="./adam.svg" width="10%"></center>
-    <center>
-        <a href = "mailto:pazyx728@gmail.com">pazyx728 AT gmail DOT com</a>
-    </center>
-    <p class = "pc">
-        <a href="https://gitlab.com/users/sdpkjc/">GitLab</a>&nbsp&nbsp
-        <a href="https://gitee.com/sdpkjc/">Gitee</a>&nbsp&nbsp
-        <a href="https://wandb.ai/iiiiiiiooo/">Wandb</a>&nbsp&nbsp
-        <a href="https://hub.docker.com/r/sdpkjc/">DockerHub</a>&nbsp&nbsp
-        <a href="https://pypi.org/user/sdpkjc/">PyPI</a>&nbsp&nbsp
-        <a href="https://www.vijos.org/d/PA728/p">Vijos</a>&nbsp&nbsp
-    </p>
-    <p class = "pc">
-        <a href="https://twitter.com/sdpkjc_adam/">Twitter</a>&nbsp&nbsp
-        <a href="https://discordapp.com/users/sdpkjc#3339">Discord</a>&nbsp&nbsp
-        <a href="https://masto.ai/@sdpkjc">Mastodon</a>&nbsp&nbsp
-        <a href="https://open.spotify.com/user/316tmwa7yte4oqibi6lhrwnjyjji?si=hI0q4KFmSKO4GdWW1jpkLA">Spotify</a>&nbsp&nbsp
-        <a href="https://live.bilibili.com/22313734">Bilibili</a>&nbsp&nbsp
-        <a href="https://www.zhihu.com/people/01cc6dd991be4e1958be4e1a2b95a1c6">Zhihu</a>&nbsp&nbsp
-        <a href="https://weibo.com/u/7759690796">SinaWeibo</a>&nbsp&nbsp
-    </p>
+    <article class="markdown-body">
+        <h1>Adam(Yanxiao) Zhao 赵砚潇</h1>
+        <picture>
+            <source media="(prefers-color-scheme: light)" srcset="/adam.svg">
+            <source media="(prefers-color-scheme: dark)" srcset="/adam_dark.svg">
+            <img alt="abcdrl" src="/adam.svg" width="300">
+        </picture>
+        <p>I'm a Computer Science graduate student at University of Chinese Academy of Sciences🇨🇳 in Chengdu🐼, interested in Deep Reinforcement Learning🤖️.</p>
 
-    
-</br>
-    </br>
-    </br>
-    </br>
-    <!-- <object data="GTD.html" type="text/x-scriptlet" height="100%" width="100%"></object> -->
-    <!-- <div class = "GTD"> -->
-        <!-- <iframe align="center" src="GTD.html" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" οnlοad="setHeight(this)" ></iframe> -->
-    <!-- </div> -->
+        <p>I've been working on abcdRL🌟(A Modular Single-file Reinforcement Learning Algorithms Library), check it out! 👀</p>
+            
+        <p>Happy to discuss anything with you via email or social media! 🤠 👇</p>
 
+        <p><a href="mailto:hi@sdpkjc.com"><img src="https://img.shields.io/badge/Email-hi@sdpkjc.com-EA4335?logo=mail.ru" alt="Email"/></a>
+        <a href="mailto:zhaoyanxiao21@mails.ucas.ac.cn"><img src="https://img.shields.io/badge/University%20Email-zhaoyanxiao21@mails.ucas.ac.cn-41454A?logo=Academia" alt="university Email"/></a></p>
+        <p><a href="https://twitter.com/sdpkjc_adam"><img src="https://img.shields.io/badge/Twitter-@sdpkjc%5F_adam-1DA1F2?logo=twitter" alt="twitter"/></a>
+        <a href="https://discord.com/users/sdpkjc#3339"><img src="https://img.shields.io/badge/Discord-@sdpkjc%233339-5865F2?logo=discord" alt="discord"/></a>
+        <a href="https://masto.ai/@sdpkjc"><img src="https://img.shields.io/badge/Mastodon-@sdpkjc@masto.ai-6364FF?logo=mastodon" alt="mastodon"/></a>
+        <a href="https://open.spotify.com/user/316tmwa7yte4oqibi6lhrwnjyjji?si=hI0q4KFmSKO4GdWW1jpkLA"><img src="https://img.shields.io/badge/Spotify-@sdpkjc-1DB954?logo=spotify" alt="spotify"/></a>
+        <a href="https://space.bilibili.com/95671510/"><img src="https://img.shields.io/badge/Bilibili-@%E6%96%AF%E8%92%82%E5%BA%9E%E5%85%8B%E8%BD%BF%E8%BD%A6-00A1D6?logo=bilibili" alt="bilibili"/></a>
+        <a href="https://www.zhihu.com/people/01cc6dd991be4e1958be4e1a2b95a1c6"><img src="https://img.shields.io/badge/Zhihu-@%E6%96%AF%E8%92%82%E5%BA%9E%E5%85%8B%E8%BD%BF%E8%BD%A6-0084FF?logo=zhihu" alt="Zhihu"/></a>
+        <a href="https://weibo.com/u/7759690796"><img src="https://img.shields.io/badge/SinaWeibo-@%E6%96%AF%E8%92%82%E5%BA%9E%E5%85%8B%E8%BD%BF%E8%BD%A6-E6162D?logo=SinaWeibo" alt="SinaWeibo"/></a></p>
+        <p><a href="https://github.com/sdpkjc"><img src="https://img.shields.io/badge/GitHub-@sdpkjc-181717?logo=github" alt="github"/></a>
+        <a href="https://gitlab.com/users/sdpkjc"><img src="https://img.shields.io/badge/GitLab-@sdpkjc-FC6D26?logo=gitlab" alt="gitlab"/></a>
+        <a href="https://gitee.com/sdpkjc/"><img src="https://img.shields.io/badge/Gitee-@sdpkjc-C71D23?style=flat&amp;logoColor=C71D23&amp;logo=gitee&amp;labelColor=white" alt="gitee"/></a>
+        <a href="https://hub.docker.com/r/sdpkjc/"><img src="https://img.shields.io/badge/DockerHub-@sdpkjc-2496ED?logo=docker" alt="docker hub"/></a>
+        <a href="https://pypi.org/user/sdpkjc/"><img src="https://img.shields.io/badge/PyPI-@sdpkjc-3775A9?logo=pypi" alt="pypi"/></a>
+        <a href="https://wandb.ai/iiiiiiiooo"><img src="https://img.shields.io/badge/Weights%20&amp;%20Biases-@iiiiiiiooo-FFBE00?logo=weightsandbiases" alt="weights and biases"/></a></p><ul></ul><small style="display:block;margin-top:3rem" class="jsx-4d485ccd8d6ef5ab"><time class="jsx-4d485ccd8d6ef5ab">2023</time> ©sdpkjc.<a href="https://memos.sdpkjc.com" target="_blank" class="jsx-4d485ccd8d6ef5ab">memos</a><p class="jsx-4d485ccd8d6ef5ab">  </p><a href="https://wiki.sdpkjc.com" target="_blank" class="jsx-4d485ccd8d6ef5ab">wiki</a></small></article></div><script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{}},"page":"/","query":{},"buildId":"yYA0VWMhzx4MRS1UwKr43","nextExport":true,"autoExport":true,"isFallback":false,"scriptLoader":[]}</script></body></html>
+
+        <ul>
+            <li>Documentation ➡️ <a href="https://docs.abcdrl.xyz"><em>docs.abcdrl.xyz</em></a></li>
+            <li>Benchmark ➡️ <a
+                    href="https://wandb.ai/openrlbenchmark/abcdrl/reportlist">wandb.ai/openrlbenchmark/abcdrl/reportlist</a>
+                (<a href="https://report.abcdrl.xyz"><em>report.abcdrl.xyz</em></a>)</li>
+            <li>Github ➡️ <a href="https://github.com/sdpkjc/abcdrl">github.com/sdpkjc/abcdrl</a> (<a
+                    href="https://github.abcdrl.xyz"><em>github.abcdrl.xyz</em></a>)</li>
+            <li>Gitee ➡️ <a href="https://gitee.com/sdpkjc/abcdrl">gitee.com/sdpkjc/abcdrl</a> (<a
+                    href="https://gitee.abcdrl.xyz"><em>gitee.abcdrl.xyz</em></a>)</li>
+            <li>Docker Hub ➡️ <a
+                    href="https://hub.docker.com/r/sdpkjc/abcdrl">hub.docker.com/r/sdpkjc/abcdrl</a>
+                (<a href="https://docker.abcdrl.xyz"><em>docker.abcdrl.xyz</em></a>)</li>
+            <li>Pypi Package ➡️ <a href="https://pypi.org/project/abcdrl">pypi.org/project/abcdrl</a>
+                (<a href="https://pypi.abcdrl.xyz"><em>pypi.abcdrl.xyz</em></a>)</li>
+            <li>Email 📩 <a href="mailto:hi@sdpkjc.com"><em>hi AT sdpkjc DOT com</em></a></li>
+        </ul>
+        <pre>
+<code class="fenced-code-block language-bibtex">@misc{zhao_abcdrl_2022,
+    author = {Yanxiao, Zhao},
+    month = {12},
+    title = {{abcdRL: Modular Single-file Reinforcement Learning Algorithms Library}},
+    url = {https://github.com/sdpkjc/abcdrl},
+    year = {2022}
+}</code>
+</pre>
+    </article>
 </body>
+
 </html>
