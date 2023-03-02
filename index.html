@@ -70,7 +70,7 @@
             font-family: 'Inter var', -apple-system, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji;
             -webkit-font-smoothing: subpixel-antialiased;
             box-sizing: border-box;
-            min-width: 480px;
+            min-width: 680px;
             max-width: 980px;
             margin: 0 auto;
             padding: 45px;
@@ -161,20 +161,23 @@
             float: right;
             float: top;
         }
+        .name_box{
+            width: 100%;
+            border: 0;
+        }
     </style>
 </head>
 
 <body>
     <article class="markdown-body">
-        <div>
+        <div class="name_box">
             <picture>
+                <p class="name_h">Adam(Yanxiao) Zhao <br/>赵砚潇</p>
                 <source media="(prefers-color-scheme: light)" srcset="/adam.svg">
                 <source media="(prefers-color-scheme: dark)" srcset="/adam_dark.svg">
                 <img class="adam" alt="adam" src="/adam.svg" width="30%">
             </picture>
         </div>
-        
-        <p class="name_h">Adam(Yanxiao) Zhao <br/>赵砚潇</p>
         <p>I'm a Computer Science graduate student at University of Chinese Academy of Sciences🇨🇳 in Chengdu🐼, interested in <em>Deep Reinforcement Learning</em>🤖️.</p>
         <hr/>
         <p>I've been working on <a href="https://github.com/sdpkjc/abcdrl"><em>abcdRL</em></a>🌟, check it out! 🤠 👇</p>
