@@ -31,7 +31,8 @@
         font-style: normal;
         font-weight: 100 900;
         font-display: block;
-        src: url(/SmileySans-Oblique.ttf.woff2) format('woff2');
+        src: url(https://abcdrl.xyz/SmileySans-Oblique.ttf.woff2) format('woff2');
+        /* src: url(/SmileySans-Oblique.ttf.woff2) format('woff2'); */
         }
         /* src: url(/fonts/Inter-roman.latin.var.woff2) format('woff2'); */
 
@@ -40,7 +41,8 @@
         font-style: italic;
         font-weight: 100 900;
         font-display: block;
-        src: url(/SmileySans-Oblique.ttf.woff2) format('woff2');
+        src: url(https://abcdrl.xyz/SmileySans-Oblique.ttf.woff2) format('woff2');
+        /* src: url(/SmileySans-Oblique.ttf.woff2) format('woff2'); */
         font-named-instance: 'Italic';
         }
     </style>
@@ -145,80 +147,123 @@
             padding: 0;
             line-height: 0.8;
         }
-        .name_h {
-            font-size: 4rem;
-            display: inline;
-            color: var(--li-color);
-        }
 
         hr {
             width: 100%;
             border: 0;
             border-top: 8px dashed var(--pre-bg-color);
         }
-        .adam{
-            text-align: right;
+
+        .name_h {
+            font-size: 4rem;
             display: inline;
-            float: right;
-            float: top;
+            color: var(--li-color);
+            margin: 0 auto;
         }
-        .name_box{
-            width: 100%;
-            border: 0;
+        .rowbox {
+            display: flex;
+            flex-direction: row;
+            flex: 1 1 auto;
+            /* align-items: start; */
+            /* align-items: flex-start; */
+            /* justify-content: flex-end; */
+            justify-self: space-between;
+            align-self: space-between;
+            margin: 0;
         }
+        .colbox {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            margin: 0;
+        }
+        #abcdrl_img{
+            align-self: center;
+        }
+        img:hover{
+            transform: scale(1.3);
+        }
+        .adam{
+            margin-left: 100px;
+        }
+        .adam:hover{
+            transform: scale(1);
+            /* transform: rotate(10deg); */
+            /* transform: skew(-10deg); */
+            /* transform: translate(10px, 10px); */
+        }
+        .chn_name{
+            opacity: 0.3;
+            font-size: 0.5em;
+        }
+        .chn_name:hover{
+            opacity: 0.8;
+            font-size: 1em;
+        }
+
     </style>
 </head>
 
 <body>
     <article class="markdown-body">
-        <div class="name_box">
-            <p class="name_h">Adam(Yanxiao) Zhao <br/>赵砚潇</p>
-            <picture>
-                <source media="(prefers-color-scheme: light)" srcset="/adam.svg">
-                <source media="(prefers-color-scheme: dark)" srcset="/adam_dark.svg">
-                <img class="adam" alt="adam" src="/adam.svg" width="30%">
-            </picture>
-        </div>
-        <p class="name_box">I'm a Computer Science graduate student at University of Chinese Academy of Sciences🇨🇳 in Chengdu🐼, interested in <em>Deep Reinforcement Learning</em>🤖️.</p>
-        <hr/>
-        <p>I've been working on <a href="https://github.com/sdpkjc/abcdrl"><em>abcdRL</em></a>🌟, check it out! 🤠 👇</p>
-        
-        <a href="https://abcdrl.xyz">
-            <center>
+        <div class="colbox">
+            <div class="rowbox">
+                <p class="name_h" id="nn">Adam<span class="chn_name">(Yanxiao)</span> Zhao <br/>赵砚潇</p>
                 <picture>
+                    <!-- <source media="(prefers-color-scheme: light)" srcset="https://sdpkjc.com/adam.svg"> -->
+                    <!-- <source media="(prefers-color-scheme: dark)" srcset="https://sdpkjc.com/adam_dark.svg"> -->
+                    <!-- <img class="adam" alt="adam" src="https://sdpkjc.com/adam.svg" width="200px"> -->
+                    <source media="(prefers-color-scheme: light)" srcset="/adam.svg">
+                    <source media="(prefers-color-scheme: dark)" srcset="/adam_dark.svg">
+                    <img class="adam" alt="adam" src="/adam.svg" width="200px">
+                </picture>
+            </div>    
+
+            <p class="name_box">I'm a Computer Science graduate student at University of Chinese Academy of Sciences🇨🇳 in Chengdu🐼, interested in <em>Deep Reinforcement Learning</em>🤖️.</p>
+            <hr/>
+            <p>I've been working on <a href="https://github.com/sdpkjc/abcdrl"><em>abcdRL</em></a>🌟, check it out! 🤠 👇</p>
+
+            <div class="rowbox" id = "abcdrl_img">
+                <picture>
+                    <!-- <source media="(prefers-color-scheme: light)" srcset="https://sdpkjc.com/social_media_card.svg"> -->
+                    <!-- <source media="(prefers-color-scheme: dark)" srcset="https://sdpkjc.com/social_media_card_dark.svg"> -->
                     <source media="(prefers-color-scheme: light)" srcset="/social_media_card.svg">
                     <source media="(prefers-color-scheme: dark)" srcset="/social_media_card_dark.svg">
-                    <img alt="abcdrl" src="/social_media_card.svg" width="75%">
+                    <a target="_blank" href="https://abcdrl.xyz">
+                        <!-- <img alt="abcdrl" src="https://sdpkjc.com/social_media_card.svg" width="500px"> -->
+                        <img alt="abcdrl" src="/social_media_card.svg" width="500px">
+                    </a>
                 </picture>
-            </center>
-        </a>
-
-        <p>Happy to discuss anything with you via email or social media! 📡 👇</p>
-
-
-        <p class="shields">
-            <a href="mailto:hi@sdpkjc.com"><img src="https://img.shields.io/badge/Email-hi@sdpkjc.com-EA4335?logo=mail.ru" alt="Email"/></a>
-            <a href="mailto:zhaoyanxiao21@mails.ucas.ac.cn"><img src="https://img.shields.io/badge/University%20Email-zhaoyanxiao21@mails.ucas.ac.cn-41454A?logo=Academia" alt="university Email"/></a>
-        </p>
-
-        <p class="shields">
-            <a href="https://twitter.com/sdpkjc_adam"><img src="https://img.shields.io/badge/Twitter-@sdpkjc%5F_adam-1DA1F2?logo=twitter" alt="twitter"/></a>
-            <a href="https://discord.com/users/sdpkjc#3339"><img src="https://img.shields.io/badge/Discord-@sdpkjc%233339-5865F2?logo=discord" alt="discord"/></a>
-            <a href="https://masto.ai/@sdpkjc"><img src="https://img.shields.io/badge/Mastodon-@sdpkjc@masto.ai-6364FF?logo=mastodon" alt="mastodon"/></a>
-            <a href="https://open.spotify.com/user/316tmwa7yte4oqibi6lhrwnjyjji?si=hI0q4KFmSKO4GdWW1jpkLA"><img src="https://img.shields.io/badge/Spotify-@sdpkjc-1DB954?logo=spotify" alt="spotify"/></a>
-            <a href="https://space.bilibili.com/95671510/"><img src="https://img.shields.io/badge/Bilibili-@%E6%96%AF%E8%92%82%E5%BA%9E%E5%85%8B%E8%BD%BF%E8%BD%A6-00A1D6?logo=bilibili" alt="bilibili"/></a>
-            <a href="https://www.zhihu.com/people/01cc6dd991be4e1958be4e1a2b95a1c6"><img src="https://img.shields.io/badge/Zhihu-@%E6%96%AF%E8%92%82%E5%BA%9E%E5%85%8B%E8%BD%BF%E8%BD%A6-0084FF?logo=zhihu" alt="Zhihu"/></a>
-            <a href="https://weibo.com/u/7759690796"><img src="https://img.shields.io/badge/SinaWeibo-@%E6%96%AF%E8%92%82%E5%BA%9E%E5%85%8B%E8%BD%BF%E8%BD%A6-E6162D?logo=SinaWeibo" alt="SinaWeibo"/></a>
-        </p>
-
-        <p class="shields">
-            <a href="https://github.com/sdpkjc"><img src="https://img.shields.io/badge/GitHub-@sdpkjc-181717?logo=github" alt="github"/></a>
-            <a href="https://gitlab.com/users/sdpkjc"><img src="https://img.shields.io/badge/GitLab-@sdpkjc-FC6D26?logo=gitlab" alt="gitlab"/></a>
-            <a href="https://gitee.com/sdpkjc/"><img src="https://img.shields.io/badge/Gitee-@sdpkjc-C71D23?style=flat&amp;logoColor=C71D23&amp;logo=gitee&amp;labelColor=white" alt="gitee"/></a>
-            <a href="https://hub.docker.com/r/sdpkjc/"><img src="https://img.shields.io/badge/DockerHub-@sdpkjc-2496ED?logo=docker" alt="docker hub"/></a>
-            <a href="https://pypi.org/user/sdpkjc/"><img src="https://img.shields.io/badge/PyPI-@sdpkjc-3775A9?logo=pypi" alt="pypi"/></a>
-            <a href="https://wandb.ai/iiiiiiiooo"><img src="https://img.shields.io/badge/Weights%20&amp;%20Biases-@iiiiiiiooo-FFBE00?logo=weightsandbiases" alt="weights and biases"/></a>
-        </p>
+            </div>
+    
+            <p>Happy to discuss anything with you via email or social media! 📡 👇</p>
+    
+    
+            <p class="shields">
+                <a target="_blank" href="mailto:hi@sdpkjc.com"><img src="https://img.shields.io/badge/Email-hi@sdpkjc.com-EA4335?logo=mail.ru" alt="Email"/></a>
+                <a target="_blank" href="mailto:zhaoyanxiao21@mails.ucas.ac.cn"><img src="https://img.shields.io/badge/University%20Email-zhaoyanxiao21@mails.ucas.ac.cn-41454A?logo=Academia" alt="university Email"/></a>
+            </p>
+    
+            <p class="shields">
+                <a target="_blank" href="https://twitter.com/sdpkjc_adam"><img src="https://img.shields.io/badge/Twitter-@sdpkjc%5F_adam-1DA1F2?logo=twitter" alt="twitter"/></a>
+                <a target="_blank" href="https://discord.com/users/sdpkjc#3339"><img src="https://img.shields.io/badge/Discord-@sdpkjc%233339-5865F2?logo=discord" alt="discord"/></a>
+                <a target="_blank" href="https://masto.ai/@sdpkjc"><img src="https://img.shields.io/badge/Mastodon-@sdpkjc@masto.ai-6364FF?logo=mastodon" alt="mastodon"/></a>
+                <a target="_blank" href="https://open.spotify.com/user/316tmwa7yte4oqibi6lhrwnjyjji?si=hI0q4KFmSKO4GdWW1jpkLA"><img src="https://img.shields.io/badge/Spotify-@sdpkjc-1DB954?logo=spotify" alt="spotify"/></a>
+                <a target="_blank" href="https://space.bilibili.com/95671510/"><img src="https://img.shields.io/badge/Bilibili-@%E6%96%AF%E8%92%82%E5%BA%9E%E5%85%8B%E8%BD%BF%E8%BD%A6-00A1D6?logo=bilibili" alt="bilibili"/></a>
+                <a target="_blank" href="https://www.zhihu.com/people/01cc6dd991be4e1958be4e1a2b95a1c6"><img src="https://img.shields.io/badge/Zhihu-@%E6%96%AF%E8%92%82%E5%BA%9E%E5%85%8B%E8%BD%BF%E8%BD%A6-0084FF?logo=zhihu" alt="Zhihu"/></a>
+                <a target="_blank" href="https://weibo.com/u/7759690796"><img src="https://img.shields.io/badge/SinaWeibo-@%E6%96%AF%E8%92%82%E5%BA%9E%E5%85%8B%E8%BD%BF%E8%BD%A6-E6162D?logo=SinaWeibo" alt="SinaWeibo"/></a>
+            </p>
+    
+            <p class="shields">
+                <a target="_blank" href="https://github.com/sdpkjc"><img src="https://img.shields.io/badge/GitHub-@sdpkjc-181717?logo=github" alt="github"/></a>
+                <a target="_blank" href="https://gitlab.com/users/sdpkjc"><img src="https://img.shields.io/badge/GitLab-@sdpkjc-FC6D26?logo=gitlab" alt="gitlab"/></a>
+                <a target="_blank" href="https://gitee.com/sdpkjc/"><img src="https://img.shields.io/badge/Gitee-@sdpkjc-C71D23?style=flat&amp;logoColor=C71D23&amp;logo=gitee&amp;labelColor=white" alt="gitee"/></a>
+                <a target="_blank" href="https://hub.docker.com/r/sdpkjc/"><img src="https://img.shields.io/badge/DockerHub-@sdpkjc-2496ED?logo=docker" alt="docker hub"/></a>
+                <a target="_blank" href="https://pypi.org/user/sdpkjc/"><img src="https://img.shields.io/badge/PyPI-@sdpkjc-3775A9?logo=pypi" alt="pypi"/></a>
+                <a target="_blank" href="https://wandb.ai/iiiiiiiooo"><img src="https://img.shields.io/badge/Weights%20&amp;%20Biases-@iiiiiiiooo-FFBE00?logo=weightsandbiases" alt="weights and biases"/></a>
+            </p>
+        </div>
 
     </article>
 </body>
