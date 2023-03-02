@@ -103,9 +103,6 @@
             padding: 0;
             box-sizing: content-box;
             max-width: 100%;
-            text-align: right;
-            display: inline;
-            float: right;
         }
 
         pre {
@@ -160,6 +157,11 @@
             border: 0;
             border-top: 8px dashed var(--pre-bg-color);
         }
+        .adam{
+            text-align: right;
+            display: inline;
+            float: right;
+        }
     </style>
 </head>
 
@@ -171,7 +173,7 @@
             <picture>
                 <source media="(prefers-color-scheme: light)" srcset="/adam.svg">
                 <source media="(prefers-color-scheme: dark)" srcset="/adam_dark.svg">
-                <img alt="adam" src="/adam.svg" width="40%">
+                <img class="adam" alt="adam" src="/adam.svg" width="40%">
             </picture>
         </div>
         
