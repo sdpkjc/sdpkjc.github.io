@@ -4,7 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
-    <title>sdpkjc</title>
+    <title>sdpkjc's homepage</title>
+    <link
+        href="/adam.svg"
+        rel="icon"
+        media="(prefers-color-scheme: light)"
+    />
+    <link
+        href="/adam_dark.svg"
+        rel="icon"
+        media="(prefers-color-scheme: dark)"
+    />
+    <link
+        href="/adam.svg"
+        rel="apple-touch-icon"
+    />
 
     <script>
         const prefersColorScheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
@@ -83,7 +97,7 @@
         html.dark {
             --bg-color: black;
             /* --a-color: rgb(107, 170, 232); */
-            --a-color: black;
+            --a-color: rgb(255, 255, 255);
             --li-color: rgb(255, 255, 255);
             --pre-bg-color: rgba(255, 255, 255, 0.1);
             --code-color: rgb(255, 255, 255);
@@ -246,7 +260,9 @@
             position: relative; 
             z-index: 1;
         }
-
+        .say_hi{
+            margin-top: 0;
+        }
     </style>
 </head>
 
@@ -286,7 +302,7 @@
                 
             </div>    
 
-            <p class="say_hi"><span class="hi">👋</span>Hi! I'm Yanxiao Zhao, aka Adam, a Computer Science Ph.D student at <a target="_blank" href="https://www.ucas.ac.cn/">University of Chinese Academy of Sciences</a>🇨🇳 in <a target="_blank" href="https://en.wikipedia.org/wiki/Chengdu">Chengdu</a>🐼, focusing on <em>Deep Reinforcement Learning</em>🤖️.</p>
+            <p class="say_hi"><span class="hi">👋</span> Hi! I'm Yanxiao Zhao, aka Adam, a Computer Science Ph.D student at <a target="_blank" href="https://www.ucas.ac.cn/">University of Chinese Academy of Sciences</a>🇨🇳 in <a target="_blank" href="https://en.wikipedia.org/wiki/Chengdu">Chengdu</a>🐼, focusing on <em>Deep Reinforcement Learning</em>🤖️.</p>
             <hr/>
             <p>Recently, I've been working on <a href="https://github.com/sdpkjc/abcdrl"><em>abcdRL</em></a>🌟, check it out! 🤠 👇</p>
 
