@@ -25,6 +25,30 @@
         })
     </script>
 
+    <script>
+        window.onload = function() {
+            const imageContainer = document.getElementById("image_container");
+            console.info(imageContainer)
+            const dynamicImage = document.getElementById("dynamic_image");
+            console.info(dynamicImage)
+            const imageSources = imageContainer.getElementsByTagName("source");
+    
+            imageContainer.addEventListener("mouseenter", () => {
+                for (const source of imageSources) {
+                    source.setAttribute("srcset", source.dataset.srcset);
+                }
+                dynamicImage.setAttribute("src", dynamicImage.dataset.src);
+            });
+    
+            imageContainer.addEventListener("mouseleave", () => {
+                for (const source of imageSources) {
+                    source.setAttribute("srcset", source.dataset.srcset.replace("adam_wenxin", "adam"));
+                }
+                dynamicImage.setAttribute("src", dynamicImage.dataset.src.replace("adam_wenxin", "adam"));
+            });
+        };
+    </script>
+
     <style>
         @font-face {
         font-family: 'Inter var';
@@ -50,14 +74,16 @@
     <style>
         html {
             --bg-color: rgb(255, 255, 255);
-            --a-color: rgb(107, 170, 232);
+            /* --a-color: rgb(107, 170, 232); */
+            --a-color: black;
             --li-color: rgb(0, 0, 0);
             --pre-bg-color: rgba(0, 0, 0, 0.05);
             --code-color: rgb(0, 0, 0);
         }
         html.dark {
             --bg-color: black;
-            --a-color: rgb(107, 170, 232);
+            /* --a-color: rgb(107, 170, 232); */
+            --a-color: black;
             --li-color: rgb(255, 255, 255);
             --pre-bg-color: rgba(255, 255, 255, 0.1);
             --code-color: rgb(255, 255, 255);
@@ -156,27 +182,25 @@
 
         .name_h {
             font-size: 4rem;
-            display: inline;
+            /* display: inline; */
             color: var(--li-color);
-            margin: 0 auto;
+            margin: 0;
+            /* margin: 0 auto; */
         }
-        .rowbox {
-            /* display: flex; */
-            /* flex-direction: row; */
-            /* flex: 1 1 auto; */
-
-            /* align-items: start; */
-            /* align-items: flex-start; */
-            /* justify-content: flex-end; */
-            
-            /* justify-self: space-between; */
-            /* align-self: space-between; */
-            /* margin: 0; */
-            
+        .rowbox1 {
             display: flex; 
             justify-content: space-between;
             align-items: flex-start;
             width: 100%;
+        }
+        .rowbox2 {
+            display: flex;
+            flex-direction: row;
+            flex: 1 1 auto;
+
+            justify-self: space-between;
+            align-self: space-between;
+            margin: 0;
         }
         .colbox {
             display: flex;
@@ -191,9 +215,9 @@
         img:hover{
             transform: scale(1.3);
         }
-        .adam{
+        /* .adam{
             margin-left: 100px;
-        }
+        } */
         .adam:hover{
             transform: scale(1);
             /* transform: rotate(10deg); */
@@ -212,11 +236,16 @@
             font-size: 3rem;
             margin: 0;
         }
-        .hi:hover{
+        /* .hi:hover{
             font-size: 5rem;
             transform: rotate(10deg);
+        } */
+        .hi:hover {
+            transform: rotate(20deg) scale(2);
+            display: inline-block;
+            position: relative; 
+            z-index: 1;
         }
-
 
     </style>
 </head>
@@ -224,23 +253,44 @@
 <body>
     <article class="markdown-body">
         <div class="colbox">
-            <div class="rowbox">
-                <p class="name_h" id="nn">Adam<span class="chn_name">(Yanxiao)</span> Zhao <br/>赵砚潇</p>
-                <picture>
+            <div class="rowbox1">
+                <p class="name_h">Adam<span class="chn_name">(Yanxiao)</span> Zhao <br/>赵砚潇</p>
+                <!-- <picture> -->
                     <!-- <source media="(prefers-color-scheme: light)" srcset="https://sdpkjc.com/adam.svg"> -->
                     <!-- <source media="(prefers-color-scheme: dark)" srcset="https://sdpkjc.com/adam_dark.svg"> -->
                     <!-- <img class="adam" alt="adam" src="https://sdpkjc.com/adam.svg" width="200px"> -->
-                    <source media="(prefers-color-scheme: light)" srcset="/adam.svg">
-                    <source media="(prefers-color-scheme: dark)" srcset="/adam_dark.svg">
-                    <img class="adam" alt="adam" src="/adam.svg" width="240px">
+                    <!-- <source media="(prefers-color-scheme: light)" srcset="/adam.svg"> -->
+                    <!-- <source media="(prefers-color-scheme: dark)" srcset="/adam_dark.svg"> -->
+                    <!-- <img class="adam" alt="adam" src="/adam.svg" width="240px"> -->
+                <!-- </picture> -->
+                <picture id="image_container">
+                    <source
+                        media="(prefers-color-scheme: light)"
+                        srcset="/adam.svg"
+                        data-srcset="/adam_wenxin.svg"
+                    />
+                    <source
+                        media="(prefers-color-scheme: dark)"
+                        srcset="/adam_dark.svg"
+                        data-srcset="/adam_wenxin_dark.svg"
+                    />
+                    <img
+                        class="adam"
+                        id="dynamic_image"
+                        alt="adam"
+                        src="/adam.svg"
+                        data-src="/social_media_card.svg"
+                        width="240px"
+                    />
                 </picture>
+                
             </div>    
 
-            <p class="name_box"><span class="hi">👋</span>Hi! I'm Yanxiao Zhao, aka Adam, a Computer Science Ph.D student at University of Chinese Academy of Sciences🇨🇳 in Chengdu🐼, focusing on <em>Deep Reinforcement Learning</em>🤖️.</p>
+            <p class="say_hi"><span class="hi">👋</span>Hi! I'm Yanxiao Zhao, aka Adam, a Computer Science Ph.D student at <a target="_blank" href="https://www.ucas.ac.cn/">University of Chinese Academy of Sciences</a>🇨🇳 in <a target="_blank" href="https://en.wikipedia.org/wiki/Chengdu">Chengdu</a>🐼, focusing on <em>Deep Reinforcement Learning</em>🤖️.</p>
             <hr/>
             <p>Recently, I've been working on <a href="https://github.com/sdpkjc/abcdrl"><em>abcdRL</em></a>🌟, check it out! 🤠 👇</p>
 
-            <div class="rowbox" id = "abcdrl_img">
+            <div class="rowbox2" id = "abcdrl_img">
                 <a target="_blank" href="https://abcdrl.xyz">
                     <picture>
                         <!-- <source media="(prefers-color-scheme: light)" srcset="https://sdpkjc.com/social_media_card.svg"> -->
