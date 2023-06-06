@@ -20,49 +20,6 @@
         rel="apple-touch-icon"
     />
 
-    <script>
-        const prefersColorScheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-        if (prefersColorScheme === 'dark') 
-            document.documentElement.classList.add('dark')
-        else
-            document.documentElement.classList.remove('dark')
-    </script>
-
-    <script>
-        const mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)')
-
-        mediaQueryList.addEventListener('change', e => {
-            if (e.matches === true)
-                document.documentElement.classList.add('dark')
-            else
-                document.documentElement.classList.remove('dark')
-        })
-    </script>
-
-    <script>
-        window.onload = function() {
-            const imageContainer = document.getElementById("image_container");
-            console.info(imageContainer)
-            const dynamicImage = document.getElementById("dynamic_image");
-            console.info(dynamicImage)
-            const imageSources = imageContainer.getElementsByTagName("source");
-    
-            imageContainer.addEventListener("mouseenter", () => {
-                for (const source of imageSources) {
-                    source.setAttribute("srcset", source.dataset.srcset);
-                }
-                dynamicImage.setAttribute("src", dynamicImage.dataset.src);
-            });
-    
-            imageContainer.addEventListener("mouseleave", () => {
-                for (const source of imageSources) {
-                    source.setAttribute("srcset", source.dataset.srcset.replace("adam_wenxin", "adam"));
-                }
-                dynamicImage.setAttribute("src", dynamicImage.dataset.src.replace("adam_wenxin", "adam"));
-            });
-        };
-    </script>
-
     <style>
         @font-face {
         font-family: 'Inter var';
@@ -302,7 +259,7 @@
                 
             </div>    
 
-            <p class="say_hi"><span class="hi">👋</span> Hi! I'm Yanxiao Zhao, aka Adam, a Computer Science Ph.D student at <a target="_blank" href="https://www.ucas.ac.cn/">University of Chinese Academy of Sciences</a>🇨🇳 in <a target="_blank" href="https://en.wikipedia.org/wiki/Chengdu">Chengdu</a>🐼, focusing on <em>Deep Reinforcement Learning</em>🤖️.</p>
+            <p class="say_hi"><span class="hi">👋</span> Hi! I'm <span class="my_names"></span>, </br>a Computer Science Ph.D student at <a target="_blank" href="https://www.ucas.ac.cn/">University of Chinese Academy of Sciences</a>🇨🇳 in <a target="_blank" href="https://en.wikipedia.org/wiki/Chengdu">Chengdu</a>🐼, focusing on <em>Deep Reinforcement Learning</em>🤖️.</p>
             <hr/>
             <p>Recently, I've been working on <a href="https://github.com/sdpkjc/abcdrl"><em>abcdRL</em></a>🌟, check it out! 🤠 👇</p>
 
@@ -349,5 +306,58 @@
 
     </article>
 </body>
+
+    <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+    
+    <script>
+        const prefersColorScheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        if (prefersColorScheme === 'dark') 
+            document.documentElement.classList.add('dark')
+        else
+            document.documentElement.classList.remove('dark')
+    </script>
+
+    <script>
+        const mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)')
+
+        mediaQueryList.addEventListener('change', e => {
+            if (e.matches === true)
+                document.documentElement.classList.add('dark')
+            else
+                document.documentElement.classList.remove('dark')
+        })
+    </script>
+
+    <script>
+        const imageContainer = document.getElementById("image_container");
+        console.info(imageContainer)
+        const dynamicImage = document.getElementById("dynamic_image");
+        console.info(dynamicImage)
+        const imageSources = imageContainer.getElementsByTagName("source");
+
+        imageContainer.addEventListener("mouseenter", () => {
+            for (const source of imageSources) {
+                source.setAttribute("srcset", source.dataset.srcset);
+            }
+            dynamicImage.setAttribute("src", dynamicImage.dataset.src);
+        });
+
+        imageContainer.addEventListener("mouseleave", () => {
+            for (const source of imageSources) {
+                source.setAttribute("srcset", source.dataset.srcset.replace("adam_wenxin", "adam"));
+            }
+            dynamicImage.setAttribute("src", dynamicImage.dataset.src.replace("adam_wenxin", "adam"));
+        });
+    </script>
+
+    <script>
+        var typed = new Typed('.my_names', {
+            strings: ['Yanxiao Zhao', 'Adam Zhao', 'sdpkjc'],
+            typeSpeed: 50,
+            backSpeed: 50,
+            backDelay: 1500,
+            loop: true
+        });
+    </script>
 
 </html>
