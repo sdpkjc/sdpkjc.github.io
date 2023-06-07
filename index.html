@@ -148,9 +148,13 @@
         hr {
             width: 100%;
             border: 0;
-            border-top: 8px dashed var(--pre-bg-color);
+            border-top: 8px dashed var(--a-color);
+            opacity: 0.03;
         }
-
+        hr:hover {
+            opacity: 0.1;
+        }
+        
         .name_h {
             font-size: 3rem;
             /* display: inline; */
@@ -203,20 +207,6 @@
             opacity: 0.8;
             font-size: 1em;
         }
-        .hi{
-            font-size: 3rem;
-            margin: 0;
-        }
-        /* .hi:hover{
-            font-size: 5rem;
-            transform: rotate(10deg);
-        } */
-        .hi:hover {
-            transform: rotate(20deg) scale(2);
-            display: inline-block;
-            position: relative; 
-            z-index: 1;
-        }
         .say_hi{
             margin-top: 0;
             margin-bottom: 5px;
@@ -225,6 +215,58 @@
             margin-top: 5px;
             margin-bottom: 5px;
         }
+    </style>
+
+    <style>
+        @keyframes shake {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(15px);
+            }
+        }
+        .shake {
+            display: inline-block;
+            animation: shake 1s infinite alternate;
+        }
+
+        @keyframes rotate {
+            0%, 100% {
+                transform: rotate(10deg);
+            }
+            50% {
+                transform: rotate(-10deg);
+            }
+        }
+        .hi {
+            font-size: 3rem;
+            margin: 0;
+            display: inline-block;
+            animation: rotate 0.3s infinite alternate;
+        }
+        @keyframes scale-on-hover {
+            100% {
+                transform: scale(1.5);
+            }
+        }
+        .hi:hover {
+            animation: rotate 2s infinite alternate, scale-on-hover 0.3s forwards;
+        }
+        .satellite {
+            display: inline-block;
+            animation: rotate 2s infinite alternate;
+        }
+
+        @keyframes satellite-rotate {
+            0%, 100% {
+                transform: rotate(0deg);
+            }
+            50% {
+                transform: rotate(-5deg);
+            }
+        }
+
     </style>
 </head>
 
@@ -266,9 +308,9 @@
                 
             </div>    
 
-            <p class="say_hi">a Computer Science Ph.D student at <a target="_blank" href="https://www.ucas.ac.cn/">University of Chinese Academy of Sciences</a>🇨🇳 in <a target="_blank" href="https://en.wikipedia.org/wiki/Chengdu">Chengdu</a>🐼, focusing on <em>Deep Reinforcement Learning</em>🤖️.</p>
+            <p class="say_hi">a Computer Science Ph.D student at <a target="_blank" href="https://www.ucas.ac.cn/">University of Chinese Academy of Sciences</a>🇨🇳 in <a target="_blank" href="https://en.wikipedia.org/wiki/Chengdu">Chengdu</a>🐼, focusing on <em>Deep Reinforcement Learning</em><span id="rl">🤖️</span>.</p>
             <hr/>
-            <p class="content">Recently, I've been working on <a href="https://github.com/sdpkjc/abcdrl"><em>abcdRL</em></a>🌟, check it out! 🤠 👇</p>
+            <p class="content">Recently, I've been working on <a href="https://github.com/sdpkjc/abcdrl"><em>abcdRL</em></a>🌟, check it out! 🤠 <span class="shake">👇</span></p>
 
             <div class="rowbox2" id = "abcdrl_img">
                 <a target="_blank" href="https://abcdrl.xyz">
@@ -282,10 +324,11 @@
                     </picture>
                 </a>
             </div>
-    
-            <p class="content">Happy to discuss anything with you via email or social media! 📡 👇</p>
-    
-    
+
+            <hr/>
+
+            <p class="content">Happy to discuss anything with you via email or social media! <span class="satellite">📡</span> <span class="shake">👇</span></p>
+
             <p class="shields">
                 <a target="_blank" href="mailto:hi@sdpkjc.com"><img src="https://img.shields.io/badge/Email-hi@sdpkjc.com-EA4335?logo=mail.ru" alt="Email"/></a>
                 <a target="_blank" href="mailto:zhaoyanxiao21@mails.ucas.ac.cn"><img src="https://img.shields.io/badge/University%20Email-zhaoyanxiao21@mails.ucas.ac.cn-41454A?logo=Academia" alt="university Email"/></a>
@@ -313,7 +356,6 @@
 
     </article>
 </body>
-
     <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
     
     <script>
@@ -359,12 +401,22 @@
 
     <script>
         var typed = new Typed('.my_names', {
-            strings: ['Yanxiao Zhao 赵砚潇', 'Adam', 'sdpkjc'],
-            typeSpeed: 100,
-            backSpeed: 100,
+            strings: ['Y^100a^100n^100x^100i^100a^100o^100 ^100Z^100h^100a^100o^100 ^100赵^100砚^100潇^100🇨🇳', 'A^100d^100a^100m^100🇬🇧', 's^100d^100p^100k^100j^100c^100🌐'],
+            typeSpeed: 0,
+            backSpeed: 0,
             backDelay: 2000,
             loop: true
         });
     </script>
 
+    <script>
+        const emoji = document.getElementById("rl");
+        const emojis = ["🤖️", "🧠"];
+
+        let currentEmoji = 0;
+        setInterval(() => {
+            currentEmoji = (currentEmoji + 1) % emojis.length;
+            emoji.innerText = emojis[currentEmoji];
+        }, 300);
+    </script>
 </html>
