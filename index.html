@@ -31,8 +31,8 @@
         font-display: block;
         /* src: url(https://abcdrl.xyz/SmileySans-Oblique.ttf.woff2) format('woff2'); */
         /* src: url(https://cdn-1256941769.cos.accelerate.myqcloud.com/SmileySans-Oblique.ttf.woff2) format('woff2'); */
-        /* src: url(/SmileySans-Oblique.ttf.woff2) format('woff2'); */
-        src: url(/mysubsetfont.woff2) format('woff2');
+        src: url(/SmileySans-Oblique.ttf.woff2) format('woff2');
+        /* src: url(/mysubsetfont.woff2) format('woff2'); */
         }
         /* src: url(/fonts/Inter-roman.latin.var.woff2) format('woff2'); */
 
@@ -43,8 +43,8 @@
         font-display: block;
         /* src: url(https://abcdrl.xyz/SmileySans-Oblique.ttf.woff2) format('woff2'); */
         /* src: url(https://cdn-1256941769.cos.accelerate.myqcloud.com/SmileySans-Oblique.ttf.woff2) format('woff2'); */
-        /* src: url(/SmileySans-Oblique.ttf.woff2) format('woff2'); */
-        src: url(/mysubsetfont.woff2) format('woff2');
+        src: url(/SmileySans-Oblique.ttf.woff2) format('woff2');
+        /* src: url(/mysubsetfont.woff2) format('woff2'); */
         font-named-instance: 'Italic';
         }
     </style>
@@ -76,8 +76,8 @@
             font-family: 'Inter var', -apple-system, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji;
             -webkit-font-smoothing: subpixel-antialiased;
             box-sizing: border-box;
-            min-width: 800px;
-            max-width: 980px;
+            min-width: 1024px;
+            max-width: 1024px;
             margin: 0 auto;
             padding: 30px;
             line-height: 1.5;
@@ -206,24 +206,45 @@
             /* transform: skew(-10deg); */
             /* transform: translate(10px, 10px); */
         }
-        .chn_name{
-            opacity: 0.3;
-            font-size: 0.5em;
-        }
-        .chn_name:hover{
-            opacity: 0.8;
-            font-size: 1em;
-        }
         .say_hi{
             margin-top: 0;
             margin-bottom: 5px;
         }
-        .content{
+        .timeline-h{
+            font-size: 2rem;
             margin-top: 5px;
             margin-bottom: 5px;
         }
-    </style>
+        .timeline-content{
+            font-size: 1rem;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+        .timeline-time{
+            font-family: monospace;
+            font-size: 0.5rem;
+            opacity: 0.5;
+            display: inline-block;
+            vertical-align: top;
+            /* color: blue; */
+        }
+        .timeline-h3{
+            font-size: 1.0rem;
+            /* under-line */
+            /* text-decoration: underline; */
+            color: rgb(107, 170, 232);
+        }
+        .timeline-content-shields{
+            height: 1.0rem;
+            vertical-align: middle;
+        }
 
+
+        .wrapper {
+            display: flex; /* Set up a flex container */
+            align-items: flex-start; /* Align items to the start */
+        }
+    </style>
     <style>
         @keyframes shake {
             0%, 100% {
@@ -281,8 +302,6 @@
     <article class="markdown-body">
         <div class="colbox">
             <div class="rowbox1">
-                
-                <!-- <p class="name_h">Adam<span class="chn_name">(Yanxiao)</span> Zhao <br/>赵砚潇</p> -->
                 <p class="name_h"><span class="hi">👋</span> Hi there! <br/>&ensp;&ensp; I'm <span class="my_names"></span>,</p>
                 <!-- <picture> -->
                     <!-- <source media="(prefers-color-scheme: light)" srcset="https://sdpkjc.com/adam.svg"> -->
@@ -317,16 +336,51 @@
 
             <p class="say_hi">a Computer Science PhD student at <a target="_blank" href="https://www.ucas.ac.cn/">University of Chinese Academy of Sciences</a>🇨🇳 in <a target="_blank" href="https://en.wikipedia.org/wiki/Chengdu">Chengdu</a>🐼, focusing on <em>Deep Reinforcement Learning</em><span id="rl">🤖️</span>.</p>
             <hr/>
-            <p class="content">Recently, I've been working on <a href="https://github.com/sdpkjc/abcdrl"><em>abcdRL</em></a>🌟, check it out! 🤠 <span class="shake">👇</span></p>
+            <p class="timeline-h">News 📰</p>
 
-            <div class="rowbox2" id = "abcdrl_img">
+            <!-- <p class="timeline-content"><span class="timeline-time">2023/01/01</span>Recently, I've been working on <a href="https://github.com/sdpkjc/abcdrl"><em>abcdRL</em></a>🌟, check it out! 🤠 <span class="shake">👇</span></p> -->
+            <div class="wrapper">
+                <p class="timeline-time">2024/03/01&nbsp;</p>
+                <p class="timeline-content">
+                    <span class="timeline-h3">Paper: </span><em>"Snapshot Reinforcement Learning: Leveraging Prior Trajectories for Efficiency"</em>
+                    <a target="_blank" href="https://arxiv.org/abs/2403.00673"><img class="timeline-content-shields" src="https://img.shields.io/badge/arXiv-2403.00673-B31B1B?logo=arxiv" alt="arxiv"/></a>
+                    <a target="_blank" href="https://github.com/sdpkjc/snapshotrl"><img class="timeline-content-shields" src="https://img.shields.io/badge/GitHub-sdpkjc/snapshotrl-181717?logo=github" alt="github"/></a>
+                    <a target="_blank" href="https://sdpkjc.github.io/snapshotrl/"><img class="timeline-content-shields" src="https://img.shields.io/badge/Website-blue?logo=googlechrome&logoColor=white" alt="Website"></a>
+                </p>
+            </div>
+            <div class="wrapper">
+                <p class="timeline-time">2024/01/05&nbsp;</p>
+                <p class="timeline-content">
+                    <span class="timeline-h3">Paper: </span><em>"Open RL Benchmark: Comprehensive Tracked Experiments for Reinforcement Learning"</em>
+                    <a target="_blank" href="https://arxiv.org/abs/2402.03046"><img class="timeline-content-shields" src="https://img.shields.io/badge/arXiv-2402.03046-B31B1B?logo=arxiv" alt="arxiv"/></a>
+                    <a target="_blank" href="https://github.com/openrlbenchmark/openrlbenchmark"><img class="timeline-content-shields" src="https://img.shields.io/badge/GitHub-openrlbenchmark/openrlbenchmark-181717?logo=github" alt="github"/></a>
+                </p>
+            </div>
+            <div class="wrapper">
+                <p class="timeline-time">2023/06/11&nbsp;</p>
+                <p class="timeline-content">
+                    <span class="timeline-h3">Open Source Contribution: </span>
+                    Merged <a href="https://github.com/vwxyzjn/cleanrl/pull/344"><em>PR#344@CleanRL</em></a>! <a target="_blank" href="https://twitter.com/vwxyzjn">@vwxyzjn</a> and I have recently contributed QDagger to <a href="https://twitter.com/cleanrl_lib">@cleanrl_lib</a>: a Reincarnating RL baseline algorithm! 
+                    <a target="_blank" href="https://github.com/vwxyzjn/cleanrl"><img class="timeline-content-shields" src="https://img.shields.io/badge/GitHub-vwxyzjn/cleanrl-181717?logo=github" alt="github"/></a>
+                    <a target="_blank" href="https://twitter.com/sdpkjc_adam/status/1667922536741625858"><img class="timeline-content-shields" src="https://img.shields.io/badge/Tweet-gray?logo=twitter" alt="twitter"/></a>
+                </p>
+            </div>
+            <div class="wrapper">
+                <p class="timeline-time">2023/01/01&nbsp;</p>
+                <p class="timeline-content">
+                    <span class="timeline-h3">Open Source Contribution: </span>
+                    <a target="_blank" href="https://github.com/sdpkjc/abcdrl"><em>abcdRL</em></a> v0.1.0 Released on New Year’s Day 2023 🎉, check it out!<span class="shake">👇</span>
+                    <a target="_blank" href="https://github.com/sdpkjc/abcdrl"><img class="timeline-content-shields" src="https://img.shields.io/badge/GitHub-sdpkjc/abcdrl-181717?logo=github" alt="github"/></a>
+                </p>
+            </div>
+            <div class="rowbox2" id="abcdrl_img">
                 <a target="_blank" href="https://abcdrl.xyz">
                     <picture>
                         <!-- <source media="(prefers-color-scheme: light)" srcset="https://sdpkjc.com/social_media_card.svg"> -->
                         <!-- <source media="(prefers-color-scheme: dark)" srcset="https://sdpkjc.com/social_media_card_dark.svg"> -->
                         <source media="(prefers-color-scheme: light)" srcset="/social_media_card.svg">
                         <source media="(prefers-color-scheme: dark)" srcset="/social_media_card_dark.svg">
-                        <img alt="abcdrl" src="/social_media_card.svg" width="500px">
+                        <img alt="abcdrl" src="/social_media_card.svg" height="200px">
                         <!-- <img alt="abcdrl" src="https://sdpkjc.com/social_media_card.svg" width="500px"> -->
                     </picture>
                 </a>
@@ -334,7 +388,7 @@
 
             <hr/>
 
-            <p class="content">Happy to discuss anything with you via email or social media! <span class="satellite">📡</span> <span class="shake">👇</span></p>
+            <p>Happy to discuss anything with you via email or social media! <span class="satellite">📡</span> <span class="shake">👇</span></p>
 
             <p class="shields">
                 <a target="_blank" href="mailto:hi@sdpkjc.com"><img src="https://img.shields.io/badge/Email-hi@sdpkjc.com-EA4335?logo=mail.ru" alt="Email"/></a>
@@ -363,7 +417,7 @@
     <!-- <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script> -->
     <script src="/typed.js"></script>
     
-    <script>
+    <!-- <script>
         const prefersColorScheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
         if (prefersColorScheme === 'dark') 
             document.documentElement.classList.add('dark')
@@ -380,7 +434,7 @@
             else
                 document.documentElement.classList.remove('dark')
         })
-    </script>
+    </script> -->
 
     <script>
         const imageContainer = document.getElementById("image_container");
@@ -424,5 +478,4 @@
             emoji.innerText = emojis[currentEmoji];
         }, 300);
     </script>
-    <!-- <script async src="widgets.js" charset="utf-8"></script> -->
 </html>
