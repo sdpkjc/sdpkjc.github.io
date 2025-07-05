@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人学术主页</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #f0f0f0, #ffffff);
+            color: #333;
+        }
+        .container {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 90%;
+            padding: 20px;
+            text-align: center;
+        }
+        .avatar {
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            margin-bottom: 20px;
+        }
+        .name {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .shields img {
+            margin: 5px;
+        }
+        .section {
+            margin-top: 20px;
+            text-align: left;
+        }
+        .section-title {
+            font-size: 22px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+        .item {
+            margin: 10px 0;
+        }
+        a {
+            color: #1a73e8;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="avatar.svg" alt="头像" class="avatar">
+        <div class="name">你的名字</div>
+        <div class="shields">
+            <img src="https://img.shields.io/badge/shield1-value1-brightgreen" alt="Shield1">
+            <img src="https://img.shields.io/badge/shield2-value2-blue" alt="Shield2">
+        </div>
+
+        <div class="section">
+            <div class="section-title">近况</div>
+            <div class="item">目前在读CS博士，专注于强化学习。</div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">论文</div>
+            <div class="item"><strong>Paper Title 1</strong><br>Conference/Journal, Year</div>
+            <div class="item"><strong>Paper Title 2</strong><br>Conference/Journal, Year</div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">项目</div>
+            <div class="item"><strong>Project Title 1</strong><br><a href="#">项目描述或链接</a></div>
+            <div class="item"><strong>Project Title 2</strong><br><a href="#">项目描述或链接</a></div>
+        </div>
+    </div>
+</body>
+</html>
