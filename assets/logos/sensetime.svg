@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 48" role="img" aria-labelledby="title">
+  <title id="title">SenseTime</title>
+  <defs>
+    <linearGradient id="sense-a" x1="8" y1="8" x2="62" y2="39" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffd54a"/>
+      <stop offset=".2" stop-color="#f05a2a"/>
+      <stop offset=".55" stop-color="#d9272e"/>
+      <stop offset="1" stop-color="#ffc43d"/>
+    </linearGradient>
+    <linearGradient id="sense-b" x1="60" y1="9" x2="10" y2="40" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#c91f2b"/>
+      <stop offset=".48" stop-color="#ed4435"/>
+      <stop offset="1" stop-color="#a91925"/>
+    </linearGradient>
+  </defs>
+  <path d="M7 21C11 8 24 6 33 18l8 11c7 10 20 10 24-7" fill="none" stroke="url(#sense-a)" stroke-width="8" stroke-linecap="round"/>
+  <path d="M65 21C61 8 49 7 40 18L30 31C21 41 10 35 7 24" fill="none" stroke="url(#sense-b)" stroke-width="8" stroke-linecap="round"/>
+  <path d="M10 16c4-6 12-8 18-4" fill="none" stroke="#ffe06a" stroke-width="2" stroke-linecap="round" opacity=".72"/>
+</svg>
