@@ -126,6 +126,11 @@
             transition: d 760ms cubic-bezier(.16, 1, .3, 1);
         }
 
+        .page-embrace.is-avatar-reacting .page-embrace-line,
+        .page-embrace.is-avatar-reacting .page-embrace-echo {
+            transition: none;
+        }
+
         .page-embrace-line {
             filter: url(#embraceRough);
         }
@@ -141,6 +146,29 @@
         .page-embrace-magnet-echo {
             opacity: 0;
             transition: opacity 120ms ease;
+        }
+
+        .page-embrace-avatar-line,
+        .page-embrace-avatar-echo,
+        .page-embrace-avatar-pulse {
+            opacity: 0;
+            transition: opacity 140ms ease;
+        }
+
+        .page-embrace-avatar-line {
+            filter: url(#embraceRough);
+            stroke-width: var(--embrace-avatar-stroke, var(--embrace-stroke, 3.6px)) !important;
+        }
+
+        .page-embrace-avatar-echo {
+            stroke-width: var(--embrace-echo-stroke, 1.65px) !important;
+            transform: translate(0.65px, -0.42px);
+        }
+
+        .page-embrace-avatar-pulse {
+            stroke-width: var(--embrace-pulse-stroke, 1.5px) !important;
+            stroke-dasharray: 0.075 0.925;
+            filter: url(#embraceRough);
         }
 
         .page-embrace-magnet-eraser {
@@ -2589,6 +2617,10 @@
             </defs>
             <path class="page-embrace-line" id="pageEmbracePath"></path>
             <path class="page-embrace-echo" id="pageEmbraceEcho"></path>
+            <path class="page-embrace-avatar-echo" id="pageEmbraceAvatarEcho"></path>
+            <path class="page-embrace-avatar-line" id="pageEmbraceAvatarLine"></path>
+            <path class="page-embrace-avatar-pulse page-embrace-avatar-pulse--left" id="pageEmbraceAvatarPulseLeft" pathLength="1"></path>
+            <path class="page-embrace-avatar-pulse page-embrace-avatar-pulse--right" id="pageEmbraceAvatarPulseRight" pathLength="1"></path>
             <path class="page-embrace-magnet-eraser" id="pageEmbraceMagnetEraser"></path>
             <path class="page-embrace-magnet-echo" id="pageEmbraceMagnetEcho"></path>
             <path class="page-embrace-magnet-line" id="pageEmbraceMagnetLine"></path>
@@ -3148,12 +3180,24 @@
         const pageEmbrace = document.getElementById('pageEmbrace');
         const pageEmbracePath = document.getElementById('pageEmbracePath');
         const pageEmbraceEcho = document.getElementById('pageEmbraceEcho');
+        const pageEmbraceAvatarEcho = document.getElementById('pageEmbraceAvatarEcho');
+        const pageEmbraceAvatarLine = document.getElementById('pageEmbraceAvatarLine');
+        const pageEmbraceAvatarPulseLeft = document.getElementById('pageEmbraceAvatarPulseLeft');
+        const pageEmbraceAvatarPulseRight = document.getElementById('pageEmbraceAvatarPulseRight');
         const pageEmbraceMagnetEraser = document.getElementById('pageEmbraceMagnetEraser');
         const pageEmbraceMagnetEcho = document.getElementById('pageEmbraceMagnetEcho');
         const pageEmbraceMagnetLine = document.getElementById('pageEmbraceMagnetLine');
         let magnetFrame = 0;
         let magnetPointerX = -1000;
         let magnetPointerY = -1000;
+        let avatarEmbraceGeometry = null;
+        let avatarEmbraceResponse = {
+            pull: 0,
+            breath: 0,
+            pulse: -1,
+            seedX: 0.5,
+            seedY: 0.5
+        };
 
         function ai4aiClamp(value, minimum, maximum) {
             return Math.max(minimum, Math.min(maximum, value));
@@ -3180,6 +3224,159 @@
                 return ((value ^ value >>> 14) >>> 0) / 4294967296;
             };
         }
+
+        function avatarEmbracePoint(x, y) {
+            return { x, y };
+        }
+
+        function avatarEmbraceMixPoint(first, second, progress) {
+            return avatarEmbracePoint(
+                first.x + (second.x - first.x) * progress,
+                first.y + (second.y - first.y) * progress
+            );
+        }
+
+        function avatarEmbraceCubicTail(curve, progress) {
+            const [p0, p1, p2, p3] = curve;
+            const q0 = avatarEmbraceMixPoint(p0, p1, progress);
+            const q1 = avatarEmbraceMixPoint(p1, p2, progress);
+            const q2 = avatarEmbraceMixPoint(p2, p3, progress);
+            const r0 = avatarEmbraceMixPoint(q0, q1, progress);
+            const r1 = avatarEmbraceMixPoint(q1, q2, progress);
+            const split = avatarEmbraceMixPoint(r0, r1, progress);
+            return [split, r1, q2, p3];
+        }
+
+        function avatarEmbraceCubicPath(curves) {
+            return curves.map((curve) => (
+                `M ${curve[0].x.toFixed(2)} ${curve[0].y.toFixed(2)} ` +
+                `C ${curve[1].x.toFixed(2)} ${curve[1].y.toFixed(2)}, ` +
+                `${curve[2].x.toFixed(2)} ${curve[2].y.toFixed(2)}, ` +
+                `${curve[3].x.toFixed(2)} ${curve[3].y.toFixed(2)}`
+            )).join(' ');
+        }
+
+        function avatarEmbraceCubicCommand(curve) {
+            return `C ${curve[1].x.toFixed(2)} ${curve[1].y.toFixed(2)}, ` +
+                `${curve[2].x.toFixed(2)} ${curve[2].y.toFixed(2)}, ` +
+                `${curve[3].x.toFixed(2)} ${curve[3].y.toFixed(2)}`;
+        }
+
+        function hideAvatarEmbrace() {
+            const geometry = avatarEmbraceGeometry;
+            if (geometry) {
+                pageEmbracePath.setAttribute('d', geometry.path);
+                pageEmbraceEcho.setAttribute('d', geometry.path);
+                pageEmbrace.style.setProperty('--embrace-stroke', `${geometry.strokeWidth}px`);
+            }
+            pageEmbrace.classList.remove('is-avatar-reacting');
+            pageEmbraceAvatarEcho.style.opacity = '0';
+            pageEmbraceAvatarLine.style.opacity = '0';
+            pageEmbraceAvatarPulseLeft.style.opacity = '0';
+            pageEmbraceAvatarPulseRight.style.opacity = '0';
+        }
+
+        function renderAvatarEmbrace() {
+            const geometry = avatarEmbraceGeometry;
+            if (!geometry || reducedMotion) {
+                hideAvatarEmbrace();
+                return;
+            }
+
+            const response = avatarEmbraceResponse;
+            const pull = ai4aiClamp(response.pull, 0, 1);
+            const breath = ai4aiClamp(response.breath, -1, 1);
+            const pulse = response.pulse;
+            const pulseStrength = pulse >= 0 && pulse <= 1 ? Math.sin(Math.PI * pulse) : 0;
+            const presence = ai4aiClamp(Math.max(pull * 0.92, Math.abs(breath) * 0.72, pulseStrength * 0.52), 0, 1);
+
+            if (presence < 0.006 && pulseStrength < 0.006) {
+                hideAvatarEmbrace();
+                return;
+            }
+
+            const seed = {
+                x: geometry.avatar.left + geometry.avatar.width * ai4aiClamp(response.seedX, 0, 1),
+                y: geometry.avatar.top + geometry.avatar.height * ai4aiClamp(response.seedY, 0, 1)
+            };
+            const maximumPull = geometry.compact ? 9 : 17;
+            const breathDistance = (geometry.compact ? 2.5 : 4.4) * breath;
+
+            function endpointDelta(point, outwardDirection) {
+                const dx = seed.x - point.x;
+                const dy = seed.y - point.y;
+                const distance = Math.max(1, Math.hypot(dx, dy));
+                return {
+                    x: dx / distance * maximumPull * pull + outwardDirection * breathDistance,
+                    y: dy / distance * maximumPull * pull - Math.abs(breathDistance) * 0.18
+                };
+            }
+
+            const leftDelta = endpointDelta(geometry.left[0], -1);
+            const rightDelta = endpointDelta(geometry.right[3], 1);
+            const offsetPoint = (point, delta, weight) => avatarEmbracePoint(
+                point.x + delta.x * weight,
+                point.y + delta.y * weight
+            );
+            const deformedLeft = [
+                offsetPoint(geometry.left[0], leftDelta, 1),
+                offsetPoint(geometry.left[1], leftDelta, 0.7),
+                offsetPoint(geometry.left[2], leftDelta, 0.22),
+                geometry.left[3]
+            ];
+            const deformedRightFull = [
+                geometry.rightFull[0],
+                offsetPoint(geometry.rightFull[1], rightDelta, 0.18),
+                offsetPoint(geometry.rightFull[2], rightDelta, 0.68),
+                offsetPoint(geometry.rightFull[3], rightDelta, 1)
+            ];
+            const deformedRight = avatarEmbraceCubicTail(
+                deformedRightFull,
+                geometry.rightTailProgress
+            );
+            const deformedPath = avatarEmbraceCubicPath([deformedLeft, deformedRight]);
+            const reactivePath = [
+                `M ${deformedLeft[0].x.toFixed(2)} ${deformedLeft[0].y.toFixed(2)}`,
+                avatarEmbraceCubicCommand(deformedLeft),
+                ...geometry.middleCommands,
+                avatarEmbraceCubicCommand(deformedRightFull)
+            ].join(' ');
+
+            pageEmbrace.classList.add('is-avatar-reacting');
+            pageEmbracePath.setAttribute('d', reactivePath);
+            pageEmbraceEcho.setAttribute('d', reactivePath);
+            pageEmbraceAvatarEcho.setAttribute('d', deformedPath);
+            pageEmbraceAvatarLine.setAttribute('d', deformedPath);
+            pageEmbraceAvatarEcho.style.opacity = String(0.04 + presence * 0.09);
+            pageEmbraceAvatarLine.style.opacity = String(0.2 + presence * 0.36);
+            pageEmbrace.style.setProperty(
+                '--embrace-stroke',
+                `${geometry.strokeWidth * (1 - pull * 0.085 + Math.abs(breath) * 0.025)}px`
+            );
+            pageEmbrace.style.setProperty(
+                '--embrace-avatar-stroke',
+                `${geometry.strokeWidth * (0.62 + presence * 0.12)}px`
+            );
+
+            pageEmbraceAvatarPulseLeft.setAttribute('d', reactivePath);
+            pageEmbraceAvatarPulseRight.setAttribute('d', reactivePath);
+            pageEmbraceAvatarPulseLeft.style.strokeDashoffset = String(-pulse * 0.44);
+            pageEmbraceAvatarPulseRight.style.strokeDashoffset = String(0.055 + pulse * 0.44);
+            pageEmbraceAvatarPulseLeft.style.opacity = String(pulseStrength * 0.27);
+            pageEmbraceAvatarPulseRight.style.opacity = String(pulseStrength * 0.27);
+        }
+
+        function setAvatarEmbraceResponse(response = {}) {
+            avatarEmbraceResponse = {
+                pull: response.pull ?? 0,
+                breath: response.breath ?? 0,
+                pulse: response.pulse ?? -1,
+                seedX: response.seedX ?? avatarEmbraceResponse.seedX,
+                seedY: response.seedY ?? avatarEmbraceResponse.seedY
+            };
+            renderAvatarEmbrace();
+        }
+
         function hideMagnetInk() {
             pageEmbraceMagnetEraser.style.opacity = '0';
             pageEmbraceMagnetEcho.style.opacity = '0';
@@ -3342,7 +3539,7 @@
             const frameLeftX = leftStartX - portraitGap;
             const frameRightX = rightStartX + portraitGap;
             const leftCornerX = edge + 18;
-            const topGapX = frameLeftX - (compact ? 54 : 104);
+            const topGapX = frameLeftX - (compact ? 86 : 176);
             const shoulderLiftX = frameLeftX - (compact ? 43 : 93);
             const shoulderLiftY = top + (compact ? 26 : 46);
             const rightSideJoinY = Math.min(
@@ -3353,13 +3550,44 @@
                 ? Math.min(width - edge - 5, frameRightX + 9)
                 : frameRightX + 38;
             const strokeWidth = Math.max(1.45, avatarRect.width * 0.017);
+            const avatarLeft = avatarRect.left - pageRect.left;
+            const avatarTop = avatarRect.top - pageRect.top;
+            const leftAvatarCurve = [
+                avatarEmbracePoint(frameLeftX, frameStartY),
+                avatarEmbracePoint(
+                    frameLeftX - (compact ? 7 : 14),
+                    frameStartY - (compact ? 18 : 42)
+                ),
+                avatarEmbracePoint(
+                    frameLeftX - (compact ? 4 : 8),
+                    frameStartY - (compact ? 48 : 100)
+                ),
+                avatarEmbracePoint(
+                    frameLeftX - (compact ? 17 : 34),
+                    frameStartY - (compact ? 65 : 144)
+                )
+            ];
+            const rightAvatarFullCurve = [
+                avatarEmbracePoint(width - edge - 2, rightSideJoinY),
+                avatarEmbracePoint(
+                    width - edge - (compact ? 5 : 12),
+                    rightSideJoinY - (compact ? 44 : 58)
+                ),
+                avatarEmbracePoint(
+                    rightConnectorBendX,
+                    frameStartY + (compact ? 54 : 92)
+                ),
+                avatarEmbracePoint(frameRightX, frameStartY)
+            ];
+            const rightTailProgress = compact ? 0.52 : 0.64;
+            const rightAvatarCurve = avatarEmbraceCubicTail(rightAvatarFullCurve, rightTailProgress);
 
-            const path = [
+            const pathParts = [
                 `M ${frameLeftX} ${frameStartY}`,
                 `C ${frameLeftX - (compact ? 7 : 14)} ${frameStartY - (compact ? 18 : 42)}, ${frameLeftX - (compact ? 4 : 8)} ${frameStartY - (compact ? 48 : 100)}, ${frameLeftX - (compact ? 17 : 34)} ${frameStartY - (compact ? 65 : 144)}`,
                 `C ${frameLeftX - (compact ? 28 : 54)} ${frameStartY - (compact ? 84 : 176)}, ${shoulderLiftX + (compact ? 10 : 22)} ${shoulderLiftY + (compact ? 9 : 14)}, ${shoulderLiftX} ${shoulderLiftY}`,
-                `C ${shoulderLiftX - (compact ? 4 : 8)} ${shoulderLiftY - (compact ? 10 : 16)}, ${topGapX + (compact ? 14 : 28)} ${top - (compact ? 4 : 5)}, ${topGapX} ${top - (compact ? 4 : 5)}`,
-                `C ${topGapX - (compact ? 36 : 78)} ${top - 7}, ${width * 0.32} ${top - 7}, ${leftCornerX} ${top - 6}`,
+                `C ${shoulderLiftX - (compact ? 14 : 31)} ${shoulderLiftY - (compact ? 13 : 20)}, ${topGapX + (compact ? 26 : 52)} ${top - (compact ? 4 : 5)}, ${topGapX} ${top - (compact ? 4 : 5)}`,
+                `C ${topGapX - (compact ? 36 : 78)} ${top - (compact ? 4 : 5)}, ${width * 0.32} ${top - 7}, ${leftCornerX} ${top - 6}`,
                 `C ${edge + 4} ${top - 6}, ${edge} ${top + 4}, ${edge + 2} ${top + 30}`,
                 `C ${edge + 10} ${height * 0.25}, ${edge - 3} ${height * 0.72}, ${edge + 8} ${bottom - 76}`,
                 `C ${edge + 16} ${bottom - 22}, ${edge + 55} ${bottom - 4}, ${edge + 126} ${bottom - 12}`,
@@ -3367,13 +3595,32 @@
                 `C ${width - edge - 45} ${bottom - 27}, ${width - edge - 6} ${bottom - 58}, ${width - edge - 8} ${bottom - 125}`,
                 `C ${width - edge - 16} ${height * 0.72}, ${width - edge + 4} ${height * 0.52}, ${width - edge - 2} ${rightSideJoinY}`,
                 `C ${width - edge - (compact ? 5 : 12)} ${rightSideJoinY - (compact ? 44 : 58)}, ${rightConnectorBendX} ${frameStartY + (compact ? 54 : 92)}, ${frameRightX} ${frameStartY}`
-            ].join(' ');
+            ];
+            const path = pathParts.join(' ');
 
             pageEmbrace.setAttribute('viewBox', `0 0 ${width} ${height}`);
             pageEmbrace.style.setProperty('--embrace-stroke', `${strokeWidth}px`);
             pageEmbrace.style.setProperty('--embrace-echo-stroke', `${Math.max(0.75, strokeWidth * 0.46)}px`);
+            pageEmbrace.style.setProperty('--embrace-pulse-stroke', `${Math.max(2.4, strokeWidth * 1.72)}px`);
             pageEmbracePath.setAttribute('d', path);
             pageEmbraceEcho.setAttribute('d', path);
+            avatarEmbraceGeometry = {
+                left: leftAvatarCurve,
+                right: rightAvatarCurve,
+                rightFull: rightAvatarFullCurve,
+                rightTailProgress,
+                middleCommands: pathParts.slice(2, -1),
+                path,
+                compact,
+                strokeWidth,
+                avatar: {
+                    left: avatarLeft,
+                    top: avatarTop,
+                    width: avatarRect.width,
+                    height: avatarRect.height
+                }
+            };
+            renderAvatarEmbrace();
         }
 
         const embraceResizeObserver = new ResizeObserver(updatePageEmbrace);
@@ -3576,6 +3823,7 @@
                 avatarButton.classList.remove('is-self-building');
                 avatarButton.removeAttribute('aria-busy');
                 avatarSelfBuilding = false;
+                setAvatarEmbraceResponse({ pull: 0, breath: 0, pulse: -1 });
                 scheduleAvatarSelfBuild(900);
             }
 
@@ -3691,6 +3939,7 @@
                 avatarButton.classList.remove('is-self-building');
                 avatarButton.removeAttribute('aria-busy');
                 avatarSelfBuilding = false;
+                setAvatarEmbraceResponse({ pull: 0, breath: 0, pulse: -1 });
             }
 
             function finishGeneration() {
@@ -3750,6 +3999,13 @@
                     1
                 );
                 avatarPixelSpark(targetCore.x, targetCore.y, seedEffectSize * (1 + seedArrival * 0.35), accentColor, seedArrival * 0.11, eased);
+                setAvatarEmbraceResponse({
+                    pull: eased,
+                    breath: -Math.sin(progress * Math.PI) * 0.12,
+                    pulse: -1,
+                    seedX: targetPixel.x / width,
+                    seedY: targetPixel.y / height
+                });
             }
 
             function drawSeed(progress) {
@@ -3759,6 +4015,13 @@
                 drawPersistentSeed(growthSeedPixel);
                 avatarHatchedPixel(growthCore.x, growthCore.y, portraitPixelSize, accentColor, 0.14 * (1 - progress), 1);
                 avatarPixelSpark(growthCore.x, growthCore.y, seedEffectSize, accentColor, 0.045 * (1 - progress), progress * 1.2);
+                setAvatarEmbraceResponse({
+                    pull: 0.92 - progress * 0.12,
+                    breath: Math.sin(progress * Math.PI) * 0.08,
+                    pulse: -1,
+                    seedX: growthSeedPixel.x / width,
+                    seedY: growthSeedPixel.y / height
+                });
             }
 
             function drawPixelPortraitGrowth(progress) {
@@ -3822,6 +4085,13 @@
                     0.24,
                     progress * 5
                 );
+                setAvatarEmbraceResponse({
+                    pull: (1 - ai4aiEaseOut(progress)) * 0.8,
+                    breath: Math.sin(progress * Math.PI) * 0.42,
+                    pulse: progress,
+                    seedX: growthSeedPixel.x / width,
+                    seedY: growthSeedPixel.y / height
+                });
             }
 
             function drawPixelPortraitHold(progress) {
@@ -3837,6 +4107,13 @@
                     );
                 });
                 avatarPixelSpark(growthCore.x, growthCore.y, seedEffectSize * 1.25, accentColor, 0.07 * Math.sin(progress * Math.PI), progress);
+                setAvatarEmbraceResponse({
+                    pull: 0.035,
+                    breath: Math.sin(progress * Math.PI) * 0.14,
+                    pulse: -1,
+                    seedX: growthSeedPixel.x / width,
+                    seedY: growthSeedPixel.y / height
+                });
             }
 
             function drawPixelToVector(progress) {
@@ -3857,6 +4134,13 @@
                     );
                 });
                 avatarPixelSpark(growthCore.x, growthCore.y, seedEffectSize * (1.1 + eased * 0.25), accentColor, 0.08 * (1 - eased), progress * 1.5);
+                setAvatarEmbraceResponse({
+                    pull: 0,
+                    breath: (1 - eased) * 0.12 + Math.sin(progress * Math.PI) * 0.08,
+                    pulse: -1,
+                    seedX: growthSeedPixel.x / width,
+                    seedY: growthSeedPixel.y / height
+                });
             }
 
             function drawVectorHold(progress) {
@@ -3872,6 +4156,13 @@
                     0.045 * Math.sin(progress * Math.PI),
                     progress
                 );
+                setAvatarEmbraceResponse({
+                    pull: 0,
+                    breath: Math.sin(progress * Math.PI) * 0.06,
+                    pulse: -1,
+                    seedX: growthSeedPixel.x / width,
+                    seedY: growthSeedPixel.y / height
+                });
             }
 
             function drawFinalSeed(progress) {
@@ -3882,6 +4173,13 @@
                 drawPersistentSeed(collapseSeedPixel);
                 avatarHatchedPixel(collapseCore.x, collapseCore.y, portraitPixelSize, accentColor, 0.18 * (1 - progress), 1);
                 avatarPixelSpark(collapseCore.x, collapseCore.y, seedEffectSize * (1.18 - progress * 0.12), accentColor, 0.08 * (1 - progress), progress * 1.2);
+                setAvatarEmbraceResponse({
+                    pull: 0.92,
+                    breath: 0,
+                    pulse: -1,
+                    seedX: collapseSeedPixel.x / width,
+                    seedY: collapseSeedPixel.y / height
+                });
             }
 
             function renderAvatarBuild(now) {
