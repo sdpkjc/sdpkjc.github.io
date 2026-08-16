@@ -98,13 +98,13 @@
 
         .page > :not(.page-embrace) {
             position: relative;
-            z-index: 1;
+            z-index: 2;
         }
 
         .page-embrace {
             position: absolute;
             inset: 0;
-            z-index: 0;
+            z-index: 1;
             width: 100%;
             height: 100%;
             overflow: visible;
@@ -235,6 +235,8 @@
         }
 
         .name-trigger {
+            display: inline-flex;
+            align-items: baseline;
             max-width: 100%;
             margin: 0;
             padding: 0;
@@ -248,114 +250,47 @@
             cursor: help;
         }
 
-        .name-trigger::after {
-            position: absolute;
-            right: 0;
-            bottom: 0.02em;
-            left: 0;
-            height: 1px;
-            background: currentColor;
-            content: "";
-            opacity: 0.18;
-            transform: scaleX(0);
-            transform-origin: right;
-            transition: transform 240ms ease;
+        .name-identity-stage {
+            display: inline-grid;
+            align-items: baseline;
+            white-space: nowrap;
         }
 
-        .name-alias:hover .name-trigger::after,
-        .name-alias:focus-within .name-trigger::after {
-            transform: scaleX(1);
-            transform-origin: left;
+        .name-identity {
+            grid-area: 1 / 1;
+            justify-self: start;
+            opacity: 0;
+            transform: translateY(0.16em);
+            transform-origin: 0 72%;
+        }
+
+        .name-identity--primary {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .name-alias:hover .name-identity--primary,
+        .name-alias:focus-within .name-identity--primary {
+            animation: name-primary-cycle 5.6s ease-in-out infinite both;
+        }
+
+        .name-alias:hover .name-identity--chinese,
+        .name-alias:focus-within .name-identity--chinese {
+            animation: name-chinese-cycle 5.6s ease-in-out infinite both;
+        }
+
+        .name-alias:hover .name-identity--adam,
+        .name-alias:focus-within .name-identity--adam {
+            animation: name-adam-cycle 5.6s ease-in-out infinite both;
+        }
+
+        .name-alias:hover .name-identity--handle,
+        .name-alias:focus-within .name-identity--handle {
+            animation: name-handle-cycle 5.6s ease-in-out infinite both;
         }
 
         .name-trigger:focus-visible {
             outline: none;
-        }
-
-        .name-note {
-            --name-header-space: clamp(58px, 8vw, 96px);
-            position: absolute;
-            top: -12px;
-            left: var(--name-note-left, -14px);
-            z-index: -1;
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 10px;
-            width: var(--name-note-width, min(560px, calc(100vw - 32px)));
-            padding: var(--name-header-space) 14px 14px;
-            border: 1px solid color-mix(in srgb, #7181a4 34%, var(--line));
-            border-radius: 18px 34px 27px 31px;
-            background:
-                radial-gradient(circle at 5% 4%, color-mix(in srgb, #9aabd2 22%, transparent), transparent 38%),
-                linear-gradient(145deg, color-mix(in srgb, #91a2c8 8%, var(--bg)), var(--bg) 66%);
-            box-shadow:
-                0 25px 68px color-mix(in srgb, #7181a4 17%, transparent),
-                0 8px 24px rgba(0, 0, 0, 0.08);
-            color: var(--text);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-            font-size: 0.9rem;
-            font-weight: 450;
-            letter-spacing: 0;
-            line-height: 1.5;
-            opacity: 0;
-            pointer-events: none;
-            clip-path: inset(0 64% 58% 0 round 17px);
-            filter: blur(2px);
-            transform: translateY(-2px) scale(0.88);
-            transform-origin: 14px 14px;
-            visibility: hidden;
-            transition:
-                opacity 150ms ease,
-                transform 380ms cubic-bezier(.16, 1, .3, 1),
-                clip-path 440ms cubic-bezier(.16, 1, .3, 1),
-                filter 220ms ease,
-                visibility 150ms ease;
-        }
-
-        .name-note::before {
-            display: none;
-        }
-
-        .name-note::after {
-            display: none;
-        }
-
-        .name-note > span {
-            position: relative;
-            z-index: 1;
-            display: block;
-        }
-
-        .name-note-item {
-            padding: 9px 12px 10px;
-            border: 1px solid color-mix(in srgb, #7181a4 20%, var(--line));
-            border-radius: 13px 18px 16px 15px;
-            background: color-mix(in srgb, #91a2c8 6%, var(--bg));
-        }
-
-        .name-note-item strong {
-            display: block;
-            font-size: 0.98rem;
-            font-weight: 720;
-            line-height: 1.25;
-        }
-
-        .name-note-item small {
-            display: block;
-            margin-top: 2px;
-            color: var(--muted);
-            font-size: 0.72rem;
-            letter-spacing: 0.02em;
-            line-height: 1.25;
-        }
-
-        .name-alias:hover .name-note,
-        .name-alias:focus-within .name-note {
-            opacity: 1;
-            clip-path: inset(0 0 0 0 round 18px);
-            filter: blur(0);
-            transform: translateY(0) scale(1);
-            visibility: visible;
         }
 
         .avatar-button {
@@ -372,6 +307,30 @@
             width: 100%;
             aspect-ratio: 1;
             transition: transform 520ms cubic-bezier(.16, 1, .3, 1);
+        }
+
+        .avatar-pixel-canvas {
+            position: absolute;
+            inset: 0;
+            z-index: 6;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 120ms ease;
+        }
+
+        .avatar-button.is-self-building .avatar-stage {
+            transform: none !important;
+        }
+
+        .avatar-button.is-self-building .avatar-pixel-canvas {
+            opacity: 1;
+        }
+
+        .avatar-button.is-self-building .avatar-glimmer,
+        .avatar-button.is-self-building .avatar-color-blooms {
+            opacity: 0 !important;
         }
 
         .avatar-layer {
@@ -482,10 +441,14 @@
         }
 
         .story {
+            position: relative;
+            isolation: isolate;
             margin-top: clamp(28px, 4vw, 44px);
         }
 
         .story-line {
+            position: relative;
+            z-index: 1;
             margin: 0;
             font-family: "Smiley Sans", sans-serif;
             font-size: clamp(1.55rem, 3.05vw, 2.28rem);
@@ -497,10 +460,320 @@
             margin-top: clamp(28px, 3.5vw, 40px);
         }
 
+        .story-line:has(.entity-link:hover, .entity-link:focus-visible) {
+            z-index: 32;
+        }
+
+        .story-line:has(.rl-concept:hover, .rl-concept:focus-visible) {
+            z-index: 32;
+        }
+
         .focus-link {
             color: var(--accent);
             font-style: normal;
             white-space: nowrap;
+        }
+
+        .rl-concept {
+            position: relative;
+            display: inline-block;
+            color: var(--accent);
+            white-space: nowrap;
+            outline: none;
+        }
+
+        .rl-concept:hover,
+        .rl-concept:focus-visible {
+            z-index: 20;
+            isolation: isolate;
+        }
+
+        .entity-link--experience::before,
+        .entity-link--education::before,
+        .social-link::before,
+        .rl-concept::before {
+            position: fixed;
+            inset: -24px;
+            z-index: -2;
+            background: color-mix(in srgb, var(--bg) 34%, transparent);
+            content: "";
+            opacity: 0;
+            pointer-events: none;
+            -webkit-backdrop-filter: blur(5px) saturate(0.72);
+            backdrop-filter: blur(5px) saturate(0.72);
+            visibility: hidden;
+            transition: opacity 190ms ease, visibility 190ms ease;
+        }
+
+        .entity-link--experience:hover::before,
+        .entity-link--experience:focus-visible::before,
+        .entity-link--education:hover::before,
+        .entity-link--education:focus-visible::before,
+        .social-link:hover::before,
+        .social-link:focus-visible::before,
+        .rl-concept:hover::before,
+        .rl-concept:focus-visible::before {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .rl-concept::after {
+            position: absolute;
+            right: 0;
+            bottom: 0.06em;
+            left: 0;
+            height: 2px;
+            border-radius: 999px;
+            background: currentColor;
+            content: "";
+            opacity: 0;
+            transform: scaleX(0.2);
+            transform-origin: left;
+            transition: opacity 180ms ease, transform 300ms cubic-bezier(.16, 1, .3, 1);
+        }
+
+        .rl-concept:hover::after,
+        .rl-concept:focus-visible::after {
+            opacity: 0.58;
+            transform: scaleX(1);
+        }
+
+        .rl-lab {
+            position: absolute;
+            top: 50%;
+            left: calc(100% + 36px);
+            z-index: 24;
+            display: block;
+            width: min(228px, calc(100vw - 32px));
+            padding: 8px 10px 7px;
+            border: 1px solid color-mix(in srgb, var(--accent) 34%, var(--line));
+            border-radius: 17px 22px 19px 15px;
+            background:
+                radial-gradient(
+                    circle at var(--card-glow-x, 88%) var(--card-glow-y, 18%),
+                    color-mix(in srgb, var(--accent) 14%, transparent),
+                    transparent 39%
+                ),
+                color-mix(in srgb, var(--accent) 4%, var(--bg));
+            box-shadow: 0 18px 44px color-mix(in srgb, var(--accent) 12%, transparent);
+            color: var(--accent);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            opacity: 0;
+            pointer-events: none;
+            transform:
+                perspective(820px)
+                translateY(calc(-50% + 7px))
+                scale(0.96)
+                rotate(-0.6deg)
+                rotateX(var(--card-tilt-x, 0deg))
+                rotateY(var(--card-tilt-y, 0deg));
+            transform-origin: 0 50%;
+            transform-style: preserve-3d;
+            visibility: hidden;
+            will-change: transform;
+            transition:
+                opacity 170ms ease,
+                transform 360ms cubic-bezier(.16, 1, .3, 1),
+                visibility 170ms ease;
+        }
+
+        .rl-lab::after {
+            position: absolute;
+            top: 50%;
+            left: -5px;
+            width: 9px;
+            height: 9px;
+            border-left: 1px solid color-mix(in srgb, var(--accent) 34%, var(--line));
+            border-bottom: 1px solid color-mix(in srgb, var(--accent) 34%, var(--line));
+            background: color-mix(in srgb, var(--accent) 4%, var(--bg));
+            content: "";
+            transform: translateY(-50%) rotate(45deg);
+        }
+
+        .rl-concept:hover .rl-lab,
+        .rl-concept:focus-visible .rl-lab {
+            opacity: 1;
+            pointer-events: auto;
+            transform:
+                perspective(820px)
+                translateY(-50%)
+                scale(1)
+                rotate(0)
+                rotateX(var(--card-tilt-x, 0deg))
+                rotateY(var(--card-tilt-y, 0deg));
+            visibility: visible;
+        }
+
+        .rl-lab svg {
+            display: block;
+            width: 100%;
+            overflow: visible;
+        }
+
+        .rl-maze,
+        .rl-route,
+        .rl-cross path {
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .rl-maze {
+            stroke: color-mix(in srgb, var(--muted) 35%, transparent);
+            stroke-width: 1.15;
+        }
+
+        .rl-route {
+            stroke: currentColor;
+            stroke-width: 1.45;
+            opacity: 0;
+        }
+
+        .rl-route--wrong {
+            stroke-dasharray: 122;
+            stroke-dashoffset: 122;
+        }
+
+        .rl-route--good,
+        .rl-policy-route {
+            stroke-dasharray: 188;
+            stroke-dashoffset: 188;
+        }
+
+        .rl-policy-route {
+            stroke-width: 2.6;
+        }
+
+        .rl-decision {
+            fill: var(--bg);
+            stroke: currentColor;
+            stroke-width: 1.4;
+        }
+
+        .rl-agent {
+            fill: currentColor;
+            stroke: var(--bg);
+            stroke-width: 1.5;
+            opacity: 0;
+            transform-box: view-box;
+            transform-origin: 16px 64px;
+        }
+
+        .rl-cross,
+        .rl-reward {
+            opacity: 0;
+            transform-box: fill-box;
+            transform-origin: center;
+        }
+
+        .rl-cross path {
+            stroke: #d55258;
+            stroke-width: 1.7;
+        }
+
+        .rl-reward path {
+            fill: #dfaa39;
+            stroke: none;
+        }
+
+        .rl-reward text {
+            fill: #b48018;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            font-size: 8px;
+            font-weight: 760;
+        }
+
+        .rl-lab-caption {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 6px 1px;
+            color: var(--muted);
+            font-size: 0.57rem;
+            font-style: normal;
+            font-weight: 650;
+            letter-spacing: 0.09em;
+            line-height: 1;
+            text-transform: uppercase;
+        }
+
+        .rl-lab-caption span {
+            opacity: 0.34;
+        }
+
+        .rl-concept:hover .rl-route--wrong,
+        .rl-concept:focus-visible .rl-route--wrong {
+            animation: rl-route-wrong 5.8s ease-in-out infinite;
+        }
+
+        .rl-concept:hover .rl-route--good,
+        .rl-concept:focus-visible .rl-route--good {
+            animation: rl-route-good 5.8s ease-in-out infinite;
+        }
+
+        .rl-concept:hover .rl-policy-route,
+        .rl-concept:focus-visible .rl-policy-route {
+            animation: rl-policy-route 5.8s ease-in-out infinite;
+        }
+
+        .rl-concept:hover .rl-agent--explore,
+        .rl-concept:focus-visible .rl-agent--explore {
+            animation: rl-agent-explore 5.8s cubic-bezier(.22, .76, .24, 1) infinite;
+        }
+
+        .rl-concept:hover .rl-agent--learn,
+        .rl-concept:focus-visible .rl-agent--learn {
+            animation: rl-agent-learn 5.8s cubic-bezier(.22, .76, .24, 1) infinite;
+        }
+
+        .rl-concept:hover .rl-agent--exploit,
+        .rl-concept:focus-visible .rl-agent--exploit {
+            animation: rl-agent-exploit 5.8s cubic-bezier(.22, .76, .24, 1) infinite;
+        }
+
+        .rl-concept:hover .rl-cross,
+        .rl-concept:focus-visible .rl-cross {
+            animation: rl-cross-pop 5.8s ease-in-out infinite;
+        }
+
+        .rl-concept:hover .rl-reward,
+        .rl-concept:focus-visible .rl-reward {
+            animation: rl-reward-pop 5.8s cubic-bezier(.16, 1, .3, 1) infinite;
+        }
+
+        .rl-concept:hover .rl-lab-caption span:nth-child(1),
+        .rl-concept:focus-visible .rl-lab-caption span:nth-child(1) {
+            animation: rl-caption-explore 5.8s ease-in-out infinite;
+        }
+
+        .rl-concept:hover .rl-lab-caption span:nth-child(2),
+        .rl-concept:focus-visible .rl-lab-caption span:nth-child(2) {
+            animation: rl-caption-reward 5.8s ease-in-out infinite;
+        }
+
+        .rl-concept:hover .rl-lab-caption span:nth-child(3),
+        .rl-concept:focus-visible .rl-lab-caption span:nth-child(3) {
+            animation: rl-caption-update 5.8s ease-in-out infinite;
+        }
+
+        .entity-link--experience.is-history-lit {
+            background-position: 0 100%;
+            background-size: 100% 1px;
+            transition-delay: 0ms, var(--history-delay, 0ms), var(--history-delay, 0ms);
+        }
+
+        .entity-link--experience.is-history-lit .brand-logo {
+            filter:
+                saturate(1.18)
+                contrast(1.04)
+                drop-shadow(0 2px 4px color-mix(in srgb, var(--brand) 20%, transparent));
+            transition-delay: var(--history-delay, 0ms), var(--history-delay, 0ms);
+        }
+
+        .entity-link--experience.is-history-target .brand-logo {
+            filter:
+                saturate(1.24)
+                contrast(1.05)
+                drop-shadow(0 3px 7px color-mix(in srgb, var(--brand) 28%, transparent));
         }
 
         .entity-link {
@@ -548,7 +821,12 @@
             outline: none;
         }
 
-        .story:has(.entity-link:hover, .entity-link:focus-visible) {
+        .story:has(
+            .entity-link:hover,
+            .entity-link:focus-visible,
+            .rl-concept:hover,
+            .rl-concept:focus-visible
+        ) {
             z-index: 30;
         }
 
@@ -801,7 +1079,10 @@
         .entity-link--education:hover .experience-sketch,
         .entity-link--education:focus-visible .experience-sketch {
             opacity: 0.9;
-            transform: translate(0, 0) rotate(-1deg) scale(1);
+            transform:
+                translate(var(--sketch-shift-x, 0), var(--sketch-shift-y, 0))
+                rotate(-1deg)
+                scale(1);
         }
 
         .entity-link--experience:hover .experience-sketch .sketch-ink,
@@ -827,18 +1108,112 @@
             transform-origin: 46px 30px;
         }
 
-        .experience-sketch .sketch-clock-hand {
-            fill: none;
-            stroke: currentColor;
-            stroke-width: 1.25;
-            stroke-linecap: round;
-            transform-box: view-box;
-            transform-origin: 63px 20px;
+        .campus-sun,
+        .campus-moon,
+        .campus-stars,
+        .campus-birds,
+        .campus-windows {
+            opacity: 0;
+            transition: opacity 520ms ease;
         }
 
-        .entity-link--education:hover .experience-sketch .sketch-clock-hand,
-        .entity-link--education:focus-visible .experience-sketch .sketch-clock-hand {
-            animation: sketch-clock-tick 4s steps(8, end) 820ms infinite;
+        .campus-sun {
+            fill: #e5ad3c;
+            stroke: #e5ad3c;
+            stroke-width: 1;
+            stroke-linecap: round;
+            transform-box: view-box;
+            transform-origin: 17px 15px;
+        }
+
+        .campus-sun path,
+        .campus-birds {
+            fill: none;
+        }
+
+        .campus-moon {
+            fill: color-mix(in srgb, currentColor 70%, #d5dff7);
+        }
+
+        .campus-stars {
+            fill: color-mix(in srgb, currentColor 62%, #d5dff7);
+        }
+
+        .campus-birds {
+            stroke: currentColor;
+            stroke-width: 1.05;
+            stroke-linecap: round;
+            transform-box: view-box;
+            transform-origin: center;
+        }
+
+        .campus-windows {
+            fill: #eab04a;
+        }
+
+        .campus-clock-hour,
+        .campus-clock-minute {
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            transform-box: view-box;
+            transform-origin: 63px 22px;
+        }
+
+        .campus-clock-hour {
+            stroke-width: 1.45;
+            transform: rotate(var(--campus-hour-angle, 0deg));
+        }
+
+        .campus-clock-minute {
+            stroke-width: 1.05;
+            transform: rotate(var(--campus-minute-angle, 0deg));
+        }
+
+        .entity-ucas.campus-day .campus-sun,
+        .entity-ucas.campus-day .campus-birds {
+            opacity: 0.82;
+        }
+
+        .entity-ucas.campus-dusk .campus-sun {
+            opacity: 0.58;
+            filter: hue-rotate(-18deg) saturate(1.3);
+        }
+
+        .entity-ucas.campus-dusk .campus-windows {
+            opacity: 0.46;
+        }
+
+        .entity-ucas.campus-night .campus-moon {
+            opacity: 0.78;
+        }
+
+        .entity-ucas.campus-night .campus-stars {
+            opacity: 0.72;
+        }
+
+        .entity-ucas.campus-night .campus-windows {
+            opacity: 0.66;
+        }
+
+        .entity-link--education:hover .campus-sun,
+        .entity-link--education:focus-visible .campus-sun {
+            animation: campus-sun-turn 8s linear infinite;
+        }
+
+        .entity-link--education:hover .campus-birds,
+        .entity-link--education:focus-visible .campus-birds {
+            animation: campus-birds-glide 3.4s ease-in-out infinite;
+        }
+
+        .entity-link--education:hover .campus-stars,
+        .entity-link--education:focus-visible .campus-stars {
+            animation: campus-stars-twinkle 2.8s ease-in-out infinite;
+        }
+
+        .entity-link--education:hover .campus-windows,
+        .entity-link--education:focus-visible .campus-windows {
+            animation: campus-window-breathe 3.8s ease-in-out infinite;
         }
 
         .entity-link--experience:hover .experience-sketch .sketch-cursor,
@@ -882,26 +1257,45 @@
             top: -12px;
             bottom: auto;
             left: var(--experience-left, -14px);
-            z-index: -1;
+            z-index: 1;
             padding: var(--experience-header-space) 18px 18px 14px;
             border-color: color-mix(in srgb, var(--brand) 34%, var(--line));
             border-radius: 16px 23px 22px 20px;
             background:
-                radial-gradient(circle at 0 0, color-mix(in srgb, var(--brand) 14%, transparent), transparent 48%),
+                radial-gradient(
+                    circle at var(--card-glow-x, 0%) var(--card-glow-y, 0%),
+                    color-mix(in srgb, var(--brand) 16%, transparent),
+                    transparent 46%
+                ),
                 linear-gradient(145deg, color-mix(in srgb, var(--brand) 7%, var(--bg)), var(--bg) 62%);
             box-shadow:
                 0 22px 58px color-mix(in srgb, var(--brand) 14%, transparent),
                 0 8px 22px rgba(0, 0, 0, 0.08);
             clip-path: inset(0 56% 62% 0 round 15px);
             filter: blur(2px);
-            transform: translateY(-2px) scale(0.86);
+            transform:
+                perspective(920px)
+                translateY(-2px)
+                scale(0.86)
+                rotateX(var(--card-tilt-x, 0deg))
+                rotateY(var(--card-tilt-y, 0deg));
             transform-origin: 14px 14px;
+            transform-style: preserve-3d;
             transition:
                 opacity 150ms ease,
                 transform 360ms cubic-bezier(.16, 1, .3, 1),
                 clip-path 420ms cubic-bezier(.16, 1, .3, 1),
                 filter 220ms ease,
                 visibility 150ms ease;
+            will-change: transform;
+        }
+
+        .entity-link--experience > .brand-logo,
+        .entity-link--experience > span:not(.experience-note),
+        .entity-link--education > .brand-logo,
+        .entity-link--education > span:not(.experience-note) {
+            position: relative;
+            z-index: 2;
         }
 
         .entity-link--experience .experience-note::after,
@@ -925,7 +1319,13 @@
         .entity-link--education:focus-visible .experience-note {
             clip-path: inset(0 0 0 0 round 16px);
             filter: blur(0);
-            transform: translateY(0) scale(1);
+            pointer-events: auto;
+            transform:
+                perspective(920px)
+                translateY(0)
+                scale(1)
+                rotateX(var(--card-tilt-x, 0deg))
+                rotateY(var(--card-tilt-y, 0deg));
         }
 
         .brand-logo {
@@ -989,15 +1389,54 @@
             transform-origin: 50% 75%;
         }
 
+        .emoji-draggable {
+            --drag-x: 0px;
+            --drag-y: 0px;
+            position: relative;
+            z-index: 3;
+            cursor: grab;
+            touch-action: none;
+            translate: var(--drag-x) var(--drag-y);
+            user-select: none;
+            -webkit-user-select: none;
+            will-change: translate, filter;
+        }
+
+        .emoji-draggable.is-dragging {
+            z-index: 120;
+            cursor: grabbing;
+            filter: drop-shadow(0 8px 10px rgba(0, 0, 0, 0.16));
+            animation-play-state: paused;
+        }
+
+        .social-link.is-drop-target {
+            z-index: 22;
+            color: var(--brand);
+        }
+
+        .social-link.is-drop-target::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .social-link.is-drop-target .social-logo {
+            filter: saturate(1.16) drop-shadow(0 3px 7px color-mix(in srgb, var(--brand) 26%, transparent));
+            transform: translateY(-2px) rotate(-4deg) scale(1.14);
+        }
+
         .emoji-button.is-popping {
             animation: emoji-pop 360ms cubic-bezier(.2, .9, .25, 1.35);
         }
 
         .contact {
+            position: relative;
+            isolation: isolate;
             margin-top: clamp(36px, 4.5vw, 52px);
         }
 
         .contact-intro {
+            position: relative;
+            z-index: 2;
             margin: 0 0 26px;
             color: var(--text);
             font-family: "Smiley Sans", sans-serif;
@@ -1057,10 +1496,83 @@
         }
 
         .social-links {
+            position: relative;
+            z-index: 2;
             display: flex;
             flex-wrap: wrap;
             gap: 13px clamp(18px, 3vw, 32px);
             margin-top: clamp(22px, 3vw, 30px);
+        }
+
+        .contact-constellation {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+            color: #667da5;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 320ms ease;
+        }
+
+        .contact:has(.social-link:hover, .social-link:focus-visible) .contact-constellation {
+            opacity: 0.42;
+        }
+
+        .contact.is-signaling .contact-constellation {
+            opacity: 0.78;
+        }
+
+        .contact-constellation-path,
+        .contact-constellation-echo {
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .contact-constellation-echo {
+            stroke-width: 5;
+            opacity: 0.065;
+        }
+
+        .contact-constellation-path {
+            stroke-width: 1.05;
+            stroke-dasharray: 2.5 6;
+            opacity: 0.5;
+        }
+
+        .contact.is-signaling .contact-constellation-path {
+            animation: constellation-charge 1.1s linear infinite;
+        }
+
+        .contact-constellation-node {
+            opacity: 0.36;
+        }
+
+        .contact-constellation-node circle:first-child {
+            fill: var(--node-brand, currentColor);
+        }
+
+        .contact-constellation-node circle:last-child {
+            fill: none;
+            stroke: var(--node-brand, currentColor);
+            stroke-width: 0.8;
+            opacity: 0.34;
+        }
+
+        .contact-signal-runner {
+            fill: currentColor;
+            stroke: var(--bg);
+            stroke-width: 1.5;
+            opacity: 0;
+            filter: drop-shadow(0 0 5px currentColor);
+        }
+
+        .contact-signal-runner.is-running {
+            opacity: 0.96;
         }
 
         .social-link {
@@ -1156,7 +1668,11 @@
             border: 1px solid color-mix(in srgb, var(--brand) 32%, var(--line));
             border-radius: 13px 19px 17px 15px;
             background:
-                radial-gradient(circle at 0 0, color-mix(in srgb, var(--brand) 13%, transparent), transparent 52%),
+                radial-gradient(
+                    circle at var(--card-glow-x, 0%) var(--card-glow-y, 0%),
+                    color-mix(in srgb, var(--brand) 15%, transparent),
+                    transparent 48%
+                ),
                 linear-gradient(145deg, color-mix(in srgb, var(--brand) 6%, var(--bg)), var(--bg) 68%);
             box-shadow:
                 0 16px 38px color-mix(in srgb, var(--brand) 13%, transparent),
@@ -1170,8 +1686,14 @@
             pointer-events: none;
             clip-path: inset(0 52% 48% 0 round 12px);
             filter: blur(1.5px);
-            transform: translateY(-1px) scale(0.88);
+            transform:
+                perspective(760px)
+                translateY(-1px)
+                scale(0.88)
+                rotateX(var(--card-tilt-x, 0deg))
+                rotateY(var(--card-tilt-y, 0deg));
             transform-origin: 10px 10px;
+            transform-style: preserve-3d;
             visibility: hidden;
             white-space: normal;
             transition:
@@ -1180,6 +1702,7 @@
                 clip-path 380ms cubic-bezier(.16, 1, .3, 1),
                 filter 200ms ease,
                 visibility 140ms ease;
+            will-change: transform;
         }
 
         .social-link:hover .social-note,
@@ -1187,7 +1710,13 @@
             opacity: 1;
             clip-path: inset(0 0 0 0 round 13px);
             filter: blur(0);
-            transform: translateY(0) scale(1);
+            pointer-events: auto;
+            transform:
+                perspective(760px)
+                translateY(0)
+                scale(1)
+                rotateX(var(--card-tilt-x, 0deg))
+                rotateY(var(--card-tilt-y, 0deg));
             visibility: visible;
         }
 
@@ -1363,11 +1892,11 @@
         }
 
         .cursor-atelier.is-entity .cursor-ink {
-            transform: translate(10px, -10px) rotate(7deg) scale(0.96);
+            transform: translate(22px, -22px) rotate(7deg) scale(0.5);
         }
 
         .cursor-atelier.is-social .cursor-ink {
-            transform: translate(9px, -9px) rotate(-4deg) scale(0.82);
+            transform: translate(18px, -18px) rotate(-4deg) scale(0.54);
         }
 
         .cursor-atelier.is-entity .cursor-core,
@@ -1380,7 +1909,11 @@
         .cursor-atelier.is-entity .cursor-logo,
         .cursor-atelier.is-social .cursor-logo {
             opacity: 1;
-            transform: translate(-50%, -50%) translate(10px, -10px) scale(1) rotate(0);
+            transform: translate(-50%, -50%) translate(22px, -22px) scale(0.52) rotate(0);
+        }
+
+        .cursor-atelier.is-social .cursor-logo {
+            transform: translate(-50%, -50%) translate(18px, -18px) scale(0.58) rotate(0);
         }
 
         .cursor-atelier.is-entity .cursor-bead {
@@ -1511,6 +2044,119 @@
             body.cursor-enabled button {
                 cursor: none !important;
             }
+        }
+
+        @keyframes name-primary-cycle {
+            0%, 19%, 98%, 100% { opacity: 1; transform: translateY(0); }
+            24%, 94% { opacity: 0; transform: translateY(-0.13em); }
+            95% { opacity: 0; transform: translateY(0.13em); }
+        }
+
+        @keyframes name-chinese-cycle {
+            0%, 19% { opacity: 0; transform: translateY(0.13em); }
+            24%, 44% { opacity: 1; transform: translateY(0); }
+            49%, 100% { opacity: 0; transform: translateY(-0.13em); }
+        }
+
+        @keyframes name-adam-cycle {
+            0%, 44% { opacity: 0; transform: translateY(0.13em); }
+            49%, 69% { opacity: 1; transform: translateY(0); }
+            74%, 100% { opacity: 0; transform: translateY(-0.13em); }
+        }
+
+        @keyframes name-handle-cycle {
+            0%, 69% { opacity: 0; transform: translateY(0.13em); }
+            74%, 94% { opacity: 1; transform: translateY(0); }
+            99%, 100% { opacity: 0; transform: translateY(-0.13em); }
+        }
+
+        @keyframes rl-route-wrong {
+            0%, 7% { opacity: 0; stroke-dashoffset: 122; }
+            11% { opacity: 0.62; }
+            28% { opacity: 0.62; stroke-dashoffset: 0; }
+            38%, 100% { opacity: 0; stroke-dashoffset: 0; }
+        }
+
+        @keyframes rl-route-good {
+            0%, 34% { opacity: 0; stroke-dashoffset: 188; }
+            39% { opacity: 0.52; }
+            58% { opacity: 0.58; stroke-dashoffset: 0; }
+            68%, 100% { opacity: 0; stroke-dashoffset: 0; }
+        }
+
+        @keyframes rl-policy-route {
+            0%, 67% { opacity: 0; stroke-dashoffset: 188; }
+            72% { opacity: 0.82; }
+            94%, 100% { opacity: 0.82; stroke-dashoffset: 0; }
+        }
+
+        @keyframes rl-agent-explore {
+            0%, 8% { opacity: 0; transform: translate(0, 0) scale(0.6); }
+            11% { opacity: 1; transform: translate(0, 0) scale(1); }
+            29% { opacity: 1; transform: translate(82px, -41px) scale(1); }
+            36%, 100% { opacity: 0; transform: translate(82px, -41px) scale(0.58); }
+        }
+
+        @keyframes rl-agent-learn {
+            0%, 34% { opacity: 0; transform: translate(0, 0) scale(0.6); }
+            38% { opacity: 1; transform: translate(0, 0) scale(1); }
+            58% { opacity: 1; transform: translate(162px, -35px) scale(1); }
+            66%, 100% { opacity: 0; transform: translate(162px, -35px) scale(0.58); }
+        }
+
+        @keyframes rl-agent-exploit {
+            0%, 68% { opacity: 0; transform: translate(0, 0) scale(0.62); }
+            72% { opacity: 1; transform: translate(0, 0) scale(1); }
+            94% { opacity: 1; transform: translate(162px, -35px) scale(1); }
+            100% { opacity: 0; transform: translate(162px, -35px) scale(0.72); }
+        }
+
+        @keyframes rl-cross-pop {
+            0%, 25%, 43%, 100% { opacity: 0; transform: scale(0.35) rotate(-12deg); }
+            31%, 37% { opacity: 0.82; transform: scale(1) rotate(3deg); }
+        }
+
+        @keyframes rl-reward-pop {
+            0%, 50%, 73%, 100% { opacity: 0; transform: scale(0.32) rotate(-16deg); }
+            57%, 67% { opacity: 1; transform: scale(1) rotate(3deg); }
+        }
+
+        @keyframes rl-caption-explore {
+            0%, 8%, 34%, 100% { opacity: 0.34; }
+            13%, 29% { opacity: 1; color: var(--accent); }
+        }
+
+        @keyframes rl-caption-reward {
+            0%, 35%, 68%, 100% { opacity: 0.34; }
+            41%, 62% { opacity: 1; color: #b48018; }
+        }
+
+        @keyframes rl-caption-update {
+            0%, 66% { opacity: 0.34; }
+            73%, 100% { opacity: 1; color: var(--accent); }
+        }
+
+        @keyframes campus-sun-turn {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes campus-birds-glide {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(5px, -1.5px); }
+        }
+
+        @keyframes campus-stars-twinkle {
+            0%, 100% { opacity: 0.42; }
+            50% { opacity: 0.9; }
+        }
+
+        @keyframes campus-window-breathe {
+            0%, 100% { filter: brightness(0.88); }
+            50% { filter: brightness(1.22); }
+        }
+
+        @keyframes constellation-charge {
+            to { stroke-dashoffset: -34; }
         }
 
         @keyframes cursor-bead-orbit {
@@ -1771,6 +2417,41 @@
                 font-size: clamp(1.45rem, 7.2vw, 1.88rem);
             }
 
+            .rl-lab {
+                top: auto;
+                bottom: calc(100% + 13px);
+                left: 0;
+                transform:
+                    perspective(820px)
+                    translateY(7px)
+                    scale(0.96)
+                    rotate(-0.6deg)
+                    rotateX(var(--card-tilt-x, 0deg))
+                    rotateY(var(--card-tilt-y, 0deg));
+                transform-origin: 20% 100%;
+            }
+
+            .rl-lab::after {
+                top: auto;
+                bottom: -5px;
+                left: 32px;
+                border-right: 1px solid color-mix(in srgb, var(--accent) 34%, var(--line));
+                border-bottom: 1px solid color-mix(in srgb, var(--accent) 34%, var(--line));
+                border-left: 0;
+                transform: rotate(45deg);
+            }
+
+            .rl-concept:hover .rl-lab,
+            .rl-concept:focus-visible .rl-lab {
+                transform:
+                    perspective(820px)
+                    translateY(0)
+                    scale(1)
+                    rotate(0)
+                    rotateX(var(--card-tilt-x, 0deg))
+                    rotateY(var(--card-tilt-y, 0deg));
+            }
+
             .social-links {
                 gap: 10px 20px;
             }
@@ -1792,6 +2473,10 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
+            .avatar-pixel-canvas {
+                display: none;
+            }
+
             html { scroll-behavior: auto; }
             *, *::before, *::after {
                 scroll-behavior: auto !important;
@@ -1801,6 +2486,56 @@
             }
 
             .cursor-trace { display: none; }
+
+            .name-identity {
+                animation: none !important;
+            }
+
+            .name-identity--primary {
+                opacity: 1;
+                transform: none;
+            }
+
+            .name-identity--chinese,
+            .name-identity--adam,
+            .name-identity--handle {
+                display: none;
+            }
+
+            .rl-route,
+            .rl-agent,
+            .rl-cross,
+            .rl-reward,
+            .rl-lab-caption span,
+            .campus-sun,
+            .campus-birds,
+            .campus-stars,
+            .campus-windows,
+            .contact-constellation-path {
+                animation: none !important;
+            }
+
+            .rl-route--wrong,
+            .rl-route--good,
+            .rl-agent,
+            .rl-cross {
+                display: none;
+            }
+
+            .rl-policy-route {
+                opacity: 0.78;
+                stroke-dashoffset: 0;
+            }
+
+            .rl-reward {
+                opacity: 0.9;
+                transform: none;
+            }
+
+            .rl-lab-caption span:last-child {
+                color: var(--accent);
+                opacity: 1;
+            }
 
             .experience-sketch--hy .hy-generation,
             .experience-sketch--hy .hy-branch,
@@ -1858,7 +2593,6 @@
             <path class="page-embrace-magnet-echo" id="pageEmbraceMagnetEcho"></path>
             <path class="page-embrace-magnet-line" id="pageEmbraceMagnetLine"></path>
         </svg>
-
         <header class="hero" aria-labelledby="page-title">
             <div class="hero-copy">
                 <p class="hello">
@@ -1867,17 +2601,14 @@
                 </p>
                 <h1 class="name" id="page-title">I'm
                     <span class="name-alias">
-                        <button class="name-trigger" type="button" aria-describedby="nameNote">Yanxiao Zhao 赵砚潇</button>,
-                        <span class="name-note" id="nameNote" role="tooltip">
-                            <span class="name-note-item">
-                                <strong>Adam</strong>
-                                <small>English name</small>
+                        <button class="name-trigger" type="button" aria-label="Yanxiao Zhao, also known as 赵砚潇, Adam and sdpkjc">
+                            <span class="name-identity-stage" aria-hidden="true">
+                                <span class="name-identity name-identity--primary">Yanxiao Zhao,</span>
+                                <span class="name-identity name-identity--chinese">赵砚潇,</span>
+                                <span class="name-identity name-identity--adam">Adam,</span>
+                                <span class="name-identity name-identity--handle">sdpkjc,</span>
                             </span>
-                            <span class="name-note-item">
-                                <strong>sdpkjc</strong>
-                                <small>Online handle</small>
-                            </span>
-                        </span>
+                        </button>
                     </span>
                 </h1>
             </div>
@@ -1894,6 +2625,7 @@
                         <source media="(prefers-color-scheme: light)" srcset="/adam_wenxin.svg">
                         <img class="avatar" src="/adam_wenxin.svg" alt="" width="210" height="210">
                     </picture>
+                    <canvas class="avatar-pixel-canvas" id="avatarPixelCanvas" aria-hidden="true"></canvas>
                     <span class="avatar-glimmer" aria-hidden="true"></span>
                     <span class="avatar-color-blooms" aria-hidden="true">
                         <span class="avatar-flower-ink" style="--flower-x:35%;--flower-y:39%;--flower-size:6.4%;--flower-color:#d85f73;--flower-rotation:-8deg;--flower-delay:100ms"></span>
@@ -1930,24 +2662,64 @@
                         <span class="experience-supervisor">Supervisor · Xiaolin Qin</span>
                         <svg class="experience-sketch" viewBox="0 0 92 60" aria-hidden="true" focusable="false">
                             <path class="sketch-wash" d="M7 36C5 20 22 7 45 7c23 0 41 12 40 29-1 15-19 21-40 20C23 55 9 49 7 36Z"/>
+                            <g class="campus-sun">
+                                <circle cx="17" cy="15" r="4"/>
+                                <path d="M17 7v3m0 10v3m-8-8h3m10 0h3m-13.7-5.7 2.2 2.2m7 7 2.2 2.2m0-11.4-2.2 2.2m-7 7-2.2 2.2"/>
+                            </g>
+                            <path class="campus-moon" d="M22 9c-5 1-7 8-3 12 3 3 8 2 10-2-6 2-10-4-7-10Z"/>
+                            <g class="campus-stars">
+                                <circle cx="12" cy="11" r="0.8"/>
+                                <circle cx="31" cy="14" r="0.65"/>
+                                <circle cx="39" cy="9" r="0.75"/>
+                                <circle cx="80" cy="13" r="0.7"/>
+                            </g>
+                            <path class="campus-birds" d="M9 23q2-2 4 0m0 0q2-2 4 0m10-5q1.7-1.7 3.4 0m0 0q1.7-1.7 3.4 0"/>
                             <path class="sketch-ink" d="M6 30 15 22l8 4 9-9 8 7 8-4 9 7 9-10 7 7 11-4"/>
+                            <g class="campus-windows">
+                                <rect x="19" y="42" width="4" height="5" rx="0.7"/>
+                                <rect x="27" y="42" width="4" height="5" rx="0.7"/>
+                                <rect x="35" y="42" width="4" height="5" rx="0.7"/>
+                                <rect x="43" y="42" width="4" height="5" rx="0.7"/>
+                                <rect x="61" y="29" width="4" height="4" rx="0.7"/>
+                                <rect x="61" y="36" width="4" height="4" rx="0.7"/>
+                                <rect x="61" y="43" width="4" height="4" rx="0.7"/>
+                            </g>
                             <path class="sketch-ink" d="M10 51V34h50v17H10Zm8-17v-5h51v22M10 40h50M18 45v6m8-6v6m8-6v6m8-6v6m8-6v6M65 35h13v16H60"/>
                             <path class="sketch-ink" d="M58 51V14h10v37M58 18h10M61 28h4m-4 5h4m-4 5h4m-4 5h4"/>
                             <circle class="sketch-ink" cx="63" cy="22" r="3.3"/>
-                            <g class="sketch-clock-hand">
-                                <path d="M63 22v-2.1M63 22l1.8 1"/>
-                            </g>
+                            <path class="campus-clock-hour" d="M63 22v-2.3"/>
+                            <path class="campus-clock-minute" d="M63 22v-3.1"/>
                             <path class="sketch-route" d="M7 54h77"/>
                         </svg>
                     </span>
                 </a>, focusing on
-                <em class="focus-link">Reinforcement Learning</em>
-                <button class="emoji-button" id="rlEmoji" type="button" aria-label="Change research emoji">🧠</button>.
+                <span class="rl-concept" tabindex="0">
+                    <em class="focus-link">Reinforcement Learning</em>
+                    <span class="rl-lab" aria-hidden="true">
+                        <svg viewBox="0 0 196 82" focusable="false">
+                            <path class="rl-maze" d="M8 71h180M8 10v61m44-61v20h28v18H52v23m54-61v18h25v20h-25v23m50-61v24h32"/>
+                            <path class="rl-route rl-route--wrong" d="M16 64C36 62 44 46 58 32 71 19 83 19 98 23"/>
+                            <path class="rl-route rl-route--good" d="M16 64c29 4 47-1 66-9 28-11 51-20 96-27"/>
+                            <path class="rl-route rl-policy-route" d="M16 64c29 4 47-1 66-9 28-11 51-20 96-27"/>
+                            <circle class="rl-decision" cx="57" cy="58" r="3"/>
+                            <g class="rl-cross"><path d="m96 19 6 7m0-7-6 7"/></g>
+                            <g class="rl-reward">
+                                <path d="m179 20 2.6 5.2 5.7.8-4.1 4 1 5.7-5.2-2.7-5.1 2.7 1-5.7-4.2-4 5.8-.8Z"/>
+                                <text x="151" y="18">+1</text>
+                            </g>
+                            <circle class="rl-agent rl-agent--explore" cx="16" cy="64" r="4.2"/>
+                            <circle class="rl-agent rl-agent--learn" cx="16" cy="64" r="4.2"/>
+                            <circle class="rl-agent rl-agent--exploit" cx="16" cy="64" r="4.2"/>
+                        </svg>
+                        <span class="rl-lab-caption"><span>explore</span><span>reward</span><span>update</span></span>
+                    </span>
+                </span>
+                <button class="emoji-button emoji-draggable" id="rlEmoji" type="button" aria-label="Change or drag the research emoji">🧠</button>.
             </p>
 
-            <p class="story-line">
+            <p class="story-line experience-story">
                 Currently, I'm a Research Intern at
-                <a class="entity-link entity-link--experience entity-hy" href="https://hy.tencent.ai/" target="_blank" rel="noopener noreferrer" aria-describedby="hyExperience">
+                <a class="entity-link entity-link--experience entity-hy" data-period="2026 — NOW" href="https://hy.tencent.ai/" target="_blank" rel="noopener noreferrer" aria-describedby="hyExperience">
                     <img class="brand-logo" src="/assets/logos/tencent-hy.svg" alt="" width="24" height="24">
                     <span>Tencent HY</span>
                     <span class="experience-note" id="hyExperience" role="tooltip">
@@ -1990,8 +2762,8 @@
                             <path class="hy-mutation" d="M78 31v-3m0 9v-3m-5-2h3m4 0h3m-8-4 2 2m2 2 2 2m0-6-2 2m-2 2-2 2"/>
                         </svg>
                     </span>
-                </a>, working on AI4AI 🧪. Previously, I interned at
-                <a class="entity-link entity-link--experience entity-zai" href="https://z.ai/" target="_blank" rel="noopener noreferrer" aria-describedby="zaiExperience">
+                </a>, working on AI4AI <span id="aiEmoji" aria-hidden="true">🧪</span>. Previously, I interned at
+                <a class="entity-link entity-link--experience entity-zai" data-period="2025 — 2026" href="https://z.ai/" target="_blank" rel="noopener noreferrer" aria-describedby="zaiExperience">
                     <img class="brand-logo" src="/assets/logos/zai.svg" alt="" width="24" height="24">
                     <span>Z.AI</span>
                     <span class="experience-note" id="zaiExperience" role="tooltip">
@@ -2011,7 +2783,7 @@
                         </svg>
                     </span>
                 </a>,
-                <a class="entity-link entity-link--experience entity-liauto" href="https://www.liauto.com/" target="_blank" rel="noopener noreferrer" aria-describedby="liAutoExperience">
+                <a class="entity-link entity-link--experience entity-liauto" data-period="2024 — 2025" href="https://www.liauto.com/" target="_blank" rel="noopener noreferrer" aria-describedby="liAutoExperience">
                     <img class="brand-logo brand-logo--wide" src="/assets/logos/li-auto.svg" alt="" width="49" height="20">
                     <span>Li Auto</span>
                     <span class="experience-note" id="liAutoExperience" role="tooltip">
@@ -2033,7 +2805,7 @@
                         </svg>
                     </span>
                 </a>,
-                <a class="entity-link entity-link--experience entity-sensetime" href="https://www.sensetime.com/en/" target="_blank" rel="noopener noreferrer" aria-describedby="senseTimeExperience">
+                <a class="entity-link entity-link--experience entity-sensetime" data-period="AUG — NOV 2024" href="https://www.sensetime.com/en/" target="_blank" rel="noopener noreferrer" aria-describedby="senseTimeExperience">
                     <img class="brand-logo brand-logo--sense" src="/assets/logos/sensetime.svg" alt="" width="36" height="24">
                     <span>SenseTime</span>
                     <span class="experience-note" id="senseTimeExperience" role="tooltip">
@@ -2053,7 +2825,7 @@
                     </span>
                 </a>
                 and
-                <a class="entity-link entity-link--experience entity-zeron" href="https://www.zerontruck.com/" target="_blank" rel="noopener noreferrer" aria-describedby="zeronExperience">
+                <a class="entity-link entity-link--experience entity-zeron" data-period="APR — AUG 2024" href="https://www.zerontruck.com/" target="_blank" rel="noopener noreferrer" aria-describedby="zeronExperience">
                     <img class="brand-logo brand-logo--zeron" src="/assets/logos/zerontruck.svg" alt="" width="66" height="24">
                     <span>ZeronTruck</span>
                     <span class="experience-note" id="zeronExperience" role="tooltip">
@@ -2077,7 +2849,14 @@
         </section>
 
         <section class="contact" aria-label="Contact">
-            <p class="contact-intro">Happy to discuss anything with you via email or social media! <button class="satellite-button" id="satelliteButton" type="button" aria-label="Launch the satellite">📡</button> <span class="down">👇</span></p>
+            <p class="contact-intro">Happy to discuss anything with you via email or social media! <button class="satellite-button emoji-draggable" id="satelliteButton" type="button" aria-label="Launch or drag the satellite">📡</button> <span class="down">👇</span></p>
+
+            <svg class="contact-constellation" id="contactConstellation" aria-hidden="true" focusable="false">
+                <path class="contact-constellation-echo" id="contactConstellationEcho"></path>
+                <path class="contact-constellation-path" id="contactConstellationPath"></path>
+                <g class="contact-constellation-nodes" id="contactConstellationNodes"></g>
+                <circle class="contact-signal-runner" id="contactSignalRunner" r="4.1"></circle>
+            </svg>
 
             <nav class="social-links" aria-label="Contact, social and academic profiles">
                 <a class="social-link" style="--brand:#687386" href="mailto:hi@sdpkjc.com"><img class="social-logo" src="/assets/social/email.svg" alt="">hi@sdpkjc.com<span class="social-note" aria-hidden="true">Personal email</span></a>
@@ -2118,6 +2897,52 @@
         const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
         const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+
+        function attachCardParallax(trigger, card) {
+            if (!trigger || !card || !finePointer.matches || reducedMotion) return;
+            let parallaxFrame = 0;
+            let pointerX = 0;
+            let pointerY = 0;
+
+            function renderParallax() {
+                parallaxFrame = 0;
+                const rect = card.getBoundingClientRect();
+                if (!rect.width || !rect.height) return;
+                const normalizedX = Math.max(-1, Math.min(1, (pointerX - rect.left) / rect.width * 2 - 1));
+                const normalizedY = Math.max(-1, Math.min(1, (pointerY - rect.top) / rect.height * 2 - 1));
+                const glowX = Math.max(4, Math.min(96, (pointerX - rect.left) / rect.width * 100));
+                const glowY = Math.max(4, Math.min(96, (pointerY - rect.top) / rect.height * 100));
+
+                card.style.setProperty('--card-tilt-x', `${(-normalizedY * 1.05).toFixed(2)}deg`);
+                card.style.setProperty('--card-tilt-y', `${(normalizedX * 1.2).toFixed(2)}deg`);
+                card.style.setProperty('--card-glow-x', `${glowX.toFixed(1)}%`);
+                card.style.setProperty('--card-glow-y', `${glowY.toFixed(1)}%`);
+                card.style.setProperty('--sketch-shift-x', `${(-normalizedX * 2.8).toFixed(2)}px`);
+                card.style.setProperty('--sketch-shift-y', `${(-normalizedY * 2.2).toFixed(2)}px`);
+            }
+
+            function resetParallax() {
+                if (parallaxFrame) window.cancelAnimationFrame(parallaxFrame);
+                parallaxFrame = 0;
+                card.style.removeProperty('--card-tilt-x');
+                card.style.removeProperty('--card-tilt-y');
+                card.style.removeProperty('--card-glow-x');
+                card.style.removeProperty('--card-glow-y');
+                card.style.removeProperty('--sketch-shift-x');
+                card.style.removeProperty('--sketch-shift-y');
+            }
+
+            trigger.addEventListener('pointermove', (event) => {
+                if (event.pointerType && event.pointerType !== 'mouse') return;
+                pointerX = event.clientX;
+                pointerY = event.clientY;
+                if (!parallaxFrame) parallaxFrame = window.requestAnimationFrame(renderParallax);
+            }, { passive: true });
+            trigger.addEventListener('pointerleave', resetParallax);
+            trigger.addEventListener('pointercancel', resetParallax);
+            trigger.addEventListener('focusout', resetParallax);
+        }
+
         const cursorAtelier = document.getElementById('cursorAtelier');
         const cursorLogo = document.getElementById('cursorLogo');
         const cursorMark = document.getElementById('cursorMark');
@@ -2271,7 +3096,7 @@
 
         const waveButton = document.getElementById('waveButton');
         const greeting = document.getElementById('greeting');
-        const greetings = ['Hi there!', '你好！', 'Nice to meet you!', '欢迎来访！'];
+        const greetings = ['Hi there!', '你好！', 'Nice to meet you!'];
         let greetingIndex = 0;
         let waveClicks = 0;
 
@@ -2310,8 +3135,14 @@
         });
 
         const avatarButton = document.getElementById('avatarButton');
+        const avatarPixelCanvas = document.getElementById('avatarPixelCanvas');
+        const avatarPixelContext = avatarPixelCanvas.getContext('2d');
         let portraitRevealed = false;
         let portraitTransitionTimer = 0;
+        let avatarSelfBuilding = false;
+        let avatarBuildFrame = 0;
+        let avatarLoopTimer = 0;
+        let pendingPortraitState = null;
 
         const page = document.querySelector('.page');
         const pageEmbrace = document.getElementById('pageEmbrace');
@@ -2324,6 +3155,31 @@
         let magnetPointerX = -1000;
         let magnetPointerY = -1000;
 
+        function ai4aiClamp(value, minimum, maximum) {
+            return Math.max(minimum, Math.min(maximum, value));
+        }
+
+        function ai4aiEaseInOut(value) {
+            const progress = ai4aiClamp(value, 0, 1);
+            return progress < 0.5
+                ? 4 * progress * progress * progress
+                : 1 - ((-2 * progress + 2) ** 3) / 2;
+        }
+
+        function ai4aiEaseOut(value) {
+            return 1 - (1 - ai4aiClamp(value, 0, 1)) ** 3;
+        }
+
+        function ai4aiRandom(seed) {
+            let state = seed >>> 0;
+            return () => {
+                state += 0x6D2B79F5;
+                let value = state;
+                value = Math.imul(value ^ value >>> 15, value | 1);
+                value ^= value + Math.imul(value ^ value >>> 7, value | 61);
+                return ((value ^ value >>> 14) >>> 0) / 4294967296;
+            };
+        }
         function hideMagnetInk() {
             pageEmbraceMagnetEraser.style.opacity = '0';
             pageEmbraceMagnetEcho.style.opacity = '0';
@@ -2527,7 +3383,14 @@
         updatePageEmbrace();
 
         function setPortrait(revealed) {
-            if (portraitRevealed === revealed) return;
+            if (portraitRevealed === revealed) {
+                if (avatarSelfBuilding) pendingPortraitState = null;
+                return;
+            }
+            if (avatarSelfBuilding) {
+                pendingPortraitState = revealed;
+                return;
+            }
             portraitRevealed = revealed;
             avatarButton.classList.toggle('is-revealed', revealed);
             avatarButton.classList.remove('is-transitioning');
@@ -2543,6 +3406,524 @@
             }, 780);
         }
 
+        function avatarRoundedPixel(x, y, size, color, alpha, scale = 1) {
+            const actualSize = Math.max(0.45, size * scale);
+            avatarPixelContext.save();
+            avatarPixelContext.globalAlpha = alpha;
+            avatarPixelContext.fillStyle = color;
+            avatarPixelContext.beginPath();
+            avatarPixelContext.roundRect(
+                x - actualSize / 2,
+                y - actualSize / 2,
+                actualSize,
+                actualSize,
+                Math.max(0.65, actualSize * 0.2)
+            );
+            avatarPixelContext.fill();
+            avatarPixelContext.restore();
+        }
+
+        function avatarHatchedPixel(x, y, size, color, alpha, scale = 1) {
+            const actualSize = Math.max(0.8, size * scale);
+            avatarPixelContext.save();
+            avatarPixelContext.globalAlpha = alpha;
+            avatarPixelContext.strokeStyle = color;
+            avatarPixelContext.lineWidth = Math.max(0.45, actualSize * 0.085);
+            avatarPixelContext.beginPath();
+            avatarPixelContext.roundRect(
+                x - actualSize / 2,
+                y - actualSize / 2,
+                actualSize,
+                actualSize,
+                Math.max(0.65, actualSize * 0.2)
+            );
+            avatarPixelContext.clip();
+            for (let offset = -actualSize; offset <= actualSize; offset += Math.max(1.4, actualSize * 0.28)) {
+                avatarPixelContext.beginPath();
+                avatarPixelContext.moveTo(x - actualSize / 2 + offset, y + actualSize / 2);
+                avatarPixelContext.lineTo(x + actualSize / 2 + offset, y - actualSize / 2);
+                avatarPixelContext.stroke();
+            }
+            avatarPixelContext.restore();
+        }
+
+        function avatarPixelSpark(x, y, radius, color, alpha, rotation = 0) {
+            avatarPixelContext.save();
+            avatarPixelContext.translate(x, y);
+            avatarPixelContext.rotate(rotation);
+            avatarPixelContext.globalAlpha = alpha;
+            avatarPixelContext.strokeStyle = color;
+            avatarPixelContext.lineWidth = Math.max(0.45, radius * 0.055);
+            avatarPixelContext.lineCap = 'round';
+            for (let index = 0; index < 8; index += 1) {
+                const angle = Math.PI * 2 * index / 8;
+                avatarPixelContext.beginPath();
+                avatarPixelContext.moveTo(Math.cos(angle) * radius * 0.36, Math.sin(angle) * radius * 0.36);
+                avatarPixelContext.lineTo(Math.cos(angle) * radius, Math.sin(angle) * radius);
+                avatarPixelContext.stroke();
+            }
+            avatarPixelContext.restore();
+        }
+
+        function avatarPixelMicroMerge(x, y, progress, color, size, seed = 0) {
+            const eased = ai4aiEaseInOut(progress);
+            for (let index = 0; index < 5; index += 1) {
+                const angle = index * Math.PI * 2 / 5 + seed * 0.41;
+                const radius = size * (2.1 + index % 2 * 0.65) * (1 - eased);
+                avatarRoundedPixel(
+                    x + Math.cos(angle) * radius,
+                    y + Math.sin(angle) * radius,
+                    size * (0.22 + index % 2 * 0.06),
+                    color,
+                    0.24 * (1 - eased) + 0.07,
+                    1
+                );
+            }
+        }
+
+        function samplePortraitPixels(image, width, height) {
+            const compact = width < 120;
+            const grid = compact ? 34 : portraitRevealed ? 46 : 42;
+            const sampleCanvas = document.createElement('canvas');
+            sampleCanvas.width = grid;
+            sampleCanvas.height = grid;
+            const sampleContext = sampleCanvas.getContext('2d', { willReadFrequently: true });
+            sampleContext.clearRect(0, 0, grid, grid);
+            sampleContext.drawImage(image, 0, 0, grid, grid);
+            const data = sampleContext.getImageData(0, 0, grid, grid).data;
+            let pixels = [];
+
+            for (let row = 0; row < grid; row += 1) {
+                for (let column = 0; column < grid; column += 1) {
+                    const alpha = data[(row * grid + column) * 4 + 3];
+                    if (alpha < 58) continue;
+                    pixels.push({
+                        x: (column + 0.5) / grid * width,
+                        y: (row + 0.5) / grid * height,
+                        alpha: alpha / 255,
+                        column,
+                        row
+                    });
+                }
+            }
+
+            const limit = compact ? 170 : portraitRevealed ? 390 : 320;
+            if (pixels.length > limit) {
+                const stride = pixels.length / limit;
+                pixels = Array.from({ length: limit }, (_, index) => pixels[Math.floor(index * stride)]);
+            }
+            return { pixels, grid };
+        }
+
+        function orderPortraitGrowthPixels(pixels, core) {
+            const random = ai4aiRandom(4703 + (portraitRevealed ? 977 : 0));
+            const ordered = pixels
+                .map((pixel) => ({
+                    ...pixel,
+                    growthScore: Math.abs(pixel.x - core.x) < 0.01 && Math.abs(pixel.y - core.y) < 0.01
+                        ? Number.NEGATIVE_INFINITY
+                        : Math.hypot(pixel.x - core.x, pixel.y - core.y) + (random() - 0.5) * 28
+                }))
+                .sort((left, right) => left.growthScore - right.growthScore);
+
+            ordered.forEach((pixel, index) => {
+                if (!index) {
+                    pixel.parent = -1;
+                    return;
+                }
+
+                let parent = 0;
+                let nearestDistance = Number.POSITIVE_INFINITY;
+                const searchStart = Math.max(0, index - 96);
+                for (let candidateIndex = searchStart; candidateIndex < index; candidateIndex += 1) {
+                    const candidate = ordered[candidateIndex];
+                    const distance = Math.hypot(pixel.x - candidate.x, pixel.y - candidate.y);
+                    if (distance < nearestDistance) {
+                        nearestDistance = distance;
+                        parent = candidateIndex;
+                    }
+                }
+                pixel.parent = parent;
+            });
+
+            return ordered;
+        }
+
+        function scheduleAvatarSelfBuild(delay = 520) {
+            window.clearTimeout(avatarLoopTimer);
+            if (reducedMotion) return;
+            avatarLoopTimer = window.setTimeout(runAvatarSelfBuild, delay);
+        }
+
+        async function runAvatarSelfBuild(options = {}) {
+            if (reducedMotion || avatarSelfBuilding) return;
+            const fromSeed = options.fromSeed === true;
+            const inheritedSeed = options.inheritedSeed || null;
+            avatarSelfBuilding = true;
+            const activeLayer = avatarButton.querySelector(
+                portraitRevealed ? '.avatar-layer--duo' : '.avatar-layer--solo'
+            );
+            const activeImage = activeLayer.querySelector('img');
+
+            function abortAvatarBuild() {
+                window.cancelAnimationFrame(avatarBuildFrame);
+                avatarBuildFrame = 0;
+                activeLayer.style.opacity = '';
+                activeLayer.style.filter = '';
+                activeLayer.style.transition = '';
+                activeLayer.style.transform = '';
+                activeLayer.style.transformOrigin = '';
+                avatarButton.classList.remove('is-self-building');
+                avatarButton.removeAttribute('aria-busy');
+                avatarSelfBuilding = false;
+                scheduleAvatarSelfBuild(900);
+            }
+
+            try {
+                if (!activeImage.complete) await activeImage.decode();
+            } catch (error) {
+                abortAvatarBuild();
+                return;
+            }
+
+            const canvasRect = avatarPixelCanvas.getBoundingClientRect();
+            if (!canvasRect.width || !canvasRect.height) {
+                abortAvatarBuild();
+                return;
+            }
+
+            const width = canvasRect.width;
+            const height = canvasRect.height;
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            const backingWidth = Math.round(width * dpr);
+            const backingHeight = Math.round(height * dpr);
+            if (avatarPixelCanvas.width !== backingWidth || avatarPixelCanvas.height !== backingHeight) {
+                avatarPixelCanvas.width = backingWidth;
+                avatarPixelCanvas.height = backingHeight;
+            }
+            avatarPixelCanvas.style.width = `${width}px`;
+            avatarPixelCanvas.style.height = `${height}px`;
+            avatarPixelContext.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+            let portraitSample;
+            try {
+                portraitSample = samplePortraitPixels(activeImage, width, height);
+            } catch (error) {
+                abortAvatarBuild();
+                return;
+            }
+
+            const { pixels: sampledPortraitPixels, grid } = portraitSample;
+            if (!sampledPortraitPixels.length) {
+                abortAvatarBuild();
+                return;
+            }
+
+            const rootStyles = getComputedStyle(document.documentElement);
+            const inkColor = rootStyles.getPropertyValue('--portrait-ink').trim();
+            const accentColor = rootStyles.getPropertyValue('--accent').trim();
+            const mutedColor = rootStyles.getPropertyValue('--muted').trim();
+            const seedRandom = ai4aiRandom(Math.floor(performance.now()) + (portraitRevealed ? 8191 : 4093));
+            const randomPortraitPixel = () => sampledPortraitPixels[
+                Math.floor(seedRandom() * sampledPortraitPixels.length)
+            ];
+            const inheritedSeedPixel = inheritedSeed
+                ? sampledPortraitPixels.find((pixel) => (
+                    pixel.column === inheritedSeed.column && pixel.row === inheritedSeed.row
+                ))
+                : null;
+            const growthSeedPixel = inheritedSeedPixel || randomPortraitPixel();
+            const growthCore = { x: growthSeedPixel.x, y: growthSeedPixel.y };
+            let collapseSeedPixel = randomPortraitPixel();
+            let collapseCore = { x: collapseSeedPixel.x, y: collapseSeedPixel.y };
+            if (Math.hypot(collapseCore.x - growthCore.x, collapseCore.y - growthCore.y) < width * 0.17) {
+                collapseSeedPixel = sampledPortraitPixels.reduce((farthest, pixel) => (
+                    Math.hypot(pixel.x - growthCore.x, pixel.y - growthCore.y)
+                        > Math.hypot(farthest.x - growthCore.x, farthest.y - growthCore.y)
+                        ? pixel
+                        : farthest
+                ), collapseSeedPixel);
+                collapseCore = { x: collapseSeedPixel.x, y: collapseSeedPixel.y };
+            }
+            const portraitPixels = orderPortraitGrowthPixels(sampledPortraitPixels, growthCore);
+            const portraitPixelSize = Math.max(1.25, width / grid * 0.62);
+            const seedEffectSize = Math.max(3.4, portraitPixelSize * 1.9);
+            const timings = {
+                collapse: fromSeed ? 0 : 850,
+                seed: fromSeed ? 260 : 420,
+                portraitGrow: 2400,
+                portraitHold: 420,
+                vectorReveal: 720,
+                vectorHold: 520,
+                vectorCollapse: 980,
+                finalSeed: 320
+            };
+            const totalDuration = Object.values(timings).reduce((sum, value) => sum + value, 0);
+            const previousInline = fromSeed ? {
+                opacity: '',
+                filter: '',
+                transition: '',
+                transform: '',
+                transformOrigin: ''
+            } : {
+                opacity: activeLayer.style.opacity,
+                filter: activeLayer.style.filter,
+                transition: activeLayer.style.transition,
+                transform: activeLayer.style.transform,
+                transformOrigin: activeLayer.style.transformOrigin
+            };
+            const startedAt = performance.now();
+
+            activeLayer.style.transition = 'none';
+            activeLayer.style.transformOrigin = `${growthCore.x / width * 100}% ${growthCore.y / height * 100}%`;
+            avatarButton.classList.add('is-self-building');
+            avatarButton.setAttribute('aria-busy', 'true');
+
+            function restoreAvatarPresentation() {
+                window.cancelAnimationFrame(avatarBuildFrame);
+                avatarBuildFrame = 0;
+                avatarPixelContext.clearRect(0, 0, width, height);
+                activeLayer.style.opacity = previousInline.opacity;
+                activeLayer.style.filter = previousInline.filter;
+                activeLayer.style.transition = previousInline.transition;
+                activeLayer.style.transform = previousInline.transform;
+                activeLayer.style.transformOrigin = previousInline.transformOrigin;
+                avatarButton.classList.remove('is-self-building');
+                avatarButton.removeAttribute('aria-busy');
+                avatarSelfBuilding = false;
+            }
+
+            function finishGeneration() {
+                const queuedPortraitState = pendingPortraitState;
+                pendingPortraitState = null;
+                if (queuedPortraitState !== null) {
+                    restoreAvatarPresentation();
+                    setPortrait(queuedPortraitState);
+                    scheduleAvatarSelfBuild(920);
+                    return;
+                }
+
+                window.cancelAnimationFrame(avatarBuildFrame);
+                avatarBuildFrame = 0;
+                avatarSelfBuilding = false;
+                Promise.resolve().then(() => runAvatarSelfBuild({
+                    fromSeed: true,
+                    inheritedSeed: {
+                        column: collapseSeedPixel.column,
+                        row: collapseSeedPixel.row
+                    }
+                }));
+            }
+
+            function portraitPixelOpacity(pixel) {
+                return 0.78 * (0.45 + pixel.alpha * 0.55);
+            }
+
+            function drawPersistentSeed(pixel) {
+                avatarRoundedPixel(
+                    pixel.x,
+                    pixel.y,
+                    portraitPixelSize,
+                    inkColor,
+                    portraitPixelOpacity(pixel),
+                    1
+                );
+            }
+
+            function drawClearPortraitCollapse(progress, targetPixel) {
+                const targetCore = { x: targetPixel.x, y: targetPixel.y };
+                const eased = ai4aiEaseInOut(progress);
+                const vectorFade = ai4aiEaseInOut(ai4aiClamp((progress - 0.76) / 0.24, 0, 1));
+                const vectorScale = 1 - eased * 0.88;
+                activeLayer.style.transformOrigin = `${targetCore.x / width * 100}% ${targetCore.y / height * 100}%`;
+                activeLayer.style.opacity = String(1 - vectorFade);
+                activeLayer.style.transform = `translate3d(0, 0, 0) scale(${vectorScale.toFixed(4)}) rotate(0.001deg)`;
+                activeLayer.style.filter = `blur(${(vectorFade * 0.9).toFixed(2)}px)`;
+                const seedArrival = ai4aiClamp((progress - 0.68) / 0.32, 0, 1);
+                avatarHatchedPixel(targetCore.x, targetCore.y, portraitPixelSize, accentColor, seedArrival * 0.2, 1);
+                avatarRoundedPixel(
+                    targetCore.x,
+                    targetCore.y,
+                    portraitPixelSize,
+                    inkColor,
+                    portraitPixelOpacity(targetPixel) * seedArrival,
+                    1
+                );
+                avatarPixelSpark(targetCore.x, targetCore.y, seedEffectSize * (1 + seedArrival * 0.35), accentColor, seedArrival * 0.11, eased);
+            }
+
+            function drawSeed(progress) {
+                activeLayer.style.opacity = '0';
+                activeLayer.style.transform = 'translate3d(0, 0, 0) scale(0.16) rotate(0.001deg)';
+                activeLayer.style.filter = 'blur(1.4px)';
+                drawPersistentSeed(growthSeedPixel);
+                avatarHatchedPixel(growthCore.x, growthCore.y, portraitPixelSize, accentColor, 0.14 * (1 - progress), 1);
+                avatarPixelSpark(growthCore.x, growthCore.y, seedEffectSize, accentColor, 0.045 * (1 - progress), progress * 1.2);
+            }
+
+            function drawPixelPortraitGrowth(progress) {
+                activeLayer.style.opacity = '0';
+                activeLayer.style.transform = 'translate3d(0, 0, 0) scale(0.16) rotate(0.001deg)';
+                const reveal = progress * (portraitPixels.length + 1);
+                portraitPixels.forEach((pixel, index) => {
+                    if (index > reveal) return;
+                    if (index === 0) {
+                        drawPersistentSeed(pixel);
+                        avatarHatchedPixel(
+                            pixel.x,
+                            pixel.y,
+                            portraitPixelSize,
+                            accentColor,
+                            0.15 * (1 - progress),
+                            1
+                        );
+                        return;
+                    }
+                    const localProgress = ai4aiClamp(reveal - index, 0, 1);
+                    const parent = pixel.parent >= 0 ? portraitPixels[pixel.parent] : growthCore;
+                    const localEase = ai4aiEaseOut(localProgress);
+                    const x = parent.x + (pixel.x - parent.x) * localEase;
+                    const y = parent.y + (pixel.y - parent.y) * localEase;
+
+                    if (localProgress < 0.56) {
+                        avatarPixelMicroMerge(x, y, localProgress / 0.56, accentColor, portraitPixelSize * 1.35, index);
+                        avatarHatchedPixel(
+                            x,
+                            y,
+                            portraitPixelSize,
+                            accentColor,
+                            0.54,
+                            0.5 + localProgress * 0.9
+                        );
+                    } else {
+                        const solid = (localProgress - 0.56) / 0.44;
+                        avatarHatchedPixel(x, y, portraitPixelSize, mutedColor, 0.26 * (1 - solid), 1);
+                        avatarRoundedPixel(
+                            x,
+                            y,
+                            portraitPixelSize,
+                            inkColor,
+                            (0.62 + solid * 0.16) * (0.45 + pixel.alpha * 0.55),
+                            1
+                        );
+                    }
+                });
+
+                const frontierIndex = Math.min(
+                    portraitPixels.length - 1,
+                    Math.max(0, Math.floor(reveal))
+                );
+                const frontier = portraitPixels[frontierIndex];
+                avatarPixelSpark(
+                    frontier.x,
+                    frontier.y,
+                    portraitPixelSize * 2.4,
+                    accentColor,
+                    0.24,
+                    progress * 5
+                );
+            }
+
+            function drawPixelPortraitHold(progress) {
+                portraitPixels.forEach((pixel, index) => {
+                    const shimmer = 0.04 * Math.sin(progress * Math.PI * 2 + index * 0.31);
+                    avatarRoundedPixel(
+                        pixel.x,
+                        pixel.y,
+                        portraitPixelSize,
+                        inkColor,
+                        (0.76 + shimmer) * (0.45 + pixel.alpha * 0.55),
+                        1
+                    );
+                });
+                avatarPixelSpark(growthCore.x, growthCore.y, seedEffectSize * 1.25, accentColor, 0.07 * Math.sin(progress * Math.PI), progress);
+            }
+
+            function drawPixelToVector(progress) {
+                const eased = ai4aiEaseInOut(progress);
+                activeLayer.style.transformOrigin = '50% 50%';
+                activeLayer.style.opacity = String(eased);
+                activeLayer.style.transform = 'translate3d(0, 0, 0) scale(1) rotate(0.001deg)';
+                activeLayer.style.filter = `blur(${((1 - eased) * 1.2).toFixed(2)}px)`;
+                portraitPixels.forEach((pixel, index) => {
+                    const shimmer = 0.025 * Math.sin(progress * Math.PI * 3 + index * 0.31);
+                    avatarRoundedPixel(
+                        pixel.x,
+                        pixel.y,
+                        portraitPixelSize,
+                        inkColor,
+                        Math.max(0, (0.76 + shimmer) * (1 - eased)) * (0.45 + pixel.alpha * 0.55),
+                        1 + eased * 0.08
+                    );
+                });
+                avatarPixelSpark(growthCore.x, growthCore.y, seedEffectSize * (1.1 + eased * 0.25), accentColor, 0.08 * (1 - eased), progress * 1.5);
+            }
+
+            function drawVectorHold(progress) {
+                activeLayer.style.opacity = '1';
+                activeLayer.style.transformOrigin = '50% 50%';
+                activeLayer.style.transform = 'translate3d(0, 0, 0) scale(1) rotate(0.001deg)';
+                activeLayer.style.filter = 'blur(0)';
+                avatarPixelSpark(
+                    growthCore.x,
+                    growthCore.y,
+                    seedEffectSize * 1.15,
+                    accentColor,
+                    0.045 * Math.sin(progress * Math.PI),
+                    progress
+                );
+            }
+
+            function drawFinalSeed(progress) {
+                activeLayer.style.opacity = '0';
+                activeLayer.style.transformOrigin = `${collapseCore.x / width * 100}% ${collapseCore.y / height * 100}%`;
+                activeLayer.style.transform = 'translate3d(0, 0, 0) scale(0.12) rotate(0.001deg)';
+                activeLayer.style.filter = 'blur(0.9px)';
+                drawPersistentSeed(collapseSeedPixel);
+                avatarHatchedPixel(collapseCore.x, collapseCore.y, portraitPixelSize, accentColor, 0.18 * (1 - progress), 1);
+                avatarPixelSpark(collapseCore.x, collapseCore.y, seedEffectSize * (1.18 - progress * 0.12), accentColor, 0.08 * (1 - progress), progress * 1.2);
+            }
+
+            function renderAvatarBuild(now) {
+                const elapsed = now - startedAt;
+
+                if (elapsed >= totalDuration) {
+                    avatarPixelContext.clearRect(0, 0, width, height);
+                    drawFinalSeed(1);
+                    finishGeneration();
+                    return;
+                }
+
+                avatarPixelContext.clearRect(0, 0, width, height);
+                let phaseStart = 0;
+
+                if (elapsed < (phaseStart += timings.collapse)) {
+                    drawClearPortraitCollapse(elapsed / timings.collapse, growthSeedPixel);
+                } else if (elapsed < (phaseStart += timings.seed)) {
+                    drawSeed((elapsed - phaseStart + timings.seed) / timings.seed);
+                } else if (elapsed < (phaseStart += timings.portraitGrow)) {
+                    drawPixelPortraitGrowth((elapsed - phaseStart + timings.portraitGrow) / timings.portraitGrow);
+                } else if (elapsed < (phaseStart += timings.portraitHold)) {
+                    drawPixelPortraitHold((elapsed - phaseStart + timings.portraitHold) / timings.portraitHold);
+                } else if (elapsed < (phaseStart += timings.vectorReveal)) {
+                    drawPixelToVector((elapsed - phaseStart + timings.vectorReveal) / timings.vectorReveal);
+                } else if (elapsed < (phaseStart += timings.vectorHold)) {
+                    drawVectorHold((elapsed - phaseStart + timings.vectorHold) / timings.vectorHold);
+                } else if (elapsed < (phaseStart += timings.vectorCollapse)) {
+                    drawClearPortraitCollapse(
+                        (elapsed - phaseStart + timings.vectorCollapse) / timings.vectorCollapse,
+                        collapseSeedPixel
+                    );
+                } else if (elapsed < (phaseStart += timings.finalSeed)) {
+                    drawFinalSeed((elapsed - phaseStart + timings.finalSeed) / timings.finalSeed);
+                }
+
+                avatarBuildFrame = window.requestAnimationFrame(renderAvatarBuild);
+            }
+
+            avatarBuildFrame = window.requestAnimationFrame(renderAvatarBuild);
+        }
+
         avatarButton.addEventListener('mouseenter', () => setPortrait(true));
         avatarButton.addEventListener('mouseleave', () => setPortrait(false));
         avatarButton.addEventListener('focus', () => {
@@ -2556,6 +3937,7 @@
         });
 
         const rlEmoji = document.getElementById('rlEmoji');
+        const rlConcept = document.querySelector('.rl-concept');
         const researchEmojis = ['🧠', '🤖', '🎯', '🧩'];
         let researchEmojiIndex = 0;
 
@@ -2566,28 +3948,312 @@
         }
 
         rlEmoji.addEventListener('click', nextResearchEmoji);
+        attachCardParallax(rlConcept, rlConcept.querySelector('.rl-lab'));
         if (!reducedMotion) window.setInterval(nextResearchEmoji, 1800);
+        scheduleAvatarSelfBuild(900);
+
+        const ucasLink = document.querySelector('.entity-ucas');
+        const campusTimeFormatter = new Intl.DateTimeFormat('en-GB', {
+            timeZone: 'Asia/Shanghai',
+            hour: '2-digit',
+            minute: '2-digit',
+            hourCycle: 'h23'
+        });
+
+        function updateCampusTime() {
+            const parts = Object.fromEntries(
+                campusTimeFormatter.formatToParts(new Date()).map((part) => [part.type, part.value])
+            );
+            const hour = Number(parts.hour);
+            const minute = Number(parts.minute);
+            const phase = hour >= 7 && hour < 17
+                ? 'day'
+                : hour >= 17 && hour < 20
+                    ? 'dusk'
+                    : 'night';
+            const hourAngle = ((hour % 12) + minute / 60) * 30;
+            const minuteAngle = minute * 6;
+
+            ucasLink.classList.remove('campus-day', 'campus-dusk', 'campus-night');
+            ucasLink.classList.add(`campus-${phase}`);
+            ucasLink.style.setProperty('--campus-hour-angle', `${hourAngle}deg`);
+            ucasLink.style.setProperty('--campus-minute-angle', `${minuteAngle}deg`);
+            ucasLink.title = `Yanqihu campus · ${parts.hour}:${parts.minute} CST`;
+        }
+
+        updateCampusTime();
+        window.setInterval(updateCampusTime, 60000);
+
+        const experienceStory = document.querySelector('.experience-story');
+        const careerLinks = Array.from(document.querySelectorAll('.entity-link--experience'));
+        let activeHistoryIndex = -1;
+        let historyHideTimer = 0;
+
+        function showExperienceHistory(index = activeHistoryIndex) {
+            if (index < 0) return;
+            activeHistoryIndex = Math.min(index, careerLinks.length - 1);
+
+            careerLinks.forEach((link, linkIndex) => {
+                const isVisited = linkIndex <= activeHistoryIndex;
+                link.classList.toggle('is-history-lit', isVisited);
+                link.classList.toggle('is-history-target', linkIndex === activeHistoryIndex);
+                if (isVisited) {
+                    link.style.setProperty('--history-delay', `${linkIndex * 85}ms`);
+                } else {
+                    link.style.removeProperty('--history-delay');
+                }
+            });
+        }
+
+        function hideExperienceHistory() {
+            careerLinks.forEach((link) => {
+                link.classList.remove('is-history-lit', 'is-history-target');
+                link.style.removeProperty('--history-delay');
+            });
+            activeHistoryIndex = -1;
+        }
+
+        careerLinks.forEach((link, index) => {
+            const show = () => {
+                window.clearTimeout(historyHideTimer);
+                showExperienceHistory(index);
+            };
+            link.addEventListener('pointerenter', show);
+            link.addEventListener('focus', show);
+            link.addEventListener('pointerleave', () => {
+                historyHideTimer = window.setTimeout(() => {
+                    if (link === document.activeElement || link.matches(':hover')) return;
+                    hideExperienceHistory();
+                }, 180);
+            });
+        });
+
+        experienceStory.addEventListener('pointerleave', () => {
+            historyHideTimer = window.setTimeout(hideExperienceHistory, 220);
+        });
+        experienceStory.addEventListener('focusout', () => {
+            window.setTimeout(() => {
+                if (!experienceStory.contains(document.activeElement)) hideExperienceHistory();
+            }, 0);
+        });
 
         const satelliteButton = document.getElementById('satelliteButton');
+        const contactSection = document.querySelector('.contact');
+        const contactConstellation = document.getElementById('contactConstellation');
+        const contactConstellationPath = document.getElementById('contactConstellationPath');
+        const contactConstellationEcho = document.getElementById('contactConstellationEcho');
+        const contactConstellationNodes = document.getElementById('contactConstellationNodes');
+        const contactSignalRunner = document.getElementById('contactSignalRunner');
+        const contactSignalLinks = Array.from(document.querySelectorAll('.social-link'));
         let signalTimers = [];
+        let signalAnimationFrame = 0;
+        let contactSignalOrder = [];
+
+        function constellationCurve(points) {
+            if (points.length < 2) return '';
+            const parts = [`M ${points[0].x.toFixed(1)} ${points[0].y.toFixed(1)}`];
+
+            for (let index = 1; index < points.length; index += 1) {
+                const previous = points[index - 1];
+                const point = points[index];
+                const dx = point.x - previous.x;
+                const dy = point.y - previous.y;
+                const distance = Math.max(1, Math.hypot(dx, dy));
+                const bend = Math.min(6, distance * 0.07) * (index % 2 === 0 ? -1 : 1);
+                const controlX = (previous.x + point.x) / 2 - dy / distance * bend;
+                const controlY = (previous.y + point.y) / 2 + dx / distance * bend;
+                parts.push(`Q ${controlX.toFixed(1)} ${controlY.toFixed(1)} ${point.x.toFixed(1)} ${point.y.toFixed(1)}`);
+            }
+
+            return parts.join(' ');
+        }
+
+        function brandColorFor(element) {
+            const styles = getComputedStyle(element);
+            return styles.getPropertyValue('--brand').trim() || styles.color;
+        }
+
+        function renderContactConstellation() {
+            const contactRect = contactSection.getBoundingClientRect();
+            const satelliteRect = satelliteButton.getBoundingClientRect();
+            const start = {
+                x: satelliteRect.left + satelliteRect.width / 2 - contactRect.left,
+                y: satelliteRect.top + satelliteRect.height / 2 - contactRect.top
+            };
+            const remaining = contactSignalLinks.map((link) => {
+                const logo = link.querySelector('.social-logo');
+                const rect = logo.getBoundingClientRect();
+                return {
+                    link,
+                    x: rect.left + rect.width / 2 - contactRect.left,
+                    y: rect.top + rect.height / 2 - contactRect.top
+                };
+            });
+            const ordered = [];
+            let cursor = start;
+
+            while (remaining.length) {
+                let nearestIndex = 0;
+                let nearestDistance = Number.POSITIVE_INFINITY;
+                remaining.forEach((point, index) => {
+                    const distance = Math.hypot(point.x - cursor.x, point.y - cursor.y);
+                    if (distance < nearestDistance) {
+                        nearestDistance = distance;
+                        nearestIndex = index;
+                    }
+                });
+                const [nearest] = remaining.splice(nearestIndex, 1);
+                ordered.push(nearest);
+                cursor = nearest;
+            }
+
+            const points = [start, ...ordered];
+            const path = constellationCurve(points);
+            let travelled = 0;
+            let total = 0;
+            const distances = ordered.map((point, index) => {
+                const previous = points[index];
+                const distance = Math.hypot(point.x - previous.x, point.y - previous.y);
+                total += distance;
+                return distance;
+            });
+
+            contactConstellation.setAttribute('viewBox', `0 0 ${contactRect.width} ${contactRect.height}`);
+            contactConstellationPath.setAttribute('d', path);
+            contactConstellationEcho.setAttribute('d', path);
+            contactConstellationNodes.replaceChildren();
+
+            contactSignalOrder = ordered.map((point, index) => {
+                travelled += distances[index];
+                const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                const core = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                const halo = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                group.classList.add('contact-constellation-node');
+                group.style.setProperty('--node-brand', brandColorFor(point.link));
+                core.setAttribute('cx', point.x);
+                core.setAttribute('cy', point.y);
+                core.setAttribute('r', '2.2');
+                halo.setAttribute('cx', point.x);
+                halo.setAttribute('cy', point.y);
+                halo.setAttribute('r', '5.2');
+                group.append(core, halo);
+                contactConstellationNodes.appendChild(group);
+                return { link: point.link, fraction: total ? travelled / total : 0 };
+            });
+
+            contactSignalRunner.setAttribute('cx', start.x);
+            contactSignalRunner.setAttribute('cy', start.y);
+        }
+
+        function renderTargetContactSignal(targetLink) {
+            const contactRect = contactSection.getBoundingClientRect();
+            const satelliteRect = satelliteButton.getBoundingClientRect();
+            const targetLogo = targetLink.querySelector('.social-logo');
+            const targetRect = targetLogo.getBoundingClientRect();
+            const start = {
+                x: satelliteRect.left + satelliteRect.width / 2 - contactRect.left,
+                y: satelliteRect.top + satelliteRect.height / 2 - contactRect.top
+            };
+            const target = {
+                x: targetRect.left + targetRect.width / 2 - contactRect.left,
+                y: targetRect.top + targetRect.height / 2 - contactRect.top
+            };
+            const dx = target.x - start.x;
+            const dy = target.y - start.y;
+            const distance = Math.max(1, Math.hypot(dx, dy));
+            const bend = Math.min(48, Math.max(16, distance * 0.14));
+            const control = {
+                x: (start.x + target.x) / 2 - dy / distance * bend,
+                y: (start.y + target.y) / 2 + dx / distance * bend
+            };
+            const path = [
+                `M ${start.x.toFixed(1)} ${start.y.toFixed(1)}`,
+                `Q ${control.x.toFixed(1)} ${control.y.toFixed(1)} ${target.x.toFixed(1)} ${target.y.toFixed(1)}`
+            ].join(' ');
+
+            contactConstellation.setAttribute('viewBox', `0 0 ${contactRect.width} ${contactRect.height}`);
+            contactConstellationPath.setAttribute('d', path);
+            contactConstellationEcho.setAttribute('d', path);
+            contactConstellationNodes.replaceChildren();
+
+            const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            const core = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            const halo = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            group.classList.add('contact-constellation-node');
+            group.style.setProperty('--node-brand', brandColorFor(targetLink));
+            core.setAttribute('cx', target.x);
+            core.setAttribute('cy', target.y);
+            core.setAttribute('r', '2.5');
+            halo.setAttribute('cx', target.x);
+            halo.setAttribute('cy', target.y);
+            halo.setAttribute('r', '6');
+            group.append(core, halo);
+            contactConstellationNodes.appendChild(group);
+
+            contactSignalOrder = [{ link: targetLink, fraction: 1 }];
+            contactSignalRunner.setAttribute('cx', start.x);
+            contactSignalRunner.setAttribute('cy', start.y);
+        }
 
         function clearSatelliteSignal() {
             signalTimers.forEach((timer) => window.clearTimeout(timer));
             signalTimers = [];
+            window.cancelAnimationFrame(signalAnimationFrame);
+            signalAnimationFrame = 0;
             document.querySelector('.signal-burst')?.remove();
             document.querySelectorAll('.social-link.is-receiving').forEach((link) => {
                 link.classList.remove('is-receiving');
             });
+            contactSignalRunner.classList.remove('is-running');
+            contactSection.classList.remove('is-signaling');
+            contactConstellation.style.removeProperty('color');
         }
 
-        function launchSatelliteSignal() {
+        function animateContactSignal(duration) {
+            if (reducedMotion) {
+                contactSignalRunner.classList.remove('is-running');
+                return;
+            }
+
+            const length = contactConstellationPath.getTotalLength();
+            const startedAt = performance.now();
+            contactSignalRunner.classList.add('is-running');
+
+            function frame(now) {
+                const progress = Math.min(1, (now - startedAt) / duration);
+                const point = contactConstellationPath.getPointAtLength(length * progress);
+                contactSignalRunner.setAttribute('cx', point.x);
+                contactSignalRunner.setAttribute('cy', point.y);
+
+                if (progress < 1) {
+                    signalAnimationFrame = window.requestAnimationFrame(frame);
+                } else {
+                    contactSignalRunner.classList.remove('is-running');
+                    signalAnimationFrame = 0;
+                }
+            }
+
+            signalAnimationFrame = window.requestAnimationFrame(frame);
+        }
+
+        function launchSatelliteSignal(targetLink = null) {
             clearSatelliteSignal();
+            if (targetLink) {
+                renderTargetContactSignal(targetLink);
+            } else {
+                renderContactConstellation();
+            }
             const rect = satelliteButton.getBoundingClientRect();
             const signalBurst = document.createElement('span');
             signalBurst.className = 'signal-burst';
             signalBurst.setAttribute('aria-hidden', 'true');
             signalBurst.style.left = `${rect.left + rect.width * 0.58}px`;
             signalBurst.style.top = `${rect.top + rect.height * 0.42}px`;
+            if (targetLink) {
+                const targetBrand = brandColorFor(targetLink);
+                signalBurst.style.setProperty('--signal-color', targetBrand);
+                contactConstellation.style.color = targetBrand;
+            }
 
             for (let index = 0; index < 3; index += 1) {
                 const wave = document.createElement('span');
@@ -2598,19 +4264,30 @@
 
             document.body.appendChild(signalBurst);
 
-            document.querySelectorAll('.social-link').forEach((link, index) => {
+            const travelDuration = reducedMotion ? 0 : targetLink ? 920 : 1900;
+            contactSection.classList.add('is-signaling');
+            const runnerTimer = window.setTimeout(() => animateContactSignal(travelDuration), reducedMotion ? 0 : 150);
+            signalTimers.push(runnerTimer);
+
+            contactSignalOrder.forEach(({ link, fraction }) => {
                 const receiveTimer = window.setTimeout(() => {
                     link.classList.add('is-receiving');
                     const releaseTimer = window.setTimeout(() => {
                         link.classList.remove('is-receiving');
                     }, reducedMotion ? 80 : 660);
                     signalTimers.push(releaseTimer);
-                }, reducedMotion ? 0 : 170 + index * 74);
+                }, reducedMotion ? 0 : 150 + fraction * travelDuration);
                 signalTimers.push(receiveTimer);
             });
 
             const cleanupTimer = window.setTimeout(() => signalBurst.remove(), reducedMotion ? 80 : 1480);
+            const constellationTimer = window.setTimeout(() => {
+                contactSection.classList.remove('is-signaling');
+                contactConstellation.style.removeProperty('color');
+                renderContactConstellation();
+            }, reducedMotion ? 100 : travelDuration + 980);
             signalTimers.push(cleanupTimer);
+            signalTimers.push(constellationTimer);
         }
 
         satelliteButton.addEventListener('click', () => {
@@ -2620,28 +4297,162 @@
             launchSatelliteSignal();
             window.setTimeout(() => satelliteButton.classList.remove('is-orbiting'), 950);
         });
+        renderContactConstellation();
 
-        const nameAlias = document.querySelector('.name-alias');
-        const nameNote = document.getElementById('nameNote');
+        const draggableEmojis = [rlEmoji, satelliteButton];
+        const emojiReturnAnimations = new WeakMap();
+        const suppressedEmojiClicks = new WeakSet();
+        let activeEmojiDropTarget = null;
 
-        function positionNameNote() {
-            const aliasRect = nameAlias.getBoundingClientRect();
-            const cardInset = Math.max(8, Math.min(14, aliasRect.left - 8));
-            const cardLeft = aliasRect.left - cardInset;
-            const noteWidth = Math.min(
-                560,
-                Math.max(320, aliasRect.width + 28),
-                window.innerWidth - cardLeft - 12
-            );
-
-            nameNote.style.setProperty('--name-note-left', `${-cardInset}px`);
-            nameNote.style.setProperty('--name-note-width', `${noteWidth}px`);
-            nameNote.style.setProperty('--name-header-space', `${Math.ceil(aliasRect.height + 16)}px`);
+        function clearEmojiDropTarget() {
+            activeEmojiDropTarget?.classList.remove('is-drop-target');
+            activeEmojiDropTarget = null;
         }
 
-        nameAlias.addEventListener('pointerenter', positionNameNote);
-        nameAlias.addEventListener('focusin', positionNameNote);
-        positionNameNote();
+        function socialLinkUnderPointer(x, y, draggedEmoji) {
+            const previousPointerEvents = draggedEmoji.style.pointerEvents;
+            draggedEmoji.style.pointerEvents = 'none';
+            const target = document.elementFromPoint(x, y)?.closest('.social-link') || null;
+            draggedEmoji.style.pointerEvents = previousPointerEvents;
+            return target;
+        }
+
+        function setEmojiDropTarget(target) {
+            if (target === activeEmojiDropTarget) return;
+            clearEmojiDropTarget();
+            activeEmojiDropTarget = target;
+            activeEmojiDropTarget?.classList.add('is-drop-target');
+        }
+
+        function springEmojiHome(emoji, dragState, onHome) {
+            emoji.classList.remove('is-dragging');
+            emoji.style.setProperty('--drag-x', '0px');
+            emoji.style.setProperty('--drag-y', '0px');
+
+            if (reducedMotion) {
+                onHome?.();
+                return;
+            }
+
+            const distance = Math.hypot(dragState.dx, dragState.dy);
+            const projectedX = dragState.dx + Math.max(-28, Math.min(28, dragState.velocityX * 62));
+            const projectedY = dragState.dy + Math.max(-28, Math.min(28, dragState.velocityY * 62));
+            const reboundX = Math.max(-24, Math.min(24, -dragState.dx * 0.075));
+            const reboundY = Math.max(-24, Math.min(24, -dragState.dy * 0.075)) - Math.min(30, 10 + distance * 0.08);
+            const duration = Math.min(920, 540 + distance * 0.32);
+            const animation = emoji.animate([
+                { translate: `${dragState.dx}px ${dragState.dy}px`, offset: 0 },
+                { translate: `${projectedX}px ${projectedY}px`, offset: 0.18 },
+                { translate: `${reboundX}px ${reboundY}px`, offset: 0.74 },
+                { translate: '0px 0px', offset: 1 }
+            ], {
+                duration,
+                easing: 'cubic-bezier(.2, .72, .2, 1)',
+                fill: 'none'
+            });
+
+            emojiReturnAnimations.set(emoji, animation);
+            animation.finished.then(() => {
+                if (emojiReturnAnimations.get(emoji) !== animation) return;
+                emojiReturnAnimations.delete(emoji);
+                onHome?.();
+            }).catch(() => {});
+        }
+
+        draggableEmojis.forEach((emoji) => {
+            let dragState = null;
+
+            emoji.addEventListener('pointerdown', (event) => {
+                if (event.button !== undefined && event.button !== 0) return;
+                emojiReturnAnimations.get(emoji)?.cancel();
+                emojiReturnAnimations.delete(emoji);
+                dragState = {
+                    pointerId: event.pointerId,
+                    startX: event.clientX,
+                    startY: event.clientY,
+                    lastX: event.clientX,
+                    lastY: event.clientY,
+                    lastTime: performance.now(),
+                    dx: 0,
+                    dy: 0,
+                    velocityX: 0,
+                    velocityY: 0,
+                    moved: false
+                };
+                emoji.setAttribute('aria-grabbed', 'true');
+                try {
+                    emoji.setPointerCapture?.(event.pointerId);
+                } catch (error) {
+                    // Some browsers reserve pointer capture for active touch gestures.
+                }
+            });
+
+            emoji.addEventListener('pointermove', (event) => {
+                if (!dragState || event.pointerId !== dragState.pointerId) return;
+                const dx = event.clientX - dragState.startX;
+                const dy = event.clientY - dragState.startY;
+                const distance = Math.hypot(dx, dy);
+                if (!dragState.moved && distance < 5) return;
+
+                event.preventDefault();
+                const now = performance.now();
+                const elapsed = Math.max(8, now - dragState.lastTime);
+                dragState.velocityX = (event.clientX - dragState.lastX) / elapsed;
+                dragState.velocityY = (event.clientY - dragState.lastY) / elapsed;
+                dragState.lastX = event.clientX;
+                dragState.lastY = event.clientY;
+                dragState.lastTime = now;
+                dragState.dx = dx;
+                dragState.dy = dy;
+                dragState.moved = true;
+                emoji.classList.add('is-dragging');
+                emoji.style.setProperty('--drag-x', `${dx}px`);
+                emoji.style.setProperty('--drag-y', `${dy}px`);
+
+                if (emoji === satelliteButton) {
+                    setEmojiDropTarget(socialLinkUnderPointer(event.clientX, event.clientY, emoji));
+                }
+            }, { passive: false });
+
+            function releaseEmoji(event, cancelled = false) {
+                if (!dragState || event.pointerId !== dragState.pointerId) return;
+                try {
+                    emoji.releasePointerCapture?.(event.pointerId);
+                } catch (error) {
+                    // Pointer capture can already be released by the browser.
+                }
+
+                const completedState = dragState;
+                dragState = null;
+                emoji.removeAttribute('aria-grabbed');
+                const dropTarget = !cancelled && emoji === satelliteButton && completedState.moved
+                    ? socialLinkUnderPointer(event.clientX, event.clientY, emoji)
+                    : null;
+                clearEmojiDropTarget();
+
+                if (!completedState.moved) return;
+                suppressedEmojiClicks.add(emoji);
+                window.setTimeout(() => suppressedEmojiClicks.delete(emoji), 600);
+                springEmojiHome(emoji, completedState, () => {
+                    if (!dropTarget) return;
+                    satelliteButton.classList.remove('is-orbiting');
+                    void satelliteButton.offsetWidth;
+                    satelliteButton.classList.add('is-orbiting');
+                    launchSatelliteSignal(dropTarget);
+                    window.setTimeout(() => satelliteButton.classList.remove('is-orbiting'), 950);
+                });
+            }
+
+            emoji.addEventListener('pointerup', (event) => releaseEmoji(event));
+            emoji.addEventListener('pointercancel', (event) => releaseEmoji(event, true));
+        });
+
+        document.addEventListener('click', (event) => {
+            const emoji = event.target.closest('.emoji-draggable');
+            if (!emoji || !suppressedEmojiClicks.has(emoji)) return;
+            event.preventDefault();
+            event.stopImmediatePropagation();
+        }, true);
 
         const experienceLinks = document.querySelectorAll('.entity-link--experience, .entity-link--education');
 
@@ -2679,9 +4490,11 @@
         }
 
         experienceLinks.forEach((link) => {
+            const note = link.querySelector('.experience-note');
             link.addEventListener('pointerenter', () => positionExperienceNote(link));
             link.addEventListener('focus', () => positionExperienceNote(link));
             positionExperienceNote(link);
+            attachCardParallax(link, note);
         });
 
         const socialLinks = document.querySelectorAll('.social-link');
@@ -2708,21 +4521,23 @@
         }
 
         socialLinks.forEach((link) => {
+            const note = link.querySelector('.social-note');
             link.addEventListener('pointerenter', () => positionSocialNote(link));
             link.addEventListener('focus', () => positionSocialNote(link));
             positionSocialNote(link);
+            attachCardParallax(link, note);
         });
 
         document.fonts.ready.then(() => {
-            positionNameNote();
             experienceLinks.forEach((link) => positionExperienceNote(link));
             socialLinks.forEach((link) => positionSocialNote(link));
+            renderContactConstellation();
         });
 
         window.addEventListener('resize', () => {
-            positionNameNote();
             experienceLinks.forEach((link) => positionExperienceNote(link));
             socialLinks.forEach((link) => positionSocialNote(link));
+            renderContactConstellation();
         });
 
     </script>
