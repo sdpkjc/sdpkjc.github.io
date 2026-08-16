@@ -118,8 +118,12 @@
             stroke-linecap: round;
             stroke-linejoin: round;
             stroke-width: var(--embrace-stroke, 3.6px);
-            transition: d 760ms cubic-bezier(.16, 1, .3, 1);
             vector-effect: non-scaling-stroke;
+        }
+
+        .page-embrace-line,
+        .page-embrace-echo {
+            transition: d 760ms cubic-bezier(.16, 1, .3, 1);
         }
 
         .page-embrace-line {
@@ -130,6 +134,27 @@
             opacity: 0.2;
             stroke-width: var(--embrace-echo-stroke, 1.65px);
             transform: translate(0.7px, -0.45px);
+        }
+
+        .page-embrace-magnet-eraser,
+        .page-embrace-magnet-line,
+        .page-embrace-magnet-echo {
+            opacity: 0;
+            transition: opacity 120ms ease;
+        }
+
+        .page-embrace-magnet-eraser {
+            stroke: var(--bg) !important;
+            stroke-width: calc(var(--embrace-stroke, 3.6px) + 3.4px) !important;
+        }
+
+        .page-embrace-magnet-line {
+            filter: url(#embraceRough);
+        }
+
+        .page-embrace-magnet-echo {
+            stroke-width: var(--embrace-echo-stroke, 1.65px) !important;
+            transform: translate(0.8px, -0.55px);
         }
 
         .hero {
@@ -367,10 +392,15 @@
         }
 
         .avatar-layer--duo {
+            z-index: 2;
             opacity: 0;
             filter: blur(3.2px);
             clip-path: inset(11% 8% 3% 8% round 44% 44% 14% 14%);
             transform: translate3d(0, 8px, 0) scale(0.955) rotate(-1.4deg);
+        }
+
+        .avatar-layer--solo {
+            z-index: 3;
         }
 
         .avatar {
@@ -401,7 +431,7 @@
         .avatar-glimmer {
             position: absolute;
             inset: 5% -2%;
-            z-index: 2;
+            z-index: 4;
             border-radius: 46% 54% 38% 62%;
             background: linear-gradient(
                 112deg,
@@ -416,6 +446,39 @@
 
         .avatar-button.is-transitioning .avatar-glimmer {
             animation: avatar-glimmer 720ms cubic-bezier(.16, 1, .3, 1) both;
+        }
+
+        .avatar-color-blooms {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .avatar-flower-ink {
+            position: absolute;
+            top: var(--flower-y);
+            left: var(--flower-x);
+            width: var(--flower-size, 7.4%);
+            aspect-ratio: 1;
+            border-radius: 54% 42% 58% 44% / 44% 56% 43% 57%;
+            background:
+                radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.38) 0 13%, transparent 28%),
+                radial-gradient(
+                    ellipse at 52% 54%,
+                    var(--flower-color) 0 48%,
+                    color-mix(in srgb, var(--flower-color) 62%, transparent) 72%,
+                    transparent 100%
+                );
+            box-shadow: 0 0 5px color-mix(in srgb, var(--flower-color) 20%, transparent);
+            opacity: 0;
+            filter: saturate(0.72) blur(0.7px);
+            transform: translate(-50%, -50%) rotate(var(--flower-rotation, 0deg)) scale(0.28);
+            transform-origin: 50% 58%;
+        }
+
+        .avatar-button.is-revealed .avatar-flower-ink {
+            animation: flower-ink-bloom 720ms cubic-bezier(.16, 1, .3, 1) var(--flower-delay, 0ms) both;
         }
 
         .story {
@@ -555,6 +618,253 @@
             margin-top: 7px;
             color: var(--muted);
             font-size: 0.8rem;
+        }
+
+        .experience-sketch {
+            position: absolute;
+            top: 7px;
+            right: 9px;
+            z-index: 0;
+            width: 96px;
+            height: 64px;
+            overflow: visible;
+            color: var(--brand);
+            opacity: 0;
+            pointer-events: none;
+            transform: translate(5px, -3px) rotate(2deg) scale(0.9);
+            transform-origin: 100% 0;
+            transition:
+                opacity 220ms ease 80ms,
+                transform 520ms cubic-bezier(.16, 1, .3, 1) 50ms;
+        }
+
+        .experience-sketch .sketch-wash {
+            fill: currentColor;
+            opacity: 0.065;
+            stroke: none;
+        }
+
+        .experience-sketch .sketch-ink {
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.65;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 110;
+            stroke-dashoffset: 110;
+        }
+
+        .experience-sketch .sketch-dot {
+            fill: currentColor;
+            stroke: none;
+            opacity: 0;
+            transform-box: fill-box;
+            transform-origin: center;
+        }
+
+        .experience-sketch .sketch-scan,
+        .experience-sketch .sketch-route {
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.45;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .experience-sketch .sketch-scan {
+            opacity: 0.34;
+            transform-box: fill-box;
+            transform-origin: center bottom;
+        }
+
+        .experience-sketch .sketch-route {
+            stroke-dasharray: 4 4;
+        }
+
+        .experience-sketch--hy .hy-generation,
+        .experience-sketch--hy .hy-selection,
+        .experience-sketch--hy .hy-mutation,
+        .experience-sketch--hy .hy-reject {
+            transform-box: fill-box;
+            transform-origin: center;
+        }
+
+        .experience-sketch--hy {
+            top: 3px;
+            right: 5px;
+            width: 112px;
+            height: 73px;
+        }
+
+        .experience-sketch--hy .hy-cell {
+            fill: currentColor;
+        }
+
+        .experience-sketch--hy .hy-cell--soft {
+            opacity: 0.48;
+        }
+
+        .experience-sketch--hy .hy-branch,
+        .experience-sketch--hy .hy-return,
+        .experience-sketch--hy .hy-selection,
+        .experience-sketch--hy .hy-mutation,
+        .experience-sketch--hy .hy-reject {
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .experience-sketch--hy .hy-branch,
+        .experience-sketch--hy .hy-return {
+            stroke-width: 1.4;
+            opacity: 0;
+        }
+
+        .experience-sketch--hy .hy-branch {
+            stroke-dasharray: 54;
+            stroke-dashoffset: 54;
+        }
+
+        .experience-sketch--hy .hy-return {
+            stroke-dasharray: 64;
+            stroke-dashoffset: 64;
+        }
+
+        .experience-sketch--hy .hy-selection {
+            stroke-width: 1.1;
+            stroke-dasharray: 2.5 2.5;
+            opacity: 0;
+        }
+
+        .experience-sketch--hy .hy-mutation,
+        .experience-sketch--hy .hy-reject {
+            stroke-width: 1.25;
+            opacity: 0;
+        }
+
+        .experience-sketch--hy .hy-parent {
+            opacity: 0.92;
+        }
+
+        .experience-sketch--hy .hy-child {
+            opacity: 0;
+        }
+
+        .experience-sketch--hy .hy-field-dot {
+            fill: currentColor;
+            opacity: 0.11;
+        }
+
+        .entity-link--experience:hover .experience-sketch--hy .hy-parent,
+        .entity-link--experience:focus-visible .experience-sketch--hy .hy-parent {
+            animation: hy-parent-generation 5.6s cubic-bezier(.22, .76, .24, 1) infinite both;
+        }
+
+        .entity-link--experience:hover .experience-sketch--hy .hy-child--discard,
+        .entity-link--experience:focus-visible .experience-sketch--hy .hy-child--discard {
+            animation: hy-child-discard 5.6s cubic-bezier(.22, .76, .24, 1) infinite both;
+        }
+
+        .entity-link--experience:hover .experience-sketch--hy .hy-child--winner,
+        .entity-link--experience:focus-visible .experience-sketch--hy .hy-child--winner {
+            animation: hy-child-winner 5.6s cubic-bezier(.22, .76, .24, 1) infinite both;
+        }
+
+        .entity-link--experience:hover .experience-sketch--hy .hy-branch,
+        .entity-link--experience:focus-visible .experience-sketch--hy .hy-branch {
+            animation: hy-branch-grow 5.6s ease-in-out infinite both;
+        }
+
+        .entity-link--experience:hover .experience-sketch--hy .hy-return,
+        .entity-link--experience:focus-visible .experience-sketch--hy .hy-return {
+            animation: hy-return-loop 5.6s ease-in-out infinite both;
+        }
+
+        .entity-link--experience:hover .experience-sketch--hy .hy-selection,
+        .entity-link--experience:focus-visible .experience-sketch--hy .hy-selection {
+            animation: hy-select-winner 5.6s ease-in-out infinite both;
+        }
+
+        .entity-link--experience:hover .experience-sketch--hy .hy-mutation,
+        .entity-link--experience:focus-visible .experience-sketch--hy .hy-mutation {
+            animation: hy-mutate 5.6s ease-in-out infinite both;
+        }
+
+        .entity-link--experience:hover .experience-sketch--hy .hy-reject,
+        .entity-link--experience:focus-visible .experience-sketch--hy .hy-reject {
+            animation: hy-reject 5.6s ease-in-out infinite both;
+        }
+
+        .entity-link--experience:hover .experience-sketch,
+        .entity-link--experience:focus-visible .experience-sketch,
+        .entity-link--education:hover .experience-sketch,
+        .entity-link--education:focus-visible .experience-sketch {
+            opacity: 0.9;
+            transform: translate(0, 0) rotate(-1deg) scale(1);
+        }
+
+        .entity-link--experience:hover .experience-sketch .sketch-ink,
+        .entity-link--experience:focus-visible .experience-sketch .sketch-ink,
+        .entity-link--education:hover .experience-sketch .sketch-ink,
+        .entity-link--education:focus-visible .experience-sketch .sketch-ink {
+            animation: sketch-draw 760ms cubic-bezier(.2, .76, .24, 1) forwards;
+        }
+
+        .entity-link--experience:hover .experience-sketch .sketch-dot,
+        .entity-link--experience:focus-visible .experience-sketch .sketch-dot,
+        .entity-link--education:hover .experience-sketch .sketch-dot,
+        .entity-link--education:focus-visible .experience-sketch .sketch-dot {
+            animation: sketch-dot-pop 420ms cubic-bezier(.2, .9, .25, 1.3) var(--sketch-delay, 350ms) forwards;
+        }
+
+        .entity-link--experience:hover .experience-sketch .sketch-orbit,
+        .entity-link--experience:focus-visible .experience-sketch .sketch-orbit,
+        .entity-link--education:hover .experience-sketch .sketch-orbit,
+        .entity-link--education:focus-visible .experience-sketch .sketch-orbit {
+            animation: sketch-orbit 2.4s linear 650ms infinite;
+            transform-box: view-box;
+            transform-origin: 46px 30px;
+        }
+
+        .experience-sketch .sketch-clock-hand {
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.25;
+            stroke-linecap: round;
+            transform-box: view-box;
+            transform-origin: 63px 20px;
+        }
+
+        .entity-link--education:hover .experience-sketch .sketch-clock-hand,
+        .entity-link--education:focus-visible .experience-sketch .sketch-clock-hand {
+            animation: sketch-clock-tick 4s steps(8, end) 820ms infinite;
+        }
+
+        .entity-link--experience:hover .experience-sketch .sketch-cursor,
+        .entity-link--experience:focus-visible .experience-sketch .sketch-cursor {
+            animation: sketch-cursor 1.5s ease-in-out 650ms infinite;
+        }
+
+        .entity-link--experience:hover .experience-sketch .sketch-scan,
+        .entity-link--experience:focus-visible .experience-sketch .sketch-scan {
+            animation: sketch-scan 1.6s ease-in-out 620ms infinite;
+        }
+
+        .entity-link--experience:hover .experience-sketch .sketch-route,
+        .entity-link--experience:focus-visible .experience-sketch .sketch-route {
+            animation: sketch-route 1.8s linear 620ms infinite;
+        }
+
+        .entity-link--experience .experience-note {
+            --experience-header-space: clamp(64px, 7vw, 72px);
+        }
+
+        .entity-link--education .experience-sketch {
+            top: 58px;
+            right: 10px;
+            width: 92px;
+            height: 60px;
         }
 
         .entity-link--experience:hover .experience-note,
@@ -706,6 +1016,41 @@
             animation: satellite-orbit 900ms cubic-bezier(.2, .8, .2, 1);
         }
 
+        .signal-burst {
+            --signal-color: #667da5;
+            position: fixed;
+            z-index: 80;
+            width: 14px;
+            height: 14px;
+            color: var(--signal-color);
+            pointer-events: none;
+            transform: translate(-50%, -50%) rotate(-12deg);
+        }
+
+        .signal-burst::after {
+            position: absolute;
+            inset: 5px;
+            border-radius: 50%;
+            background: currentColor;
+            box-shadow: 0 0 10px color-mix(in srgb, currentColor 38%, transparent);
+            content: "";
+            opacity: 0.55;
+            animation: signal-core 900ms ease-out forwards;
+        }
+
+        .signal-wave {
+            position: absolute;
+            inset: 0;
+            border: 1.2px solid currentColor;
+            border-bottom-color: transparent;
+            border-left-color: transparent;
+            border-radius: 50%;
+            opacity: 0;
+            transform: scale(0.3);
+            animation: signal-wave 1080ms cubic-bezier(.16, .72, .22, 1) forwards;
+            animation-delay: var(--signal-delay, 0ms);
+        }
+
         .down {
             display: inline-block;
             animation: point-down 1.2s ease-in-out infinite;
@@ -747,6 +1092,20 @@
         .social-link:hover .social-logo,
         .social-link:focus-visible .social-logo {
             transform: translateY(-1px) rotate(-3deg) scale(1.08);
+        }
+
+        .social-link.is-receiving {
+            z-index: 21;
+            color: var(--brand);
+        }
+
+        .social-link.is-receiving::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .social-link.is-receiving .social-logo {
+            animation: signal-logo 620ms cubic-bezier(.16, 1, .3, 1);
         }
 
         .contact:has(.social-link:hover, .social-link:focus-visible) {
@@ -1223,6 +1582,105 @@
             72% { transform: rotate(7deg) scale(1.04); }
         }
 
+        @keyframes sketch-draw {
+            to { stroke-dashoffset: 0; }
+        }
+
+        @keyframes sketch-dot-pop {
+            0% { opacity: 0; transform: scale(0.2); }
+            65% { opacity: 0.92; transform: scale(1.25); }
+            100% { opacity: 0.76; transform: scale(1); }
+        }
+
+        @keyframes sketch-orbit {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes sketch-clock-tick {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes hy-parent-generation {
+            0%, 50% { opacity: 0.94; transform: scale(1); }
+            64%, 100% { opacity: 0; transform: scale(0.76); }
+        }
+
+        @keyframes hy-child-discard {
+            0%, 18% {
+                opacity: 0;
+                transform: translate(18px, -18px) scale(0.18);
+            }
+            31%, 46% {
+                opacity: 0.68;
+                transform: translate(0, 0) scale(1);
+            }
+            58%, 100% {
+                opacity: 0;
+                transform: translate(-2px, 2px) scale(0.68);
+            }
+        }
+
+        @keyframes hy-child-winner {
+            0%, 20% {
+                opacity: 0;
+                transform: translate(-18px, -18px) scale(0.18);
+            }
+            33%, 58% {
+                opacity: 0.94;
+                transform: translate(0, 0) scale(1);
+            }
+            76%, 96% {
+                opacity: 0.96;
+                transform: translate(-18px, -22px) scale(1.04);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-18px, -22px) scale(0.92);
+            }
+        }
+
+        @keyframes hy-branch-grow {
+            0%, 15% { opacity: 0; stroke-dashoffset: 54; }
+            28%, 48% { opacity: 0.72; stroke-dashoffset: 0; }
+            60%, 100% { opacity: 0; stroke-dashoffset: 0; }
+        }
+
+        @keyframes hy-return-loop {
+            0%, 52% { opacity: 0; stroke-dashoffset: 64; }
+            68%, 82% { opacity: 0.86; stroke-dashoffset: 0; }
+            92%, 100% { opacity: 0; stroke-dashoffset: 0; }
+        }
+
+        @keyframes hy-select-winner {
+            0%, 36%, 64%, 100% { opacity: 0; transform: scale(0.72) rotate(0); }
+            44%, 56% { opacity: 0.76; transform: scale(1) rotate(42deg); }
+        }
+
+        @keyframes hy-mutate {
+            0%, 30%, 58%, 100% { opacity: 0; transform: scale(0.28) rotate(0); }
+            40% { opacity: 0.82; transform: scale(1.08) rotate(18deg); }
+            50% { opacity: 0.34; transform: scale(0.78) rotate(48deg); }
+        }
+
+        @keyframes hy-reject {
+            0%, 40%, 60%, 100% { opacity: 0; transform: scale(0.65); }
+            48%, 54% { opacity: 0.48; transform: scale(1); }
+        }
+
+        @keyframes sketch-cursor {
+            0%, 100% { transform: translate(0, 0); }
+            48% { transform: translate(4px, -3px); }
+        }
+
+        @keyframes sketch-scan {
+            0%, 100% { opacity: 0.34; transform: scale(0.94); }
+            50% { opacity: 0.92; transform: scale(1.04); }
+        }
+
+        @keyframes sketch-route {
+            to { stroke-dashoffset: -18; }
+        }
+
         @keyframes satellite-float {
             0%, 100% { transform: rotate(7deg) translateY(0); }
             50% { transform: rotate(-7deg) translateY(-4px); }
@@ -1234,11 +1692,46 @@
             100% { transform: rotate(360deg) translateX(0); }
         }
 
+        @keyframes signal-wave {
+            0% { opacity: 0; transform: scale(0.25) rotate(0); }
+            18% { opacity: 0.4; }
+            100% { opacity: 0; transform: scale(7.5) rotate(16deg); }
+        }
+
+        @keyframes signal-core {
+            0%, 24% { opacity: 0.62; transform: scale(1); }
+            100% { opacity: 0; transform: scale(2.4); }
+        }
+
+        @keyframes signal-logo {
+            0%, 100% { transform: translateY(0) rotate(0) scale(1); }
+            38% { transform: translateY(-4px) rotate(-8deg) scale(1.22); }
+            70% { transform: translateY(1px) rotate(4deg) scale(1.08); }
+        }
+
         @keyframes avatar-glimmer {
             0% { opacity: 0; transform: translateX(-38%) skewX(-8deg); }
             28% { opacity: 0.42; }
             70% { opacity: 0.14; }
             100% { opacity: 0; transform: translateX(42%) skewX(-8deg); }
+        }
+
+        @keyframes flower-ink-bloom {
+            0% {
+                opacity: 0;
+                filter: saturate(0.38) blur(1.6px);
+                transform: translate(-50%, -50%) rotate(calc(var(--flower-rotation, 0deg) - 12deg)) scale(0.28);
+            }
+            62% {
+                opacity: 0.78;
+                filter: saturate(1.03) blur(0.2px);
+                transform: translate(-50%, -50%) rotate(calc(var(--flower-rotation, 0deg) + 3deg)) scale(1.1);
+            }
+            100% {
+                opacity: 0.66;
+                filter: saturate(0.9) blur(0.35px);
+                transform: translate(-50%, -50%) rotate(var(--flower-rotation, 0deg)) scale(1);
+            }
         }
 
         @keyframes point-down {
@@ -1308,6 +1801,33 @@
             }
 
             .cursor-trace { display: none; }
+
+            .experience-sketch--hy .hy-generation,
+            .experience-sketch--hy .hy-branch,
+            .experience-sketch--hy .hy-return,
+            .experience-sketch--hy .hy-selection,
+            .experience-sketch--hy .hy-mutation,
+            .experience-sketch--hy .hy-reject {
+                animation: none !important;
+            }
+
+            .experience-sketch--hy .hy-parent,
+            .experience-sketch--hy .hy-child {
+                opacity: 0.78;
+                transform: none;
+            }
+
+            .experience-sketch--hy .hy-branch {
+                opacity: 0.48;
+                stroke-dashoffset: 0;
+            }
+
+            .experience-sketch--hy .hy-return,
+            .experience-sketch--hy .hy-selection,
+            .experience-sketch--hy .hy-mutation,
+            .experience-sketch--hy .hy-reject {
+                display: none;
+            }
         }
 
         @media (prefers-color-scheme: dark) {
@@ -1334,6 +1854,9 @@
             </defs>
             <path class="page-embrace-line" id="pageEmbracePath"></path>
             <path class="page-embrace-echo" id="pageEmbraceEcho"></path>
+            <path class="page-embrace-magnet-eraser" id="pageEmbraceMagnetEraser"></path>
+            <path class="page-embrace-magnet-echo" id="pageEmbraceMagnetEcho"></path>
+            <path class="page-embrace-magnet-line" id="pageEmbraceMagnetLine"></path>
         </svg>
 
         <header class="hero" aria-labelledby="page-title">
@@ -1372,6 +1895,24 @@
                         <img class="avatar" src="/adam_wenxin.svg" alt="" width="210" height="210">
                     </picture>
                     <span class="avatar-glimmer" aria-hidden="true"></span>
+                    <span class="avatar-color-blooms" aria-hidden="true">
+                        <span class="avatar-flower-ink" style="--flower-x:35%;--flower-y:39%;--flower-size:6.4%;--flower-color:#d85f73;--flower-rotation:-8deg;--flower-delay:100ms"></span>
+                        <span class="avatar-flower-ink" style="--flower-x:31%;--flower-y:45%;--flower-color:#e88868;--flower-rotation:7deg;--flower-delay:165ms"></span>
+                        <span class="avatar-flower-ink" style="--flower-x:40%;--flower-y:46%;--flower-color:#d4a844;--flower-rotation:-5deg;--flower-delay:230ms"></span>
+                        <span class="avatar-flower-ink" style="--flower-x:27%;--flower-y:51%;--flower-color:#d85f73;--flower-rotation:9deg;--flower-delay:295ms"></span>
+                        <span class="avatar-flower-ink" style="--flower-x:35%;--flower-y:52%;--flower-color:#6796bd;--flower-rotation:-7deg;--flower-delay:360ms"></span>
+                        <span class="avatar-flower-ink" style="--flower-x:43%;--flower-y:52%;--flower-color:#9a7fc3;--flower-rotation:6deg;--flower-delay:425ms"></span>
+                        <span class="avatar-flower-ink" style="--flower-x:31%;--flower-y:58%;--flower-size:6.8%;--flower-color:#d4a844;--flower-rotation:-9deg;--flower-delay:490ms"></span>
+                        <span class="avatar-flower-ink" style="--flower-x:39%;--flower-y:58%;--flower-color:#9a7fc3;--flower-rotation:8deg;--flower-delay:555ms"></span>
+                        <span class="avatar-flower-ink" style="--flower-x:47%;--flower-y:58%;--flower-size:6.6%;--flower-color:#6da087;--flower-rotation:-5deg;--flower-delay:620ms"></span>
+                        <span class="avatar-flower-ink" style="--flower-x:68%;--flower-y:66%;--flower-color:#6da087;--flower-rotation:7deg;--flower-delay:300ms"></span>
+                        <span class="avatar-flower-ink" style="--flower-x:76%;--flower-y:65%;--flower-color:#e88868;--flower-rotation:-8deg;--flower-delay:365ms"></span>
+                        <span class="avatar-flower-ink" style="--flower-x:82%;--flower-y:68%;--flower-size:6.8%;--flower-color:#6796bd;--flower-rotation:5deg;--flower-delay:430ms"></span>
+                        <span class="avatar-flower-ink" style="--flower-x:65%;--flower-y:73%;--flower-size:6.7%;--flower-color:#9a7fc3;--flower-rotation:-7deg;--flower-delay:495ms"></span>
+                        <span class="avatar-flower-ink" style="--flower-x:72%;--flower-y:72%;--flower-color:#d85f73;--flower-rotation:9deg;--flower-delay:560ms"></span>
+                        <span class="avatar-flower-ink" style="--flower-x:79%;--flower-y:73%;--flower-color:#d4a844;--flower-rotation:-6deg;--flower-delay:625ms"></span>
+                        <span class="avatar-flower-ink" style="--flower-x:85%;--flower-y:73%;--flower-size:6.2%;--flower-color:#6da087;--flower-rotation:8deg;--flower-delay:690ms"></span>
+                    </span>
                 </span>
             </button>
         </header>
@@ -1387,6 +1928,17 @@
                         <span class="experience-time">2021 — 2027</span>
                         <span class="experience-work">Chengdu Institute of Computer Applications, Chinese Academy of Sciences</span>
                         <span class="experience-supervisor">Supervisor · Xiaolin Qin</span>
+                        <svg class="experience-sketch" viewBox="0 0 92 60" aria-hidden="true" focusable="false">
+                            <path class="sketch-wash" d="M7 36C5 20 22 7 45 7c23 0 41 12 40 29-1 15-19 21-40 20C23 55 9 49 7 36Z"/>
+                            <path class="sketch-ink" d="M6 30 15 22l8 4 9-9 8 7 8-4 9 7 9-10 7 7 11-4"/>
+                            <path class="sketch-ink" d="M10 51V34h50v17H10Zm8-17v-5h51v22M10 40h50M18 45v6m8-6v6m8-6v6m8-6v6m8-6v6M65 35h13v16H60"/>
+                            <path class="sketch-ink" d="M58 51V14h10v37M58 18h10M61 28h4m-4 5h4m-4 5h4m-4 5h4"/>
+                            <circle class="sketch-ink" cx="63" cy="22" r="3.3"/>
+                            <g class="sketch-clock-hand">
+                                <path d="M63 22v-2.1M63 22l1.8 1"/>
+                            </g>
+                            <path class="sketch-route" d="M7 54h77"/>
+                        </svg>
                     </span>
                 </a>, focusing on
                 <em class="focus-link">Reinforcement Learning</em>
@@ -1402,6 +1954,41 @@
                         <span class="experience-role">Research Intern</span>
                         <span class="experience-time">Aug 2026 — Present</span>
                         <span class="experience-work">AI for AI</span>
+                        <svg class="experience-sketch experience-sketch--hy" viewBox="0 0 92 60" aria-hidden="true" focusable="false">
+                            <path class="sketch-wash" d="M8 33C7 17 24 7 45 7c24 0 40 12 39 28-1 15-19 21-40 20C23 54 9 48 8 33Z"/>
+                            <circle class="hy-field-dot" cx="14" cy="13" r="0.8"/>
+                            <circle class="hy-field-dot" cx="78" cy="13" r="0.8"/>
+                            <circle class="hy-field-dot" cx="14" cy="49" r="0.8"/>
+                            <circle class="hy-field-dot" cx="78" cy="49" r="0.8"/>
+
+                            <path class="hy-branch" d="M46 27C42 30 36 32 30 35m0 0 4-1m-4 1 2 3M50 27c4 3 10 5 16 8m0 0-4-1m4 1-2 3"/>
+                            <path class="hy-return" d="M75 39C85 24 77 8 57 9m0 0 4-2m-4 2 4 2"/>
+
+                            <g class="hy-generation hy-parent">
+                                <rect class="hy-cell" x="42" y="12" width="6" height="6" rx="1.45"/>
+                                <rect class="hy-cell hy-cell--soft" x="49" y="12" width="6" height="6" rx="1.45"/>
+                                <rect class="hy-cell hy-cell--soft" x="42" y="19" width="6" height="6" rx="1.45"/>
+                                <rect class="hy-cell" x="49" y="19" width="6" height="6" rx="1.45"/>
+                            </g>
+
+                            <g class="hy-generation hy-child hy-child--discard">
+                                <rect class="hy-cell hy-cell--soft" x="23" y="36" width="6" height="6" rx="1.45"/>
+                                <rect class="hy-cell" x="30" y="36" width="6" height="6" rx="1.45"/>
+                                <rect class="hy-cell" x="23" y="43" width="6" height="6" rx="1.45"/>
+                                <rect class="hy-cell hy-cell--soft" x="30" y="43" width="6" height="6" rx="1.45"/>
+                            </g>
+                            <path class="hy-reject" d="m20 35-4-4m0 4 4-4"/>
+
+                            <g class="hy-generation hy-child hy-child--winner">
+                                <rect class="hy-cell" x="59" y="36" width="6" height="6" rx="1.45"/>
+                                <rect class="hy-cell hy-cell--soft" x="66" y="36" width="6" height="6" rx="1.45"/>
+                                <rect class="hy-cell" x="59" y="43" width="6" height="6" rx="1.45"/>
+                                <rect class="hy-cell" x="66" y="43" width="6" height="6" rx="1.45"/>
+                                <rect class="hy-cell hy-cell--soft" x="73" y="36" width="6" height="6" rx="1.45"/>
+                            </g>
+                            <circle class="hy-selection" cx="68" cy="43" r="13"/>
+                            <path class="hy-mutation" d="M78 31v-3m0 9v-3m-5-2h3m4 0h3m-8-4 2 2m2 2 2 2m0-6-2 2m-2 2-2 2"/>
+                        </svg>
                     </span>
                 </a>, working on AI4AI 🧪. Previously, I interned at
                 <a class="entity-link entity-link--experience entity-zai" href="https://z.ai/" target="_blank" rel="noopener noreferrer" aria-describedby="zaiExperience">
@@ -1412,6 +1999,16 @@
                         <span class="experience-time">Jun 2025 — Aug 2026</span>
                         <span class="experience-place">Beijing · On-site</span>
                         <span class="experience-work">Reinforcement Learning for LLM Computer Use Agent</span>
+                        <svg class="experience-sketch" viewBox="0 0 92 60" aria-hidden="true" focusable="false">
+                            <path class="sketch-wash" d="M10 18C17 4 69 2 80 18c10 15 0 35-21 37-20 2-47-6-51-19-2-6-1-12 2-18Z"/>
+                            <rect class="sketch-ink" x="15" y="12" width="61" height="39" rx="7"/>
+                            <path class="sketch-ink" d="M15 21h61M21 17h1m5 0h1m5 0h1"/>
+                            <g class="sketch-cursor">
+                                <path class="sketch-ink" d="m41 28 4 16 4-6 7 5 3-4-7-5 6-4-17-2Z"/>
+                            </g>
+                            <path class="sketch-ink" d="M64 26v6m-3-3h6"/>
+                            <circle class="sketch-dot" cx="64" cy="29" r="2.2" style="--sketch-delay:520ms"/>
+                        </svg>
                     </span>
                 </a>,
                 <a class="entity-link entity-link--experience entity-liauto" href="https://www.liauto.com/" target="_blank" rel="noopener noreferrer" aria-describedby="liAutoExperience">
@@ -1422,6 +2019,18 @@
                         <span class="experience-time">Dec 2024 — Jun 2025</span>
                         <span class="experience-place">Shanghai · On-site</span>
                         <span class="experience-work">Reinforcement Learning for Large Language Model Reasoning</span>
+                        <svg class="experience-sketch" viewBox="0 0 92 60" aria-hidden="true" focusable="false">
+                            <path class="sketch-wash" d="M8 39C5 22 21 8 42 7c21-1 42 8 43 23 2 17-20 27-40 26C26 55 10 49 8 39Z"/>
+                            <path class="sketch-ink" d="M14 42c8-2 10-17 21-18 11-1 11 14 22 13 10-1 10-16 21-17"/>
+                            <path class="sketch-ink" d="m72 15 6 5-6 5"/>
+                            <circle class="sketch-ink" cx="16" cy="42" r="4"/>
+                            <circle class="sketch-ink" cx="35" cy="24" r="4"/>
+                            <circle class="sketch-ink" cx="57" cy="37" r="4"/>
+                            <circle class="sketch-dot" cx="16" cy="42" r="2" style="--sketch-delay:310ms"/>
+                            <circle class="sketch-dot" cx="35" cy="24" r="2" style="--sketch-delay:400ms"/>
+                            <circle class="sketch-dot" cx="57" cy="37" r="2" style="--sketch-delay:490ms"/>
+                            <circle class="sketch-dot" cx="78" cy="20" r="2" style="--sketch-delay:580ms"/>
+                        </svg>
                     </span>
                 </a>,
                 <a class="entity-link entity-link--experience entity-sensetime" href="https://www.sensetime.com/en/" target="_blank" rel="noopener noreferrer" aria-describedby="senseTimeExperience">
@@ -1432,6 +2041,15 @@
                         <span class="experience-time">Aug 2024 — Nov 2024</span>
                         <span class="experience-place">Shanghai · On-site</span>
                         <span class="experience-work">Deep Reinforcement Learning for End-to-End Autonomous Driving</span>
+                        <svg class="experience-sketch" viewBox="0 0 92 60" aria-hidden="true" focusable="false">
+                            <path class="sketch-wash" d="M9 37C6 21 25 7 47 8c22 1 37 14 35 29-2 16-18 20-38 19C24 55 11 49 9 37Z"/>
+                            <path class="sketch-scan" d="M30 30c4-8 12-12 20-12s16 4 20 12M36 31c3-5 8-8 14-8s11 3 14 8"/>
+                            <path class="sketch-ink" d="M25 38h5l5-8h29l6 8h5v10H25V38Zm10-8 4 8h21l-4-8"/>
+                            <circle class="sketch-ink" cx="35" cy="48" r="4"/>
+                            <circle class="sketch-ink" cx="65" cy="48" r="4"/>
+                            <path class="sketch-route" d="M13 54h67"/>
+                            <circle class="sketch-dot" cx="50" cy="14" r="2" style="--sketch-delay:430ms"/>
+                        </svg>
                     </span>
                 </a>
                 and
@@ -1443,6 +2061,16 @@
                         <span class="experience-time">Apr 2024 — Aug 2024</span>
                         <span class="experience-place">Shanghai · On-site</span>
                         <span class="experience-work">Deep Reinforcement Learning for Autonomous Driving</span>
+                        <svg class="experience-sketch" viewBox="0 0 92 60" aria-hidden="true" focusable="false">
+                            <path class="sketch-wash" d="M8 35C7 17 23 7 46 7s39 12 38 28c-1 15-18 22-39 21C23 55 9 49 8 35Z"/>
+                            <path class="sketch-route" d="M13 17c13-9 28 8 41-1 8-5 16-5 24 0"/>
+                            <path class="sketch-ink" d="M15 29h38v19H15V29Zm38 7h14l9 8v4H53V36Zm6 1v7h12"/>
+                            <circle class="sketch-ink" cx="27" cy="49" r="5"/>
+                            <circle class="sketch-ink" cx="65" cy="49" r="5"/>
+                            <path class="sketch-ink" d="M19 34h25m-25 6h18"/>
+                            <circle class="sketch-dot" cx="14" cy="17" r="2" style="--sketch-delay:340ms"/>
+                            <circle class="sketch-dot" cx="78" cy="16" r="2" style="--sketch-delay:520ms"/>
+                        </svg>
                     </span>
                 </a>.
             </p>
@@ -1689,8 +2317,156 @@
         const pageEmbrace = document.getElementById('pageEmbrace');
         const pageEmbracePath = document.getElementById('pageEmbracePath');
         const pageEmbraceEcho = document.getElementById('pageEmbraceEcho');
+        const pageEmbraceMagnetEraser = document.getElementById('pageEmbraceMagnetEraser');
+        const pageEmbraceMagnetEcho = document.getElementById('pageEmbraceMagnetEcho');
+        const pageEmbraceMagnetLine = document.getElementById('pageEmbraceMagnetLine');
+        let magnetFrame = 0;
+        let magnetPointerX = -1000;
+        let magnetPointerY = -1000;
+
+        function hideMagnetInk() {
+            pageEmbraceMagnetEraser.style.opacity = '0';
+            pageEmbraceMagnetEcho.style.opacity = '0';
+            pageEmbraceMagnetLine.style.opacity = '0';
+        }
+
+        function smoothPathThrough(points) {
+            if (points.length < 3) return '';
+            const parts = [`M ${points[0].x.toFixed(2)} ${points[0].y.toFixed(2)}`];
+
+            for (let index = 1; index < points.length - 1; index += 1) {
+                const point = points[index];
+                const next = points[index + 1];
+                const midX = (point.x + next.x) / 2;
+                const midY = (point.y + next.y) / 2;
+                parts.push(`Q ${point.x.toFixed(2)} ${point.y.toFixed(2)} ${midX.toFixed(2)} ${midY.toFixed(2)}`);
+            }
+
+            const last = points[points.length - 1];
+            parts.push(`L ${last.x.toFixed(2)} ${last.y.toFixed(2)}`);
+            return parts.join(' ');
+        }
+
+        function renderMagnetInk() {
+            magnetFrame = 0;
+            if (!finePointer.matches || reducedMotion || !pageEmbracePath.getAttribute('d')) {
+                hideMagnetInk();
+                return;
+            }
+
+            const pageRect = page.getBoundingClientRect();
+            const pointer = {
+                x: magnetPointerX - pageRect.left,
+                y: magnetPointerY - pageRect.top
+            };
+            const compact = pageRect.width <= 640;
+            const reach = compact ? 68 : 104;
+
+            if (
+                pointer.x < -reach || pointer.x > pageRect.width + reach ||
+                pointer.y < -reach || pointer.y > pageRect.height + reach
+            ) {
+                hideMagnetInk();
+                return;
+            }
+
+            let totalLength;
+            try {
+                totalLength = pageEmbracePath.getTotalLength();
+            } catch (error) {
+                hideMagnetInk();
+                return;
+            }
+
+            const samples = Math.max(72, Math.min(144, Math.ceil(totalLength / 38)));
+            let nearestLength = 0;
+            let nearestPoint = pageEmbracePath.getPointAtLength(0);
+            let nearestDistanceSquared = Number.POSITIVE_INFINITY;
+
+            for (let index = 0; index <= samples; index += 1) {
+                const length = totalLength * index / samples;
+                const point = pageEmbracePath.getPointAtLength(length);
+                const dx = pointer.x - point.x;
+                const dy = pointer.y - point.y;
+                const distanceSquared = dx * dx + dy * dy;
+                if (distanceSquared < nearestDistanceSquared) {
+                    nearestDistanceSquared = distanceSquared;
+                    nearestLength = length;
+                    nearestPoint = point;
+                }
+            }
+
+            let refinement = totalLength / samples;
+            for (let pass = 0; pass < 7; pass += 1) {
+                refinement *= 0.5;
+                [-1, 1].forEach((direction) => {
+                    const length = Math.max(0, Math.min(totalLength, nearestLength + refinement * direction));
+                    const point = pageEmbracePath.getPointAtLength(length);
+                    const dx = pointer.x - point.x;
+                    const dy = pointer.y - point.y;
+                    const distanceSquared = dx * dx + dy * dy;
+                    if (distanceSquared < nearestDistanceSquared) {
+                        nearestDistanceSquared = distanceSquared;
+                        nearestLength = length;
+                        nearestPoint = point;
+                    }
+                });
+            }
+
+            const distance = Math.sqrt(nearestDistanceSquared);
+            if (distance >= reach) {
+                hideMagnetInk();
+                return;
+            }
+
+            const strength = Math.pow(1 - distance / reach, 1.35);
+            const directionX = distance > 0.1 ? (pointer.x - nearestPoint.x) / distance : 0;
+            const directionY = distance > 0.1 ? (pointer.y - nearestPoint.y) / distance : 0;
+            const pull = Math.min(distance * 0.5, compact ? 15 : 27) * strength;
+            const halfSegment = (compact ? 34 : 58) + strength * (compact ? 12 : 20);
+            const segmentStart = Math.max(0, nearestLength - halfSegment);
+            const segmentEnd = Math.min(totalLength, nearestLength + halfSegment);
+            const originalPoints = [];
+            const pulledPoints = [];
+            const pointCount = 13;
+
+            for (let index = 0; index < pointCount; index += 1) {
+                const progress = index / (pointCount - 1);
+                const length = segmentStart + (segmentEnd - segmentStart) * progress;
+                const point = pageEmbracePath.getPointAtLength(length);
+                const localWeight = Math.sin(Math.PI * progress) ** 1.7;
+                originalPoints.push({ x: point.x, y: point.y });
+                pulledPoints.push({
+                    x: point.x + directionX * pull * localWeight,
+                    y: point.y + directionY * pull * localWeight
+                });
+            }
+
+            const originalPath = smoothPathThrough(originalPoints);
+            const pulledPath = smoothPathThrough(pulledPoints);
+            pageEmbraceMagnetEraser.setAttribute('d', originalPath);
+            pageEmbraceMagnetEcho.setAttribute('d', pulledPath);
+            pageEmbraceMagnetLine.setAttribute('d', pulledPath);
+            pageEmbraceMagnetEraser.style.opacity = String(Math.min(1, 0.45 + strength * 0.9));
+            pageEmbraceMagnetEcho.style.opacity = String(0.08 + strength * 0.18);
+            pageEmbraceMagnetLine.style.opacity = String(0.28 + strength * 0.72);
+        }
+
+        if (finePointer.matches && !reducedMotion) {
+            document.addEventListener('pointermove', (event) => {
+                if (event.pointerType && event.pointerType !== 'mouse') return;
+                magnetPointerX = event.clientX;
+                magnetPointerY = event.clientY;
+                if (!magnetFrame) magnetFrame = window.requestAnimationFrame(renderMagnetInk);
+            }, { passive: true });
+
+            window.addEventListener('mouseout', (event) => {
+                if (!event.relatedTarget) hideMagnetInk();
+            });
+        }
 
         function updatePageEmbrace() {
+            hideMagnetInk();
             const pageRect = page.getBoundingClientRect();
             const avatarRect = avatarButton.getBoundingClientRect();
             const width = pageRect.width;
@@ -1793,10 +2569,55 @@
         if (!reducedMotion) window.setInterval(nextResearchEmoji, 1800);
 
         const satelliteButton = document.getElementById('satelliteButton');
+        let signalTimers = [];
+
+        function clearSatelliteSignal() {
+            signalTimers.forEach((timer) => window.clearTimeout(timer));
+            signalTimers = [];
+            document.querySelector('.signal-burst')?.remove();
+            document.querySelectorAll('.social-link.is-receiving').forEach((link) => {
+                link.classList.remove('is-receiving');
+            });
+        }
+
+        function launchSatelliteSignal() {
+            clearSatelliteSignal();
+            const rect = satelliteButton.getBoundingClientRect();
+            const signalBurst = document.createElement('span');
+            signalBurst.className = 'signal-burst';
+            signalBurst.setAttribute('aria-hidden', 'true');
+            signalBurst.style.left = `${rect.left + rect.width * 0.58}px`;
+            signalBurst.style.top = `${rect.top + rect.height * 0.42}px`;
+
+            for (let index = 0; index < 3; index += 1) {
+                const wave = document.createElement('span');
+                wave.className = 'signal-wave';
+                wave.style.setProperty('--signal-delay', `${index * 120}ms`);
+                signalBurst.appendChild(wave);
+            }
+
+            document.body.appendChild(signalBurst);
+
+            document.querySelectorAll('.social-link').forEach((link, index) => {
+                const receiveTimer = window.setTimeout(() => {
+                    link.classList.add('is-receiving');
+                    const releaseTimer = window.setTimeout(() => {
+                        link.classList.remove('is-receiving');
+                    }, reducedMotion ? 80 : 660);
+                    signalTimers.push(releaseTimer);
+                }, reducedMotion ? 0 : 170 + index * 74);
+                signalTimers.push(receiveTimer);
+            });
+
+            const cleanupTimer = window.setTimeout(() => signalBurst.remove(), reducedMotion ? 80 : 1480);
+            signalTimers.push(cleanupTimer);
+        }
+
         satelliteButton.addEventListener('click', () => {
             satelliteButton.classList.remove('is-orbiting');
             void satelliteButton.offsetWidth;
             satelliteButton.classList.add('is-orbiting');
+            launchSatelliteSignal();
             window.setTimeout(() => satelliteButton.classList.remove('is-orbiting'), 950);
         });
 
