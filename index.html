@@ -9,6 +9,7 @@
     <title>Yanxiao Zhao · sdpkjc</title>
 
     <link rel="preload" href="/SmileySans-Oblique.ttf.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/Monaspace-Krypton-Variable.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="icon" href="/adam.svg" media="(prefers-color-scheme: light)">
     <link rel="icon" href="/adam_dark.svg" media="(prefers-color-scheme: dark)">
     <link rel="apple-touch-icon" href="/adam.svg">
@@ -22,6 +23,33 @@
             font-display: swap;
         }
 
+        @font-face {
+            font-family: "Krypton Robot";
+            src: url("/assets/fonts/Monaspace-Krypton-Variable.woff2") format("woff2-variations");
+            font-style: oblique -11deg 0deg;
+            font-weight: 200 800;
+            font-stretch: 100% 125%;
+            font-display: swap;
+        }
+
+        @property --ai4ai-x {
+            syntax: "<number>";
+            inherits: true;
+            initial-value: 0.36;
+        }
+
+        @property --ai4ai-y {
+            syntax: "<number>";
+            inherits: true;
+            initial-value: 0.42;
+        }
+
+        @property --ai4ai-energy {
+            syntax: "<number>";
+            inherits: true;
+            initial-value: 0.16;
+        }
+
         :root {
             color-scheme: light dark;
             --bg: #ffffff;
@@ -32,6 +60,9 @@
             --surface: rgba(255, 255, 255, 0.94);
             --selection: rgba(201, 63, 73, 0.18);
             --portrait-ink: #000000;
+            --ai4ai-x: 0.36;
+            --ai4ai-y: 0.42;
+            --ai4ai-energy: 0.16;
         }
 
         @media (prefers-color-scheme: dark) {
@@ -60,7 +91,22 @@
             margin: 0;
             background: var(--bg);
             color: var(--text);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            font-family: "Krypton Robot", "Smiley Sans", ui-monospace, SFMono-Regular, Menlo, monospace;
+            font-weight: 440;
+            font-variation-settings: "wght" 440, "wdth" 100, "slnt" 0;
+            font-feature-settings:
+                "calt" 1,
+                "liga" 1,
+                "ss01" 1,
+                "ss03" 1,
+                "ss04" 1,
+                "ss06" 1,
+                "ss09" 1,
+                "cv01" 4,
+                "cv31" 1;
+            font-kerning: none;
+            font-synthesis: none;
+            letter-spacing: -0.03em;
             -webkit-font-smoothing: antialiased;
             text-rendering: optimizeLegibility;
         }
@@ -102,14 +148,7 @@
         }
 
         .page-embrace {
-            position: absolute;
-            inset: 0;
-            z-index: 1;
-            width: 100%;
-            height: 100%;
-            overflow: visible;
-            color: var(--portrait-ink);
-            pointer-events: none;
+            display: none;
         }
 
         .page-embrace path {
@@ -187,9 +226,9 @@
 
         .hero {
             display: grid;
-            grid-template-columns: minmax(0, 1fr) clamp(132px, 20vw, 210px);
-            gap: clamp(20px, 6vw, 72px);
-            align-items: start;
+            grid-template-columns: minmax(0, 1fr) clamp(112px, 16vw, 168px);
+            gap: clamp(18px, 4vw, 44px);
+            align-items: center;
         }
 
         .hero-copy {
@@ -202,9 +241,47 @@
             align-items: center;
             gap: 0.22em;
             margin: 0 0 0.08em;
-            font-family: "Smiley Sans", sans-serif;
-            font-size: clamp(2.3rem, 5.4vw, 4rem);
-            line-height: 1;
+            font-family: "Krypton Robot", "Smiley Sans", ui-monospace, monospace;
+            font-size: clamp(1.35rem, 2.62vw, 2rem);
+            font-weight: 535;
+            font-variation-settings:
+                "wght" calc(530 + var(--ai4ai-energy) * 30),
+                "wdth" 100,
+                "slnt" 0;
+            letter-spacing: -0.045em;
+            line-height: 1.48;
+        }
+
+        .hello,
+        .name,
+        .story-line,
+        .contact-intro,
+        .social-link {
+            font-kerning: none;
+            font-variant-ligatures: common-ligatures contextual;
+        }
+
+        #greeting {
+            position: relative;
+            display: inline-block;
+            transform-origin: 18% 62%;
+            transition:
+                color 260ms ease,
+                font-variation-settings 540ms cubic-bezier(.16, 1, .3, 1);
+        }
+
+        #greeting::after {
+            display: none;
+        }
+
+        #greeting.is-iterating {
+            animation: itera-greeting-resolve 720ms cubic-bezier(.16, 1, .3, 1);
+        }
+
+        #greeting.is-iterating::after {
+            animation:
+                greeting-cursor-compile 720ms cubic-bezier(.16, 1, .3, 1),
+                greeting-code-cursor 1.15s steps(1, end) 720ms infinite;
         }
 
         .wave-button,
@@ -221,8 +298,10 @@
         .wave-button {
             display: inline-grid;
             place-items: center;
+            font-size: 1.25em;
+            line-height: 1;
             transform-origin: 70% 75%;
-            animation: wave 1.8s ease-in-out infinite;
+            animation: wave 3.8s ease-in-out infinite;
         }
 
         .wave-button.is-popping {
@@ -231,16 +310,329 @@
 
         .name {
             margin: 0;
+            font-family: "Krypton Robot", "Smiley Sans", ui-monospace, monospace;
+            font-size: clamp(1.35rem, 2.62vw, 2rem);
+            font-weight: 535;
+            font-variation-settings:
+                "wght" calc(530 + var(--ai4ai-energy) * 30),
+                "wdth" 100,
+                "slnt" 0;
+            letter-spacing: -0.045em;
+            line-height: 1.48;
+        }
+
+        .name-identity--chinese {
             font-family: "Smiley Sans", sans-serif;
-            font-size: clamp(2.7rem, 7vw, 4.75rem);
             font-weight: 520;
             letter-spacing: -0.035em;
-            line-height: 1.08;
+        }
+
+        .name-identity--adam,
+        .name-identity--handle {
+            font-variation-settings: "wght" 650, "wdth" 100, "slnt" -2;
+        }
+
+        .itera-token {
+            position: relative;
+            display: inline-grid;
+            grid-template-columns: max-content max-content max-content;
+            column-gap: 0.04em;
+            align-items: baseline;
+            isolation: isolate;
+            width: 3.1em;
+            min-width: 3.1em;
+            padding: 0 0.035em 0.1em;
+            font-family: "Krypton Robot", ui-monospace, monospace;
+            font-weight: 620;
+            letter-spacing: 0;
+            line-height: 1;
+            vertical-align: -0.02em;
+            cursor: pointer;
+        }
+
+        .itera-token > span {
+            display: inline-block;
+            min-width: 0;
+            color: inherit;
+            line-height: 1;
+            transform-origin: 50% 76%;
+            will-change: font-variation-settings, color, opacity, transform;
+        }
+
+        .itera-token::before {
+            content: "";
+            position: absolute;
+            right: 0.08em;
+            bottom: -0.035em;
+            left: 0.08em;
+            height: max(1px, 0.028em);
+            border-radius: 1px;
+            background: repeating-linear-gradient(
+                90deg,
+                color-mix(in srgb, var(--accent) 64%, transparent) 0 3px,
+                transparent 3px 7px
+            );
+            opacity: 0.52;
+            pointer-events: none;
+        }
+
+        .itera-token::after {
+            content: "";
+            position: absolute;
+            bottom: calc(-0.035em - 2px);
+            left: 0.08em;
+            width: max(4px, 0.1em);
+            aspect-ratio: 1;
+            border-radius: 1px;
+            background: var(--accent);
+            box-shadow: 0 0 0 2px color-mix(in srgb, var(--bg) 72%, transparent);
+            opacity: 0.78;
+            pointer-events: none;
+            animation: ai4ai-feedback-dot 5.8s cubic-bezier(.42, 0, .2, 1) infinite;
+        }
+
+        .ai4ai-source {
+            font-variation-settings: "wght" 700, "wdth" 100, "slnt" -7;
+            animation: ai4ai-source-generation 5.8s cubic-bezier(.42, 0, .2, 1) infinite;
+        }
+
+        .ai4ai-operator {
+            position: relative;
+            padding: 0 0.01em;
+            color: var(--accent) !important;
+            font-variation-settings: "wght" 520, "wdth" 100, "slnt" 0;
+            animation: ai4ai-operator-generation 5.8s cubic-bezier(.42, 0, .2, 1) infinite;
+        }
+
+        .ai4ai-operator::before {
+            content: "";
+            position: absolute;
+            top: 0.56em;
+            left: -0.14em;
+            width: calc(100% + 0.28em);
+            height: max(1px, 0.028em);
+            border-radius: 1px;
+            background: currentColor;
+            opacity: 0.58;
+            transform: scaleX(0.7);
+            animation: ai4ai-shared-stem 5.8s cubic-bezier(.42, 0, .2, 1) infinite;
+            pointer-events: none;
+        }
+
+        .ai4ai-operator::after {
+            content: "";
+            position: absolute;
+            top: 0.04em;
+            left: 50%;
+            width: 0.62em;
+            height: 0.62em;
+            border: max(1px, 0.025em) solid currentColor;
+            border-left-color: transparent;
+            border-radius: 2px;
+            opacity: 0;
+            transform: translateX(-50%) rotate(-24deg) scale(0.72);
+            animation: ai4ai-recursive-ring 5.8s cubic-bezier(.42, 0, .2, 1) infinite;
+            pointer-events: none;
+        }
+
+        .ai4ai-target {
+            position: relative;
+            font-variation-settings: "wght" 360, "wdth" 100, "slnt" 0;
+            animation: ai4ai-target-generation 5.8s cubic-bezier(.42, 0, .2, 1) infinite;
+        }
+
+        .ai4ai-target::after {
+            content: "";
+            position: absolute;
+            top: 0.04em;
+            right: -0.03em;
+            width: max(2px, 0.055em);
+            aspect-ratio: 1;
+            border-radius: 1px;
+            background: currentColor;
+            box-shadow:
+                -0.12em 0.08em 0 currentColor,
+                0.08em 0.14em 0 currentColor,
+                -0.04em 0.24em 0 currentColor;
+            opacity: 0.68;
+            transform: scale(1);
+            animation: ai4ai-pixel-cluster 5.8s steps(8, end) infinite;
+            pointer-events: none;
+        }
+
+        .itera-token:hover,
+        .itera-token:focus-visible {
+            outline: none;
+        }
+
+        .itera-token:focus-visible {
+            border-radius: 0.08em;
+            box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 44%, transparent);
+        }
+
+        .itera-token:hover > span,
+        .itera-token:focus-visible > span,
+        .itera-token:hover .ai4ai-operator::before,
+        .itera-token:hover .ai4ai-operator::after,
+        .itera-token:hover .ai4ai-target::after,
+        .itera-token:focus-visible .ai4ai-operator::before,
+        .itera-token:focus-visible .ai4ai-operator::after,
+        .itera-token:focus-visible .ai4ai-target::after,
+        .itera-token:hover::after,
+        .itera-token:focus-visible::after {
+            animation-duration: 2.9s;
+        }
+
+        @keyframes itera-greeting-resolve {
+            0% {
+                font-variation-settings: "wght" 460, "wdth" 100, "slnt" 0;
+                letter-spacing: 0.02em;
+            }
+            44% {
+                font-variation-settings: "wght" 780, "wdth" 100, "slnt" -5;
+            }
+            100% {
+                font-variation-settings: "wght" 720, "wdth" 100, "slnt" -2;
+                letter-spacing: inherit;
+            }
+        }
+
+        @keyframes ai4ai-source-generation {
+            0%, 100% {
+                color: inherit;
+                opacity: 1;
+                transform: translateY(0);
+                font-variation-settings: "wght" 700, "wdth" 100, "slnt" -7;
+            }
+            22% {
+                color: inherit;
+                font-variation-settings: "wght" 620, "wdth" 100, "slnt" -3;
+            }
+            38%, 58% {
+                color: var(--muted);
+                opacity: 0.72;
+                transform: translateY(0.015em);
+                font-variation-settings: "wght" 480, "wdth" 100, "slnt" 0;
+            }
+            78% {
+                color: var(--accent);
+                opacity: 1;
+                transform: translateY(-0.01em);
+                font-variation-settings: "wght" 760, "wdth" 100, "slnt" -10;
+            }
+        }
+
+        @keyframes ai4ai-operator-generation {
+            0%, 18%, 100% {
+                opacity: 0.55;
+                transform: translateY(0) scale(0.94);
+                font-variation-settings: "wght" 520, "wdth" 100, "slnt" 0;
+            }
+            36%, 62% {
+                opacity: 1;
+                transform: translateY(-0.015em) scale(1.035);
+                font-variation-settings: "wght" 800, "wdth" 100, "slnt" -4;
+            }
+            80% {
+                opacity: 0.74;
+                transform: translateY(0) scale(1);
+                font-variation-settings: "wght" 680, "wdth" 100, "slnt" -9;
+            }
+        }
+
+        @keyframes ai4ai-target-generation {
+            0%, 16%, 100% {
+                color: var(--muted);
+                opacity: 0.34;
+                transform: translateY(0.02em) scale(0.97);
+                font-variation-settings: "wght" 360, "wdth" 100, "slnt" 0;
+            }
+            36% {
+                color: inherit;
+                opacity: 0.68;
+                transform: translateY(0) scale(1);
+                font-variation-settings: "wght" 540, "wdth" 100, "slnt" -2;
+            }
+            58%, 76% {
+                color: var(--accent);
+                opacity: 1;
+                transform: translateY(-0.01em) scale(1.015);
+                font-variation-settings: "wght" 790, "wdth" 100, "slnt" -11;
+            }
+            88% {
+                color: inherit;
+                opacity: 0.72;
+                transform: translateY(0);
+                font-variation-settings: "wght" 600, "wdth" 100, "slnt" -6;
+            }
+        }
+
+        @keyframes ai4ai-feedback-dot {
+            0%, 10%, 100% { left: 0.08em; opacity: 0.22; transform: scale(0.65); }
+            42% { left: calc(100% - 0.2em); opacity: 1; transform: scale(1); }
+            62% { left: calc(100% - 0.2em); opacity: 0.42; transform: scale(0.72); }
+            88% { left: 0.08em; opacity: 0.92; transform: scale(0.9); }
+        }
+
+        @keyframes ai4ai-shared-stem {
+            0%, 18%, 100% { opacity: 0.22; transform: scaleX(0.38); }
+            38%, 64% { opacity: 0.82; transform: scaleX(1); }
+            82% { opacity: 0.5; transform: scaleX(0.68); }
+        }
+
+        @keyframes ai4ai-recursive-ring {
+            0%, 22%, 100% { opacity: 0; transform: translateX(-50%) rotate(-24deg) scale(0.72); }
+            42% { opacity: 0.42; transform: translateX(-50%) rotate(72deg) scale(1); }
+            68% { opacity: 0.72; transform: translateX(-50%) rotate(242deg) scale(0.86); }
+            84% { opacity: 0; transform: translateX(-50%) rotate(338deg) scale(0.64); }
+        }
+
+        @keyframes ai4ai-pixel-cluster {
+            0%, 18%, 100% { opacity: 0.72; transform: translate(0, 0) scale(1); }
+            34% { opacity: 0.9; transform: translate(-0.04em, 0.04em) scale(1.12); }
+            54% { opacity: 0.42; transform: translate(-0.08em, 0.1em) scale(0.78); }
+            66%, 84% { opacity: 0; transform: translate(-0.1em, 0.14em) scale(0.42); }
+        }
+
+        @keyframes greeting-code-cursor {
+            0%, 48% { opacity: 0.78; }
+            49%, 100% { opacity: 0.16; }
+        }
+
+        @keyframes greeting-cursor-compile {
+            0% {
+                opacity: 0;
+                transform: translateY(-0.24em) scaleY(0.15);
+                box-shadow: 0 0 0 transparent;
+            }
+            45% {
+                opacity: 0.92;
+                transform: translateY(0.05em) scaleY(1.08);
+                box-shadow:
+                    -0.15em 0.08em 0 color-mix(in srgb, var(--accent) 62%, transparent),
+                    0 -0.13em 0 color-mix(in srgb, var(--accent) 36%, transparent);
+            }
+            100% {
+                opacity: 0.72;
+                transform: none;
+                box-shadow: 0 -0.12em 0 color-mix(in srgb, var(--accent) 34%, transparent);
+            }
         }
 
         @media (min-width: 641px) {
+            .hero {
+                grid-template-columns: minmax(0, 1fr) clamp(116px, 12vw, 132px);
+                justify-content: normal;
+                gap: clamp(24px, 4vw, 48px);
+                align-items: start;
+            }
+
             .name {
                 white-space: nowrap;
+            }
+
+            .avatar-button {
+                transform: rotate(0.001deg);
             }
         }
 
@@ -256,6 +648,11 @@
         .name-alias:hover,
         .name-alias:focus-within {
             z-index: 30;
+        }
+
+        .name-alias:hover .name-trigger,
+        .name-alias:focus-within .name-trigger {
+            font-variation-settings: "wght" 760, "wdth" 100, "slnt" -6;
         }
 
         .hero:has(.name-alias:hover, .name-alias:focus-within) {
@@ -275,7 +672,9 @@
             letter-spacing: inherit;
             line-height: inherit;
             text-align: left;
-            cursor: help;
+            cursor: default;
+            font-variation-settings: inherit;
+            transition: font-variation-settings 680ms cubic-bezier(.16, 1, .3, 1);
         }
 
         .name-identity-stage {
@@ -297,28 +696,262 @@
             transform: translateY(0);
         }
 
-        .name-alias:hover .name-identity--primary,
-        .name-alias:focus-within .name-identity--primary {
-            animation: name-primary-cycle 5.6s ease-in-out infinite both;
+        .name-word {
+            position: relative;
+            display: inline-block;
+            isolation: isolate;
+            white-space: nowrap;
         }
 
-        .name-alias:hover .name-identity--chinese,
-        .name-alias:focus-within .name-identity--chinese {
-            animation: name-chinese-cycle 5.6s ease-in-out infinite both;
+        .name-word + .name-word {
+            margin-left: 0.18em;
         }
 
-        .name-alias:hover .name-identity--adam,
-        .name-alias:focus-within .name-identity--adam {
-            animation: name-adam-cycle 5.6s ease-in-out infinite both;
+        .name-ligature-ink {
+            position: absolute;
+            top: 0.02em;
+            left: -0.025em;
+            z-index: 1;
+            width: calc(100% + 0.05em);
+            height: 0.96em;
+            overflow: visible;
+            color: currentColor;
+            opacity: 0.62;
+            pointer-events: none;
+            transform: translateY(0.18em);
         }
 
-        .name-alias:hover .name-identity--handle,
-        .name-alias:focus-within .name-identity--handle {
-            animation: name-handle-cycle 5.6s ease-in-out infinite both;
+        .name-ligature-ink path {
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.65;
+            stroke-linecap: square;
+            stroke-linejoin: miter;
+            stroke-dasharray: none;
+            stroke-dashoffset: 0;
+            vector-effect: non-scaling-stroke;
         }
 
-        .name-trigger:focus-visible {
-            outline: none;
+        .name-ligature-ink .name-code-pulse {
+            stroke: var(--accent);
+            stroke-width: 2.25;
+            stroke-dasharray: 0.075 0.925;
+            stroke-dashoffset: 1;
+            opacity: 0.72;
+            animation: name-code-pulse 4.6s steps(12, end) var(--ink-delay, 0ms) infinite;
+        }
+
+        .name-code-node {
+            fill: var(--bg);
+            stroke: var(--accent);
+            stroke-width: 1.35;
+            vector-effect: non-scaling-stroke;
+        }
+
+        .robot-glyph {
+            --sensor-x: 52%;
+            --sensor-y: 50%;
+            --foot-x: 50%;
+            position: relative;
+            z-index: 2;
+            display: inline-block;
+            width: 0.595em;
+            text-align: center;
+            transform-origin: 50% 88%;
+            font-variation-settings: "wght" 690, "wdth" 100, "slnt" -3;
+            will-change: transform, font-variation-settings;
+            animation:
+                robot-glyph-boot 880ms cubic-bezier(.18, .86, .22, 1.22) var(--robot-delay, 0ms) both,
+                robot-glyph-compile 5.8s cubic-bezier(.42, 0, .2, 1) var(--robot-phase, 0s) infinite;
+        }
+
+        .robot-glyph::before {
+            content: "";
+            position: absolute;
+            bottom: 0.065em;
+            left: var(--foot-x);
+            width: 0.15em;
+            height: max(1px, 0.025em);
+            border-radius: 1px;
+            background: currentColor;
+            opacity: 0.2;
+            transform: translateX(-50%);
+            pointer-events: none;
+        }
+
+        .robot-glyph::after {
+            content: "";
+            position: absolute;
+            top: var(--sensor-y);
+            left: var(--sensor-x);
+            width: max(2px, 0.058em);
+            aspect-ratio: 1;
+            border-radius: 1px;
+            background: var(--text);
+            box-shadow: 0 0 0 0.018em var(--bg);
+            opacity: 0.3;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            animation: robot-sensor-scan 5.8s steps(1, end) var(--sensor-phase, 0s) infinite;
+        }
+
+        .robot-glyph--branch { --sensor-x: 51%; --sensor-y: 42%; --foot-x: 55%; }
+        .robot-glyph--joint { --sensor-x: 51%; --sensor-y: 55%; --foot-x: 46%; }
+        .robot-glyph--counter { --sensor-x: 55%; --sensor-y: 51%; --foot-x: 54%; }
+        .robot-glyph--diagonal { --sensor-x: 52%; --sensor-y: 51%; --foot-x: 45%; }
+
+        /* A few letters get distinct hardware, so the word feels like a cast of
+           small machines rather than one effect stamped eleven times. */
+        .robot-glyph--hero-y::after {
+            --sensor-x: 49%;
+            --sensor-y: 35%;
+            width: max(3px, 0.074em);
+            background: var(--bg);
+            border: max(1px, 0.018em) solid currentColor;
+            box-shadow: 0 0 0 0 var(--accent-soft);
+            animation: robot-antenna-signal 4.8s steps(1, end) 1.05s infinite;
+        }
+
+        .robot-glyph--hero-x::after {
+            --sensor-x: 50%;
+            --sensor-y: 55%;
+            width: max(3px, 0.07em);
+            border-radius: 0;
+            background: var(--accent);
+            transform: translate(-50%, -50%) rotate(45deg);
+            animation: robot-joint-pivot 3.9s cubic-bezier(.16, 1, .3, 1) 1.2s infinite;
+        }
+
+        .robot-glyph--hero-z::after {
+            --sensor-x: 51%;
+            --sensor-y: 52%;
+            width: 0.15em;
+            height: max(2px, 0.025em);
+            aspect-ratio: auto;
+            border-radius: 0;
+            background: linear-gradient(90deg, currentColor 0 48%, var(--accent) 48% 100%);
+            transform: translate(-50%, -50%) rotate(-36deg);
+            animation: robot-diagonal-scan 4.4s steps(5, end) 1.35s infinite;
+        }
+
+        .robot-glyph--hero-o::after {
+            --sensor-x: 53%;
+            --sensor-y: 55%;
+            width: max(4px, 0.105em);
+            border: max(1px, 0.016em) solid currentColor;
+            border-radius: 50%;
+            background: var(--bg);
+            box-shadow: inset 0 0 0 max(1px, 0.016em) var(--accent-soft);
+            animation: robot-lens-focus 5.2s steps(1, end) 1.55s infinite;
+        }
+
+        .robot-glyph--cursor {
+            --sensor-x: 50%;
+            --sensor-y: 8%;
+            --foot-x: 52%;
+        }
+
+        .robot-glyph--cursor::before {
+            top: -0.005em;
+            bottom: auto;
+            left: 50%;
+            width: 0.2em;
+            height: 0.19em;
+            background: var(--bg);
+            opacity: 1;
+            transform: translateX(-50%);
+        }
+
+        .robot-glyph--cursor::after {
+            width: max(3px, 0.09em);
+            background: var(--accent);
+            opacity: 0.92;
+        }
+
+        .name-alias:hover .name-ligature-ink path,
+        .name-alias:focus-within .name-ligature-ink path {
+            animation: name-ligature-write 920ms cubic-bezier(.16, 1, .3, 1) var(--ink-delay, 0ms) both;
+        }
+
+        .name-alias:hover .name-code-node,
+        .name-alias:focus-within .name-code-node {
+            animation: name-code-node-pulse 920ms steps(3, end) var(--ink-delay, 0ms) both;
+        }
+
+        .name-alias:hover .robot-glyph,
+        .name-alias:focus-within .robot-glyph {
+            animation:
+                robot-glyph-react 900ms cubic-bezier(.18, .86, .22, 1.22) var(--robot-delay, 0ms) both,
+                robot-glyph-compile 2.9s cubic-bezier(.42, 0, .2, 1) var(--robot-phase, 0s) infinite;
+        }
+
+        @keyframes name-ligature-write {
+            0% { opacity: 0; stroke-dashoffset: 1; }
+            62% { opacity: 0.86; stroke-dashoffset: 0; }
+            100% { opacity: 0.62; stroke-dashoffset: 0; }
+        }
+
+        @keyframes name-code-node-pulse {
+            0% { fill: var(--bg); stroke: var(--accent); }
+            48% { fill: var(--accent); stroke: var(--accent); }
+            100% { fill: var(--bg); stroke: var(--accent); }
+        }
+
+        @keyframes name-code-pulse {
+            from { stroke-dashoffset: 1; }
+            to { stroke-dashoffset: 0; }
+        }
+
+        @keyframes robot-glyph-boot {
+            0% { opacity: 0; transform: translateY(-0.54em) rotate(var(--robot-tilt, -4deg)) scale(0.74, 0.9); }
+            52% { opacity: 1; transform: translateY(0.055em) rotate(0deg) scale(1.08, 0.82); }
+            72% { transform: translateY(-0.045em) rotate(1deg) scale(0.97, 1.05); }
+            100% { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); }
+        }
+
+        @keyframes robot-glyph-compile {
+            0%, 100% { font-variation-settings: "wght" 690, "wdth" 100, "slnt" -3; }
+            36% { font-variation-settings: "wght" 635, "wdth" 100, "slnt" -1; }
+            72% { font-variation-settings: "wght" 735, "wdth" 100, "slnt" -5; }
+        }
+
+        @keyframes robot-glyph-react {
+            0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+            35% { transform: translateY(var(--robot-hop, -0.11em)) rotate(var(--robot-tilt, -3deg)) scale(0.96, 1.06); }
+            62% { transform: translateY(0.035em) rotate(1.25deg) scale(1.05, 0.92); }
+        }
+
+        @keyframes robot-sensor-scan {
+            0%, 16%, 100% { background: var(--text); opacity: 0.28; }
+            17%, 31% { background: var(--accent); opacity: 0.96; }
+            32%, 68% { background: var(--text); opacity: 0.46; }
+            69%, 76% { background: var(--accent); opacity: 0.72; }
+            77%, 99% { background: var(--text); opacity: 0.28; }
+        }
+
+        @keyframes robot-antenna-signal {
+            0%, 10%, 100% { border-color: currentColor; box-shadow: 0 0 0 0 var(--accent-soft); }
+            11%, 20% { border-color: var(--accent); box-shadow: 0 0 0 0.045em transparent; }
+            21%, 28% { border-color: var(--accent); box-shadow: 0 0 0 0.085em transparent; }
+            29%, 99% { border-color: currentColor; box-shadow: 0 0 0 0 transparent; }
+        }
+
+        @keyframes robot-joint-pivot {
+            0%, 16%, 100% { opacity: 0.48; transform: translate(-50%, -50%) rotate(45deg) scale(0.78); }
+            17%, 29% { opacity: 1; transform: translate(-50%, -50%) rotate(135deg) scale(1); }
+            30%, 42% { opacity: 0.76; transform: translate(-50%, -50%) rotate(225deg) scale(0.88); }
+        }
+
+        @keyframes robot-diagonal-scan {
+            0%, 18%, 100% { opacity: 0.26; transform: translate(-64%, -34%) rotate(-36deg); }
+            19%, 31% { opacity: 0.9; transform: translate(-50%, -50%) rotate(-36deg); }
+            32%, 43% { opacity: 0.48; transform: translate(-34%, -66%) rotate(-36deg); }
+        }
+
+        @keyframes robot-lens-focus {
+            0%, 18%, 100% { border-color: currentColor; transform: translate(-50%, -50%) scale(0.72); }
+            19%, 28% { border-color: var(--accent); transform: translate(-50%, -50%) scale(1.08); }
+            29%, 38% { border-color: currentColor; transform: translate(-50%, -50%) scale(0.88); }
         }
 
         .avatar-button {
@@ -478,9 +1111,12 @@
             position: relative;
             z-index: 1;
             margin: 0;
-            font-family: "Smiley Sans", sans-serif;
-            font-size: clamp(1.55rem, 3.05vw, 2.28rem);
-            line-height: 1.46;
+            font-family: "Krypton Robot", "Smiley Sans", ui-monospace, monospace;
+            font-size: clamp(1.35rem, 2.62vw, 2rem);
+            font-weight: 535;
+            font-variation-settings: "wght" 530, "wdth" 100, "slnt" 0;
+            letter-spacing: -0.045em;
+            line-height: 1.48;
             text-wrap: pretty;
         }
 
@@ -521,14 +1157,14 @@
         .social-link::before,
         .rl-concept::before {
             position: fixed;
-            inset: -24px;
+            inset: 0;
             z-index: -2;
-            background: color-mix(in srgb, var(--bg) 34%, transparent);
+            background: color-mix(in srgb, var(--bg) 27%, transparent);
             content: "";
             opacity: 0;
             pointer-events: none;
-            -webkit-backdrop-filter: blur(5px) saturate(0.72);
-            backdrop-filter: blur(5px) saturate(0.72);
+            -webkit-backdrop-filter: blur(3.4px) saturate(0.82);
+            backdrop-filter: blur(3.4px) saturate(0.82);
             visibility: hidden;
             transition: opacity 190ms ease, visibility 190ms ease;
         }
@@ -585,7 +1221,8 @@
                 color-mix(in srgb, var(--accent) 4%, var(--bg));
             box-shadow: 0 18px 44px color-mix(in srgb, var(--accent) 12%, transparent);
             color: var(--accent);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            font-family: "Krypton Robot", "Smiley Sans", ui-monospace, monospace;
+            font-variation-settings: "wght" 520, "wdth" 100, "slnt" 0;
             opacity: 0;
             pointer-events: none;
             transform:
@@ -706,7 +1343,7 @@
 
         .rl-reward text {
             fill: #b48018;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            font-family: "Krypton Robot", ui-monospace, monospace;
             font-size: 8px;
             font-weight: 760;
         }
@@ -719,6 +1356,7 @@
             font-size: 0.57rem;
             font-style: normal;
             font-weight: 650;
+            font-variation-settings: "wght" 650, "wdth" 100, "slnt" 0;
             letter-spacing: 0.09em;
             line-height: 1;
             text-transform: uppercase;
@@ -816,7 +1454,35 @@
             background-position: 100% 100%;
             background-repeat: no-repeat;
             background-size: 0 2px;
-            transition: color 180ms ease, background-size 260ms ease, background-position 0s 260ms;
+            font-variation-settings: "wght" 600, "wdth" 100, "slnt" 0;
+            transition:
+                color 180ms ease,
+                background-size 260ms ease,
+                background-position 0s 260ms;
+        }
+
+        .entity-trigger {
+            position: relative;
+            z-index: 2;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.24em;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            background: none;
+            color: inherit;
+            font: inherit;
+            letter-spacing: inherit;
+            line-height: inherit;
+            cursor: pointer;
+            transition: opacity 140ms ease, transform 240ms cubic-bezier(.16, 1, .3, 1);
+        }
+
+        .entity-trigger:focus-visible {
+            outline: 2px solid color-mix(in srgb, var(--brand) 62%, transparent);
+            outline-offset: 4px;
+            border-radius: 3px;
         }
 
         .entity-link:hover,
@@ -870,10 +1536,11 @@
             background: var(--bg);
             box-shadow: 0 18px 50px rgba(0, 0, 0, 0.12);
             color: var(--text);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            font-family: "Krypton Robot", "Smiley Sans", ui-monospace, monospace;
             font-size: 0.86rem;
             font-weight: 450;
-            letter-spacing: 0;
+            font-variation-settings: "wght" 450, "wdth" 100, "slnt" 0;
+            letter-spacing: -0.035em;
             line-height: 1.45;
             opacity: 0;
             pointer-events: none;
@@ -906,24 +1573,214 @@
         .experience-role {
             font-size: 0.95rem;
             font-weight: 720;
+            font-variation-settings: "wght" 720, "wdth" 100, "slnt" 0;
+            letter-spacing: -0.045em;
+        }
+
+        .qingyun-affiliation {
+            --qingyun-light: #9ce0ed;
+            --qingyun-mid: #2ea4b9;
+            --qingyun-deep: #10718c;
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.06em;
+            margin-left: 0.18em;
+            color: var(--qingyun-deep);
+            font-size: 0.88em;
+            font-variation-settings: "wght" 680, "wdth" 100, "slnt" 0;
+            letter-spacing: -0.016em;
+            outline: none;
+            text-decoration: none;
+            transform: translateY(0);
+            transition: filter 180ms ease, transform 220ms cubic-bezier(.2, .8, .2, 1);
+            vertical-align: -0.08em;
+            white-space: nowrap;
+        }
+
+        .qingyun-affiliation::after {
+            position: absolute;
+            right: 0.12em;
+            bottom: -0.1em;
+            left: 0.36em;
+            height: 1px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, transparent, var(--qingyun-mid) 18%, var(--qingyun-deep) 82%, transparent);
+            content: "";
+            opacity: 0.24;
+            transform: scaleX(0.22);
+            transform-origin: 22% 50%;
+            transition: opacity 180ms ease, transform 260ms cubic-bezier(.2, .8, .2, 1);
+        }
+
+        .qingyun-affiliation:hover,
+        .qingyun-affiliation:focus-visible {
+            filter: saturate(1.12);
+            transform: translateY(-1px);
+        }
+
+        .qingyun-affiliation:hover::after,
+        .qingyun-affiliation:focus-visible::after {
+            opacity: 0.72;
+            transform: scaleX(1);
+        }
+
+        .entity-hy .experience-role {
+            margin-bottom: 3px;
+        }
+
+        .qingyun-program-label {
+            background: linear-gradient(92deg, var(--qingyun-light) 0%, var(--qingyun-mid) 56%, var(--qingyun-deep) 100%);
+            background-clip: text;
+            color: transparent;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .qingyun-mark {
+            display: inline-block;
+            width: 1.34em;
+            height: 1.08em;
+            flex: 0 0 1.34em;
+            overflow: visible;
+            color: var(--qingyun-mid);
+            transform: translateY(0.08em);
+            transform-origin: 50% 74%;
+        }
+
+        .qingyun-cloud-body,
+        .qingyun-updraft,
+        .qingyun-spark {
+            transform-box: fill-box;
+            transform-origin: center;
+        }
+
+        .qingyun-cloud-body {
+            fill: url(#qingyunCloudGradient);
+            stroke: var(--qingyun-deep);
+            stroke-width: 1.15;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .qingyun-updraft {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.94);
+            stroke-width: 1.35;
+            stroke-linecap: square;
+            stroke-linejoin: miter;
+            stroke-dasharray: 5 13;
+            stroke-dashoffset: 0;
+        }
+
+        .qingyun-spark {
+            fill: var(--qingyun-light);
+            stroke: var(--qingyun-deep);
+            stroke-width: 0.65;
+        }
+
+        .entity-hy:hover .qingyun-mark,
+        .entity-hy:focus-visible .qingyun-mark,
+        .entity-hy.is-open .qingyun-mark,
+        .qingyun-affiliation:focus-visible .qingyun-mark {
+            animation: qingyun-mark-float 3.2s cubic-bezier(.45, 0, .2, 1) infinite;
+        }
+
+        .entity-hy:hover .qingyun-cloud-body,
+        .entity-hy:focus-visible .qingyun-cloud-body,
+        .entity-hy.is-open .qingyun-cloud-body,
+        .qingyun-affiliation:focus-visible .qingyun-cloud-body {
+            animation: qingyun-cloud-breathe 3.2s ease-in-out infinite;
+        }
+
+        .entity-hy:hover .qingyun-updraft,
+        .entity-hy:focus-visible .qingyun-updraft,
+        .entity-hy.is-open .qingyun-updraft,
+        .qingyun-affiliation:focus-visible .qingyun-updraft {
+            animation: qingyun-updraft-rise 1.65s linear infinite;
+        }
+
+        .entity-hy:hover .qingyun-spark,
+        .entity-hy:focus-visible .qingyun-spark,
+        .entity-hy.is-open .qingyun-spark,
+        .qingyun-affiliation:focus-visible .qingyun-spark {
+            animation: qingyun-spark-light 2.4s steps(3, end) infinite;
         }
 
         .experience-time,
         .experience-place {
             color: var(--muted);
             font-size: 0.8rem;
+            font-variation-settings: "wght" 455, "wdth" 100, "slnt" 0;
+            letter-spacing: -0.025em;
         }
 
         .experience-work {
             margin-top: 9px;
             padding-top: 9px;
             border-top: 1px solid var(--line);
+            font-variation-settings: "wght" 470, "wdth" 100, "slnt" 0;
+        }
+
+        .experience-projects {
+            display: grid !important;
+            gap: 6px;
+        }
+
+        .experience-project {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) max-content;
+            align-items: center;
+            gap: 8px;
+            min-width: 0;
+            padding: 6px 8px;
+            border: 1px solid color-mix(in srgb, var(--brand) 14%, var(--line));
+            border-radius: 8px 11px 9px 10px;
+            background: color-mix(in srgb, var(--brand) 4.5%, var(--bg));
+            color: inherit;
+            outline: none;
+            text-decoration: none;
+            transition:
+                border-color 180ms ease,
+                background-color 180ms ease,
+                box-shadow 180ms ease,
+                transform 220ms cubic-bezier(.2, .8, .2, 1);
+        }
+
+        .experience-project:hover,
+        .experience-project:focus-visible {
+            border-color: color-mix(in srgb, var(--brand) 30%, var(--line));
+            background: color-mix(in srgb, var(--brand) 8%, var(--bg));
+            box-shadow: 0 4px 14px color-mix(in srgb, var(--brand) 10%, transparent);
+            transform: translateX(2px);
+        }
+
+        .experience-project-name {
+            min-width: 0;
+            color: color-mix(in srgb, var(--brand) 86%, var(--text));
+            font-size: 0.87rem;
+            font-variation-settings: "wght" 680, "wdth" 100, "slnt" 0;
+            letter-spacing: -0.035em;
+            overflow-wrap: anywhere;
+        }
+
+        .experience-project-meta {
+            padding: 2px 6px;
+            border: 1px solid color-mix(in srgb, var(--brand) 24%, var(--line));
+            border-radius: 999px;
+            color: color-mix(in srgb, var(--brand) 78%, var(--muted));
+            font-size: 0.68rem;
+            font-variation-settings: "wght" 620, "wdth" 100, "slnt" 0;
+            letter-spacing: -0.015em;
+            line-height: 1.35;
+            white-space: nowrap;
         }
 
         .experience-supervisor {
             margin-top: 7px;
             color: var(--muted);
             font-size: 0.8rem;
+            font-variation-settings: "wght" 470, "wdth" 100, "slnt" 0;
         }
 
         .experience-sketch {
@@ -1297,8 +2154,8 @@
                 ),
                 linear-gradient(145deg, color-mix(in srgb, var(--brand) 7%, var(--bg)), var(--bg) 62%);
             box-shadow:
-                0 22px 58px color-mix(in srgb, var(--brand) 14%, transparent),
-                0 8px 22px rgba(0, 0, 0, 0.08);
+                0 18px 46px color-mix(in srgb, var(--brand) 12%, transparent),
+                0 6px 18px rgba(0, 0, 0, 0.065);
             clip-path: inset(0 56% 62% 0 round 15px);
             filter: blur(2px);
             transform:
@@ -1376,6 +2233,227 @@
 
         .brand-logo--sense {
             width: 1.36em;
+        }
+
+        /* Company and school cards are click-controlled. The visible trigger
+           hands its exact top-left position to a real website link when open. */
+        .experience-site-link {
+            position: absolute;
+            top: 12px;
+            left: var(--experience-card-inset, 14px);
+            z-index: 4;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.24em;
+            max-width: calc(100% - 28px);
+            color: var(--brand);
+            font-size: clamp(1.35rem, 2.62vw, 2rem);
+            font-weight: 600;
+            font-variation-settings: "wght" 600, "wdth" 100, "slnt" 0;
+            letter-spacing: -0.045em;
+            line-height: 1.48;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(2px);
+            transition: opacity 160ms ease 80ms, transform 260ms cubic-bezier(.16, 1, .3, 1) 60ms;
+        }
+
+        .experience-site-link::after {
+            position: absolute;
+            right: 0;
+            bottom: 0.08em;
+            left: 0;
+            height: 2px;
+            background: currentColor;
+            content: "";
+            opacity: 0.32;
+            transform: scaleX(0.08);
+            transform-origin: left;
+            transition: opacity 180ms ease, transform 280ms cubic-bezier(.16, 1, .3, 1);
+        }
+
+        .experience-site-link:hover::after,
+        .experience-site-link:focus-visible::after {
+            opacity: 0.72;
+            transform: scaleX(1);
+        }
+
+        .experience-site-link:focus-visible {
+            outline: none;
+        }
+
+        .entity-ucas .experience-site-link,
+        .entity-ucas .experience-site-link span {
+            white-space: nowrap;
+        }
+
+        .entity-link--education .experience-sketch {
+            top: 66px;
+        }
+
+        .entity-link.is-open {
+            z-index: 20;
+            background-position: 0 100%;
+            background-size: 100% 2px;
+        }
+
+        .entity-link.is-open .entity-trigger {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-1px);
+        }
+
+        .entity-link.is-open .experience-site-link {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        .entity-link--experience.is-open::before,
+        .entity-link--education.is-open::before {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Keep one optical glass layer while a click-open card is active.
+           Hovered background controls are lifted above that visual layer,
+           while the glass itself never participates in pointer hit-testing. */
+        body:has(.entity-link.is-open) .entity-link:not(.is-open)::before,
+        body:has(.entity-link.is-open) .social-link::before,
+        body:has(.entity-link.is-open) .rl-concept::before {
+            opacity: 0 !important;
+            visibility: hidden !important;
+        }
+
+        body:has(.entity-link.is-open) .hero:has(
+            .wave-button:hover,
+            .wave-button:focus-visible,
+            .name-alias:hover,
+            .name-alias:focus-within,
+            .avatar-button:hover,
+            .avatar-button:focus-visible
+        ) {
+            z-index: 36;
+        }
+
+        body:has(.entity-link.is-open) .hero.is-pointer-layer {
+            z-index: 36;
+        }
+
+        body:has(.entity-link.is-open) .story-line:has(
+            .entity-link:not(.is-open):hover,
+            .entity-link:not(.is-open):focus-within,
+            .rl-concept:hover,
+            .rl-concept:focus-visible,
+            .emoji-button:hover,
+            .emoji-button:focus-visible,
+            .itera-token:hover,
+            .itera-token:focus-visible
+        ) {
+            z-index: 34;
+        }
+
+        body:has(.entity-link.is-open) .story-line.is-pointer-layer {
+            z-index: 34;
+        }
+
+        body:has(.entity-link.is-open) .contact:has(
+            .social-link:hover,
+            .social-link:focus-visible,
+            .satellite-button:hover,
+            .satellite-button:focus-visible
+        ) {
+            z-index: 40;
+        }
+
+        body:has(.entity-link.is-open) .contact.is-pointer-layer {
+            z-index: 40;
+        }
+
+        .entity-link--experience:not(.is-open):hover::before,
+        .entity-link--experience:not(.is-open):focus-within::before,
+        .entity-link--education:not(.is-open):hover::before,
+        .entity-link--education:not(.is-open):focus-within::before {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .entity-link--experience.is-open .experience-note,
+        .entity-link--education.is-open .experience-note {
+            opacity: 1;
+            visibility: visible;
+            clip-path: inset(0 0 0 0 round 16px);
+            filter: blur(0);
+            pointer-events: auto;
+            transform:
+                perspective(920px)
+                translateY(0)
+                scale(1)
+                rotateX(var(--card-tilt-x, 0deg))
+                rotateY(var(--card-tilt-y, 0deg));
+        }
+
+        .entity-link.is-open .experience-sketch {
+            opacity: 0.9;
+            transform:
+                translate(var(--sketch-shift-x, 0), var(--sketch-shift-y, 0))
+                rotate(-1deg)
+                scale(1);
+        }
+
+        .entity-link.is-open .experience-sketch .sketch-ink {
+            animation: sketch-draw 760ms cubic-bezier(.2, .76, .24, 1) forwards;
+        }
+
+        .entity-link.is-open .experience-sketch .sketch-dot {
+            animation: sketch-dot-pop 420ms cubic-bezier(.2, .9, .25, 1.3) var(--sketch-delay, 350ms) forwards;
+        }
+
+        .entity-link.is-open .experience-sketch .sketch-orbit {
+            animation: sketch-orbit 2.4s linear 650ms infinite;
+            transform-box: view-box;
+            transform-origin: 46px 30px;
+        }
+
+        .entity-hy.is-open .hy-parent { animation: hy-parent-generation 5.6s cubic-bezier(.22, .76, .24, 1) infinite both; }
+        .entity-hy.is-open .hy-child--discard { animation: hy-child-discard 5.6s cubic-bezier(.22, .76, .24, 1) infinite both; }
+        .entity-hy.is-open .hy-child--winner { animation: hy-child-winner 5.6s cubic-bezier(.22, .76, .24, 1) infinite both; }
+        .entity-hy.is-open .hy-branch { animation: hy-branch-grow 5.6s ease-in-out infinite both; }
+        .entity-hy.is-open .hy-return { animation: hy-return-loop 5.6s ease-in-out infinite both; }
+        .entity-hy.is-open .hy-selection { animation: hy-select-winner 5.6s ease-in-out infinite both; }
+        .entity-hy.is-open .hy-mutation { animation: hy-mutate 5.6s ease-in-out infinite both; }
+        .entity-hy.is-open .hy-reject { animation: hy-reject 5.6s ease-in-out infinite both; }
+
+        .entity-ucas.is-open .campus-sun { animation: campus-sun-turn 8s linear infinite; }
+        .entity-ucas.is-open .campus-birds { animation: campus-birds-glide 3.4s ease-in-out infinite; }
+        .entity-ucas.is-open .campus-stars { animation: campus-stars-twinkle 2.8s ease-in-out infinite; }
+        .entity-ucas.is-open .campus-windows { animation: campus-window-breathe 3.8s ease-in-out infinite; }
+
+        .entity-link.is-open .experience-sketch .sketch-cursor { animation: sketch-cursor 1.5s ease-in-out 650ms infinite; }
+        .entity-link.is-open .experience-sketch .sketch-scan { animation: sketch-scan 1.6s ease-in-out 620ms infinite; }
+        .entity-link.is-open .experience-sketch .sketch-route { animation: sketch-route 1.8s linear 620ms infinite; }
+
+        .entity-link--experience:not(.is-open):hover .experience-note,
+        .entity-link--experience:not(.is-open):focus-within .experience-note,
+        .entity-link--education:not(.is-open):hover .experience-note,
+        .entity-link--education:not(.is-open):focus-within .experience-note {
+            opacity: 0;
+            visibility: hidden;
+            clip-path: inset(0 56% 62% 0 round 15px);
+            filter: blur(2px);
+            pointer-events: none;
+            transform:
+                perspective(920px)
+                translateY(-2px)
+                scale(0.86)
+                rotateX(var(--card-tilt-x, 0deg))
+                rotateY(var(--card-tilt-y, 0deg));
+        }
+
+        .story-line:has(.entity-link.is-open),
+        .story:has(.entity-link.is-open) {
+            z-index: 32;
         }
 
         .brand-logo--ucas {
@@ -1467,16 +2545,19 @@
             z-index: 2;
             margin: 0 0 26px;
             color: var(--text);
-            font-family: "Smiley Sans", sans-serif;
-            font-size: clamp(1.55rem, 3.05vw, 2.28rem);
-            line-height: 1.46;
+            font-family: "Krypton Robot", "Smiley Sans", ui-monospace, monospace;
+            font-size: clamp(1.35rem, 2.62vw, 2rem);
+            font-weight: 535;
+            font-variation-settings: "wght" 530, "wdth" 100, "slnt" 0;
+            letter-spacing: -0.045em;
+            line-height: 1.48;
         }
 
         .satellite-button {
             display: inline-block;
             font-size: 0.82em;
             vertical-align: baseline;
-            animation: satellite-float 2.2s ease-in-out infinite;
+            animation: satellite-float 3.2s ease-in-out infinite;
         }
 
         .satellite-button.is-orbiting {
@@ -1611,8 +2692,11 @@
             align-items: center;
             gap: 0.35em;
             padding: 4px 0 7px;
+            font-family: "Krypton Robot", "Smiley Sans", ui-monospace, SFMono-Regular, Menlo, monospace;
             font-size: clamp(0.92rem, 1.7vw, 1.04rem);
             font-weight: 580;
+            font-variation-settings: "wght" 580, "wdth" 100, "slnt" 0;
+            letter-spacing: -0.03em;
             isolation: isolate;
             transition: color 180ms ease;
         }
@@ -1659,6 +2743,8 @@
 
         .social-link:focus-visible {
             outline: none;
+            border-radius: 4px;
+            box-shadow: 0 0 0 2px color-mix(in srgb, var(--brand) 34%, transparent);
         }
 
         .social-link::after {
@@ -1703,12 +2789,13 @@
                 ),
                 linear-gradient(145deg, color-mix(in srgb, var(--brand) 6%, var(--bg)), var(--bg) 68%);
             box-shadow:
-                0 16px 38px color-mix(in srgb, var(--brand) 13%, transparent),
-                0 6px 16px rgba(0, 0, 0, 0.07);
+                0 14px 32px color-mix(in srgb, var(--brand) 11%, transparent),
+                0 5px 14px rgba(0, 0, 0, 0.055);
             color: var(--muted);
             font-size: 0.74rem;
             font-weight: 480;
-            letter-spacing: 0.01em;
+            font-variation-settings: "wght" 480, "wdth" 100, "slnt" 0;
+            letter-spacing: -0.03em;
             line-height: 1.3;
             opacity: 0;
             pointer-events: none;
@@ -1854,9 +2941,10 @@
             place-items: center;
             min-width: 20px;
             height: 20px;
-            font-family: Georgia, "Times New Roman", serif;
+            font-family: "Krypton Robot", "Smiley Sans", ui-monospace, monospace;
             font-size: 1.1rem;
             font-weight: 500;
+            font-variation-settings: "wght" 500, "wdth" 100, "slnt" 0;
             line-height: 1;
             opacity: 0;
             transform: translate(-50%, -50%) scale(0.5) rotate(9deg);
@@ -1944,6 +3032,36 @@
             transform: translate(-50%, -50%) translate(18px, -18px) scale(0.58) rotate(0);
         }
 
+        .cursor-atelier.is-entity-card .cursor-ink,
+        .cursor-atelier.is-entity-card .cursor-cloud,
+        .cursor-atelier.is-entity-card .cursor-core,
+        .cursor-atelier.is-entity-card .cursor-text-stroke,
+        .cursor-atelier.is-entity-card .cursor-mark {
+            opacity: 0;
+        }
+
+        .cursor-atelier.is-entity-card .cursor-logo {
+            width: 24px;
+            height: 24px;
+            padding: 3px;
+            border: 1px solid color-mix(in srgb, var(--cursor-color) 48%, transparent);
+            border-radius: 50%;
+            background: color-mix(in srgb, var(--cursor-color) 6%, var(--bg));
+            box-shadow:
+                0 2px 8px color-mix(in srgb, var(--cursor-color) 12%, transparent),
+                inset 0 0 0 1px color-mix(in srgb, var(--bg) 64%, transparent);
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1) rotate(0);
+        }
+
+        .cursor-atelier.is-entity-card.is-pressed .cursor-logo {
+            transform: translate(-50%, -50%) scale(0.86) rotate(0);
+        }
+
+        body.cursor-entity-card .cursor-trace {
+            opacity: 0 !important;
+        }
+
         .cursor-atelier.is-entity .cursor-bead {
             animation: cursor-bead-orbit 1.8s ease-in-out infinite alternate;
         }
@@ -1969,9 +3087,10 @@
         }
 
         .cursor-atelier.is-name .cursor-mark {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            font-family: "Krypton Robot", "Smiley Sans", ui-monospace, monospace;
             font-size: 0.62rem;
             font-weight: 760;
+            font-variation-settings: "wght" 760, "wdth" 100, "slnt" 0;
             letter-spacing: 0.06em;
             text-transform: uppercase;
             opacity: 0.84;
@@ -2215,10 +3334,10 @@
         }
 
         @keyframes wave {
-            0%, 46%, 100% { transform: rotate(8deg); }
-            12% { transform: rotate(-16deg); }
-            24% { transform: rotate(18deg); }
-            36% { transform: rotate(-9deg); }
+            0%, 30%, 100% { transform: rotate(7deg); }
+            7% { transform: rotate(-14deg); }
+            14% { transform: rotate(16deg); }
+            21% { transform: rotate(-7deg); }
         }
 
         @keyframes emoji-pop {
@@ -2413,6 +3532,28 @@
             50% { transform: translateY(6px); }
         }
 
+        @keyframes qingyun-mark-float {
+            0%, 100% { transform: translateY(0.08em) rotate(-1deg); }
+            46% { transform: translateY(-0.075em) rotate(1.4deg); }
+            68% { transform: translateY(-0.03em) rotate(0deg); }
+        }
+
+        @keyframes qingyun-cloud-breathe {
+            0%, 100% { transform: scale(0.96, 1); }
+            50% { transform: scale(1.035, 0.97); }
+        }
+
+        @keyframes qingyun-updraft-rise {
+            from { stroke-dashoffset: 18; }
+            to { stroke-dashoffset: 0; }
+        }
+
+        @keyframes qingyun-spark-light {
+            0%, 28%, 100% { opacity: 0.28; transform: scale(0.62) rotate(0); }
+            29%, 56% { opacity: 1; transform: scale(1.06) rotate(45deg); }
+            57%, 76% { opacity: 0.62; transform: scale(0.82) rotate(90deg); }
+        }
+
         @keyframes spark {
             0% { opacity: 1; transform: translate(0, 0) rotate(0) scale(0.8); }
             100% { opacity: 0; transform: translate(var(--spark-x), var(--spark-y)) rotate(var(--spark-r)) scale(1.25); }
@@ -2420,7 +3561,7 @@
 
         @media (max-width: 640px) {
             .page {
-                padding-top: 28px;
+                padding: 26px 18px 50px;
             }
 
             .hero {
@@ -2428,21 +3569,72 @@
                 gap: 10px;
             }
 
-            .hello {
-                gap: 0.12em;
-                font-size: clamp(1.75rem, 8vw, 2.08rem);
-            }
-
+            .hello,
             .name {
-                font-size: clamp(2rem, 9.4vw, 2.55rem);
+                gap: 0.12em;
+                font-size: clamp(1.16rem, 5.2vw, 1.42rem);
+                letter-spacing: -0.035em;
+                line-height: 1.5;
             }
 
             .story {
-                margin-top: 36px;
+                margin-top: 30px;
             }
 
-            .story-line {
-                font-size: clamp(1.45rem, 7.2vw, 1.88rem);
+            .story-line,
+            .contact-intro {
+                font-size: clamp(1.16rem, 5.2vw, 1.42rem);
+                letter-spacing: -0.035em;
+                line-height: 1.5;
+            }
+
+            .story-line + .story-line {
+                margin-top: 26px;
+            }
+
+            .contact {
+                margin-top: 32px;
+            }
+
+            .contact-intro {
+                margin-bottom: 20px;
+            }
+
+            .experience-site-link {
+                font-size: 1.16rem;
+                line-height: 1.42;
+            }
+
+            .entity-ucas .experience-site-link {
+                align-items: flex-start;
+                font-size: 1.04rem;
+                line-height: 1.45;
+                white-space: normal;
+            }
+
+            .entity-ucas .experience-site-link span {
+                overflow-wrap: anywhere;
+                white-space: normal;
+            }
+
+            .entity-ucas .experience-site-link .brand-logo {
+                margin-top: 0.12em;
+            }
+
+            .entity-ucas {
+                margin: 0.14em 0 0.04em;
+            }
+
+            .entity-ucas .entity-trigger {
+                display: grid;
+                grid-template-columns: 1.18em minmax(0, 1fr);
+                align-items: center;
+                column-gap: 0.34em;
+                text-align: left;
+            }
+
+            .education-comma {
+                display: none;
             }
 
             .rl-lab {
@@ -2481,7 +3673,15 @@
             }
 
             .social-links {
-                gap: 10px 20px;
+                gap: 8px 16px;
+            }
+
+            .name-ligature-ink {
+                opacity: 0.46;
+            }
+
+            .robot-glyph::before {
+                opacity: 0.13;
             }
 
         }
@@ -2491,17 +3691,28 @@
                 grid-template-columns: minmax(0, 1fr) 82px;
             }
 
-            .name {
-                font-size: clamp(1.65rem, 8.35vw, 2.25rem);
-            }
-
-            .story-line {
-                font-size: 1.43rem;
+            .hello,
+            .name,
+            .story-line,
+            .contact-intro {
+                font-size: 1.2rem;
             }
         }
 
         @media (prefers-reduced-motion: reduce) {
             .avatar-pixel-canvas {
+                display: none;
+            }
+
+            .ai4ai-source,
+            .ai4ai-operator,
+            .ai4ai-target {
+                animation: none !important;
+                opacity: 1;
+                transform: none;
+            }
+
+            .itera-token::after {
                 display: none;
             }
 
@@ -2628,19 +3839,28 @@
         <header class="hero" aria-labelledby="page-title">
             <div class="hero-copy">
                 <p class="hello">
-                    <button class="wave-button" id="waveButton" type="button" aria-label="Change greeting">👋</button>
+                    <button class="wave-button" id="waveButton" type="button" aria-label="Wave hello">👋</button>
                     <span id="greeting">Hi there!</span>
                 </p>
                 <h1 class="name" id="page-title">I'm
                     <span class="name-alias">
-                        <button class="name-trigger" type="button" aria-label="Yanxiao Zhao, also known as 赵砚潇, Adam and sdpkjc">
-                            <span class="name-identity-stage" aria-hidden="true">
-                                <span class="name-identity name-identity--primary">Yanxiao Zhao,</span>
-                                <span class="name-identity name-identity--chinese">赵砚潇,</span>
-                                <span class="name-identity name-identity--adam">Adam,</span>
-                                <span class="name-identity name-identity--handle">sdpkjc,</span>
+                        <span class="name-trigger">
+                            <span class="name-identity-stage">
+                                <span class="name-identity name-identity--primary">
+                                    <span class="name-word name-word--yanxiao"><span class="robot-glyph robot-glyph--branch robot-glyph--hero-y" style="--robot-delay:0ms;--robot-phase:-.2s;--sensor-phase:0s;--robot-tilt:-4deg;--robot-hop:-.13em">Y</span><span class="robot-glyph robot-glyph--counter" style="--robot-delay:55ms;--robot-phase:-.6s;--sensor-phase:-.5s;--robot-tilt:3deg;--robot-hop:-.09em">a</span><span class="robot-glyph robot-glyph--joint" style="--robot-delay:110ms;--robot-phase:-1s;--sensor-phase:-1s;--robot-tilt:-2deg;--robot-hop:-.12em">n</span><span class="robot-glyph robot-glyph--joint robot-glyph--hero-x" style="--robot-delay:165ms;--robot-phase:-1.4s;--sensor-phase:-1.5s;--robot-tilt:4deg;--robot-hop:-.08em">x</span><span class="robot-glyph robot-glyph--cursor" style="--robot-delay:220ms;--robot-phase:-1.8s;--sensor-phase:-2s;--robot-tilt:-3deg;--robot-hop:-.15em">i</span><span class="robot-glyph robot-glyph--counter" style="--robot-delay:275ms;--robot-phase:-2.2s;--sensor-phase:-2.5s;--robot-tilt:2deg;--robot-hop:-.1em">a</span><span class="robot-glyph robot-glyph--counter robot-glyph--hero-o" style="--robot-delay:330ms;--robot-phase:-2.6s;--sensor-phase:-3s;--robot-tilt:-2deg;--robot-hop:-.12em">o</span><svg class="name-ligature-ink" viewBox="0 0 100 32" preserveAspectRatio="none" aria-hidden="true">
+                                            <path pathLength="1" d="M7 27H20V23H33V27H47V20H67V25H92"/>
+                                            <path class="name-code-pulse" pathLength="1" style="--ink-delay:90ms" d="M7 27H20V23H33V27H47V20H67V25H92"/>
+                                            <rect class="name-code-node" style="--ink-delay:90ms" x="51.4" y="18.4" width="3.2" height="3.2" rx="0.4"/>
+                                            <rect class="name-code-node" style="--ink-delay:180ms" x="76.4" y="18.4" width="3.2" height="3.2" rx="0.4"/>
+                                        </svg></span><span class="name-word name-word--zhao"><span class="robot-glyph robot-glyph--diagonal robot-glyph--hero-z" style="--robot-delay:385ms;--robot-phase:-3s;--sensor-phase:-3.5s;--robot-tilt:4deg;--robot-hop:-.14em">Z</span><span class="robot-glyph robot-glyph--joint" style="--robot-delay:440ms;--robot-phase:-3.4s;--sensor-phase:-4s;--robot-tilt:-3deg;--robot-hop:-.09em">h</span><span class="robot-glyph robot-glyph--counter" style="--robot-delay:495ms;--robot-phase:-3.8s;--sensor-phase:-4.5s;--robot-tilt:2deg;--robot-hop:-.12em">a</span><span class="robot-glyph robot-glyph--counter robot-glyph--hero-o" style="--robot-delay:550ms;--robot-phase:-4.2s;--sensor-phase:-5s;--robot-tilt:-2deg;--robot-hop:-.1em">o</span><svg class="name-ligature-ink" viewBox="0 0 100 32" preserveAspectRatio="none" aria-hidden="true">
+                                            <path pathLength="1" d="M8 27H31V21H48V27H66V20H80V24H102L108 17"/>
+                                            <path class="name-code-pulse" pathLength="1" style="--ink-delay:320ms" d="M8 27H31V21H48V27H66V20H80V24H102L108 17"/>
+                                            <rect class="name-code-node" style="--ink-delay:320ms" x="64.4" y="18.4" width="3.2" height="3.2" rx="0.4"/>
+                                            <rect class="name-code-node" style="--ink-delay:390ms" x="89.4" y="22.4" width="3.2" height="3.2" rx="0.4"/>
+                                        </svg></span>,
+                                </span>
                             </span>
-                        </button>
+                        </span>
                     </span>
                 </h1>
             </div>
@@ -2684,10 +3904,16 @@
         <section class="story" aria-label="About me">
             <p class="story-line">
                 a Computer Science PhD student at
-                <a class="entity-link entity-link--education entity-ucas" href="https://www.ucas.ac.cn/" target="_blank" rel="noopener noreferrer" aria-describedby="ucasEducation">
-                    <img class="brand-logo brand-logo--ucas" src="/assets/logos/ucas.svg" alt="" width="24" height="24">
-                    <span>University of Chinese Academy of Sciences</span>
-                    <span class="experience-note" id="ucasEducation" role="tooltip">
+                <span class="entity-link entity-link--education entity-ucas">
+                    <button class="entity-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="ucasEducation">
+                        <img class="brand-logo brand-logo--ucas" src="/assets/logos/ucas.svg" alt="" width="24" height="24">
+                        <span>University of Chinese Academy of Sciences</span>
+                    </button>
+                    <span class="experience-note" id="ucasEducation" role="dialog" aria-hidden="true" aria-label="University of Chinese Academy of Sciences details" inert>
+                        <a class="experience-site-link" href="https://www.ucas.ac.cn/" target="_blank" rel="noopener noreferrer" aria-label="Open the University of Chinese Academy of Sciences website">
+                            <img class="brand-logo brand-logo--ucas" src="/assets/logos/ucas.svg" alt="" width="24" height="24">
+                            <span>University of Chinese Academy of Sciences</span>
+                        </a>
                         <span class="experience-role">PhD Student</span>
                         <span class="experience-time">2021 — 2027</span>
                         <span class="experience-work">Chengdu Institute of Computer Applications, Chinese Academy of Sciences</span>
@@ -2724,7 +3950,7 @@
                             <path class="sketch-route" d="M7 54h77"/>
                         </svg>
                     </span>
-                </a>, focusing on
+                </span><span class="education-comma">,</span> focusing on
                 <span class="rl-concept" tabindex="0">
                     <em class="focus-link">Reinforcement Learning</em>
                     <span class="rl-lab" aria-hidden="true">
@@ -2751,11 +3977,17 @@
 
             <p class="story-line experience-story">
                 Currently, I'm a Research Intern at
-                <a class="entity-link entity-link--experience entity-hy" data-period="2026 — NOW" href="https://hy.tencent.ai/" target="_blank" rel="noopener noreferrer" aria-describedby="hyExperience">
-                    <img class="brand-logo" src="/assets/logos/tencent-hy.svg" alt="" width="24" height="24">
-                    <span>Tencent HY</span>
-                    <span class="experience-note" id="hyExperience" role="tooltip">
-                        <span class="experience-role">Research Intern</span>
+                <span class="entity-link entity-link--experience entity-hy" data-period="2026 — NOW">
+                    <button class="entity-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="hyExperience">
+                        <img class="brand-logo" src="/assets/logos/tencent-hy.svg" alt="" width="24" height="24">
+                        <span>Tencent HY</span>
+                    </button>
+                    <span class="experience-note" id="hyExperience" role="dialog" aria-hidden="true" aria-label="Tencent HY experience details" inert>
+                        <a class="experience-site-link" href="https://hy.tencent.ai/" target="_blank" rel="noopener noreferrer" aria-label="Open the Tencent HY website">
+                            <img class="brand-logo" src="/assets/logos/tencent-hy.svg" alt="" width="24" height="24">
+                            <span>Tencent HY</span>
+                        </a>
+                        <span class="experience-role">Research Intern <a class="qingyun-affiliation" href="https://join.qq.com/qingyun.html" target="_blank" rel="noopener noreferrer" aria-label="Open the Tencent Qingyun Program website"><span aria-hidden="true">(</span><svg class="qingyun-mark" viewBox="0 0 28 22" aria-hidden="true" focusable="false"><defs><linearGradient id="qingyunCloudGradient" x1="3" y1="3" x2="24" y2="19" gradientUnits="userSpaceOnUse"><stop stop-color="#9ce0ed"/><stop offset="0.58" stop-color="#2ea4b9"/><stop offset="1" stop-color="#10718c"/></linearGradient></defs><path class="qingyun-cloud-body" d="M6.1 17.8h15.4c2.7 0 4.5-1.7 4.5-4.1 0-2.2-1.6-3.8-3.8-4.1C21.8 6.3 19.3 4 16 4c-2.9 0-5.2 1.7-6.2 4.2a4.8 4.8 0 0 0-2.2-.5 5 5 0 0 0-5.1 5c0 2.8 1.6 5.1 3.6 5.1Z"/><path class="qingyun-updraft" d="M14.2 17.2V7.4m-3.1 3 3.1-3.1 3.1 3.1"/><path class="qingyun-spark" d="m22.2 3 .7 1.7 1.7.7-1.7.7-.7 1.7-.7-1.7-1.7-.7 1.7-.7.7-1.7Z"/></svg><span class="qingyun-program-label">Qingyun Program</span><span aria-hidden="true">)</span></a></span>
                         <span class="experience-time">Aug 2026 — Present</span>
                         <span class="experience-work">AI for AI</span>
                         <svg class="experience-sketch experience-sketch--hy" viewBox="0 0 92 60" aria-hidden="true" focusable="false">
@@ -2794,15 +4026,30 @@
                             <path class="hy-mutation" d="M78 31v-3m0 9v-3m-5-2h3m4 0h3m-8-4 2 2m2 2 2 2m0-6-2 2m-2 2-2 2"/>
                         </svg>
                     </span>
-                </a>, working on AI4AI <span id="aiEmoji" aria-hidden="true">🧪</span>. Previously, I interned at
-                <a class="entity-link entity-link--experience entity-zai" data-period="2025 — 2026" href="https://z.ai/" target="_blank" rel="noopener noreferrer" aria-describedby="zaiExperience">
-                    <img class="brand-logo" src="/assets/logos/zai.svg" alt="" width="24" height="24">
-                    <span>Z.AI</span>
-                    <span class="experience-note" id="zaiExperience" role="tooltip">
+                </span>. Previously, I interned at
+                <span class="entity-link entity-link--experience entity-zai" data-period="2025 — 2026">
+                    <button class="entity-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="zaiExperience">
+                        <img class="brand-logo" src="/assets/logos/zai.svg" alt="" width="24" height="24">
+                        <span>Z.AI</span>
+                    </button>
+                    <span class="experience-note" id="zaiExperience" role="dialog" aria-hidden="true" aria-label="Z.AI experience details" inert>
+                        <a class="experience-site-link" href="https://z.ai/" target="_blank" rel="noopener noreferrer" aria-label="Open the Z.AI website">
+                            <img class="brand-logo" src="/assets/logos/zai.svg" alt="" width="24" height="24">
+                            <span>Z.AI</span>
+                        </a>
                         <span class="experience-role">Research Intern</span>
                         <span class="experience-time">Jun 2025 — Aug 2026</span>
                         <span class="experience-place">Beijing · On-site</span>
-                        <span class="experience-work">Reinforcement Learning for LLM Computer Use Agent</span>
+                        <span class="experience-work experience-projects" aria-label="Selected work at Z.AI">
+                            <a class="experience-project" href="https://openreview.net/forum?id=oEVfNf0w4B" target="_blank" rel="noopener noreferrer" aria-label="Open the ComputerRL paper on OpenReview">
+                                <span class="experience-project-name">ComputerRL</span>
+                                <span class="experience-project-meta">ICLR 2026 · Poster</span>
+                            </a>
+                            <a class="experience-project" href="https://arxiv.org/abs/2604.26752" target="_blank" rel="noopener noreferrer" aria-label="Open the GLM-5V-Turbo technical report on arXiv">
+                                <span class="experience-project-name">GLM-5V-Turbo</span>
+                                <span class="experience-project-meta">Technical Report</span>
+                            </a>
+                        </span>
                         <svg class="experience-sketch" viewBox="0 0 92 60" aria-hidden="true" focusable="false">
                             <path class="sketch-wash" d="M10 18C17 4 69 2 80 18c10 15 0 35-21 37-20 2-47-6-51-19-2-6-1-12 2-18Z"/>
                             <rect class="sketch-ink" x="15" y="12" width="61" height="39" rx="7"/>
@@ -2814,15 +4061,26 @@
                             <circle class="sketch-dot" cx="64" cy="29" r="2.2" style="--sketch-delay:520ms"/>
                         </svg>
                     </span>
-                </a>,
-                <a class="entity-link entity-link--experience entity-liauto" data-period="2024 — 2025" href="https://www.liauto.com/" target="_blank" rel="noopener noreferrer" aria-describedby="liAutoExperience">
-                    <img class="brand-logo brand-logo--wide" src="/assets/logos/li-auto.svg" alt="" width="49" height="20">
-                    <span>Li Auto</span>
-                    <span class="experience-note" id="liAutoExperience" role="tooltip">
+                </span>,
+                <span class="entity-link entity-link--experience entity-liauto" data-period="2024 — 2025">
+                    <button class="entity-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="liAutoExperience">
+                        <img class="brand-logo brand-logo--wide" src="/assets/logos/li-auto.svg" alt="" width="49" height="20">
+                        <span>Li Auto</span>
+                    </button>
+                    <span class="experience-note" id="liAutoExperience" role="dialog" aria-hidden="true" aria-label="Li Auto experience details" inert>
+                        <a class="experience-site-link" href="https://www.liauto.com/" target="_blank" rel="noopener noreferrer" aria-label="Open the Li Auto website">
+                            <img class="brand-logo brand-logo--wide" src="/assets/logos/li-auto.svg" alt="" width="49" height="20">
+                            <span>Li Auto</span>
+                        </a>
                         <span class="experience-role">Research Intern</span>
                         <span class="experience-time">Dec 2024 — Jun 2025</span>
                         <span class="experience-place">Shanghai · On-site</span>
-                        <span class="experience-work">Reinforcement Learning for Large Language Model Reasoning</span>
+                        <span class="experience-work experience-projects" aria-label="Selected work at Li Auto">
+                            <a class="experience-project" href="https://aclanthology.org/2026.acl-long.96/" target="_blank" rel="noopener noreferrer" aria-label="Open the SATQuest paper on ACL Anthology">
+                                <span class="experience-project-name">SATQuest</span>
+                                <span class="experience-project-meta">ACL 2026 · Oral</span>
+                            </a>
+                        </span>
                         <svg class="experience-sketch" viewBox="0 0 92 60" aria-hidden="true" focusable="false">
                             <path class="sketch-wash" d="M8 39C5 22 21 8 42 7c21-1 42 8 43 23 2 17-20 27-40 26C26 55 10 49 8 39Z"/>
                             <path class="sketch-ink" d="M14 42c8-2 10-17 21-18 11-1 11 14 22 13 10-1 10-16 21-17"/>
@@ -2836,11 +4094,17 @@
                             <circle class="sketch-dot" cx="78" cy="20" r="2" style="--sketch-delay:580ms"/>
                         </svg>
                     </span>
-                </a>,
-                <a class="entity-link entity-link--experience entity-sensetime" data-period="AUG — NOV 2024" href="https://www.sensetime.com/en/" target="_blank" rel="noopener noreferrer" aria-describedby="senseTimeExperience">
-                    <img class="brand-logo brand-logo--sense" src="/assets/logos/sensetime.svg" alt="" width="36" height="24">
-                    <span>SenseTime</span>
-                    <span class="experience-note" id="senseTimeExperience" role="tooltip">
+                </span>,
+                <span class="entity-link entity-link--experience entity-sensetime" data-period="AUG — NOV 2024">
+                    <button class="entity-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="senseTimeExperience">
+                        <img class="brand-logo brand-logo--sense" src="/assets/logos/sensetime.svg" alt="" width="36" height="24">
+                        <span>SenseTime</span>
+                    </button>
+                    <span class="experience-note" id="senseTimeExperience" role="dialog" aria-hidden="true" aria-label="SenseTime experience details" inert>
+                        <a class="experience-site-link" href="https://www.sensetime.com/en/" target="_blank" rel="noopener noreferrer" aria-label="Open the SenseTime website">
+                            <img class="brand-logo brand-logo--sense" src="/assets/logos/sensetime.svg" alt="" width="36" height="24">
+                            <span>SenseTime</span>
+                        </a>
                         <span class="experience-role">Research Intern</span>
                         <span class="experience-time">Aug 2024 — Nov 2024</span>
                         <span class="experience-place">Shanghai · On-site</span>
@@ -2855,12 +4119,18 @@
                             <circle class="sketch-dot" cx="50" cy="14" r="2" style="--sketch-delay:430ms"/>
                         </svg>
                     </span>
-                </a>
+                </span>
                 and
-                <a class="entity-link entity-link--experience entity-zeron" data-period="APR — AUG 2024" href="https://www.zerontruck.com/" target="_blank" rel="noopener noreferrer" aria-describedby="zeronExperience">
-                    <img class="brand-logo brand-logo--zeron" src="/assets/logos/zerontruck.svg" alt="" width="66" height="24">
-                    <span>ZeronTruck</span>
-                    <span class="experience-note" id="zeronExperience" role="tooltip">
+                <span class="entity-link entity-link--experience entity-zeron" data-period="APR — AUG 2024">
+                    <button class="entity-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="zeronExperience">
+                        <img class="brand-logo brand-logo--zeron" src="/assets/logos/zerontruck.svg" alt="" width="66" height="24">
+                        <span>ZeronTruck</span>
+                    </button>
+                    <span class="experience-note" id="zeronExperience" role="dialog" aria-hidden="true" aria-label="ZeronTruck experience details" inert>
+                        <a class="experience-site-link" href="https://www.zerontruck.com/" target="_blank" rel="noopener noreferrer" aria-label="Open the ZeronTruck website">
+                            <img class="brand-logo brand-logo--zeron" src="/assets/logos/zerontruck.svg" alt="" width="66" height="24">
+                            <span>ZeronTruck</span>
+                        </a>
                         <span class="experience-role">Intern</span>
                         <span class="experience-time">Apr 2024 — Aug 2024</span>
                         <span class="experience-place">Shanghai · On-site</span>
@@ -2876,7 +4146,7 @@
                             <circle class="sketch-dot" cx="78" cy="16" r="2" style="--sketch-delay:520ms"/>
                         </svg>
                     </span>
-                </a>.
+                </span>.
             </p>
         </section>
 
@@ -2930,6 +4200,84 @@
 
         const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
 
+        const typographyRoot = document.documentElement;
+        const typographyField = { x: 0.36, y: 0.42, energy: 0.16 };
+        const typographyTarget = { x: 0.36, y: 0.42, energy: 0.16 };
+        let typographyFrame = 0;
+        let typographyGeneration = 0;
+        let typographyLastInput = performance.now();
+        let typographyLastPointerX = window.innerWidth * 0.36;
+        let typographyLastPointerY = window.innerHeight * 0.42;
+
+        function typographyClamp(value, minimum = 0, maximum = 1) {
+            return Math.max(minimum, Math.min(maximum, value));
+        }
+
+        function renderTypographyField() {
+            typographyFrame = 0;
+            const ease = 0.115;
+            typographyField.x += (typographyTarget.x - typographyField.x) * ease;
+            typographyField.y += (typographyTarget.y - typographyField.y) * ease;
+            typographyField.energy += (typographyTarget.energy - typographyField.energy) * 0.16;
+            typographyTarget.energy += (0.16 - typographyTarget.energy) * 0.045;
+
+            typographyRoot.style.setProperty('--ai4ai-x', typographyField.x.toFixed(4));
+            typographyRoot.style.setProperty('--ai4ai-y', typographyField.y.toFixed(4));
+            typographyRoot.style.setProperty('--ai4ai-energy', typographyField.energy.toFixed(4));
+
+            const unsettled =
+                Math.abs(typographyTarget.x - typographyField.x) > 0.0008 ||
+                Math.abs(typographyTarget.y - typographyField.y) > 0.0008 ||
+                Math.abs(typographyTarget.energy - typographyField.energy) > 0.0008 ||
+                Math.abs(typographyTarget.energy - 0.16) > 0.001;
+            if (unsettled) typographyFrame = window.requestAnimationFrame(renderTypographyField);
+        }
+
+        function queueTypographyField() {
+            if (!typographyFrame && !reducedMotion) {
+                typographyFrame = window.requestAnimationFrame(renderTypographyField);
+            }
+        }
+
+        if (!reducedMotion) {
+            document.addEventListener('pointermove', (event) => {
+                if (!finePointer.matches || (event.pointerType && event.pointerType !== 'mouse')) return;
+                const distance = Math.hypot(
+                    event.clientX - typographyLastPointerX,
+                    event.clientY - typographyLastPointerY
+                );
+                typographyLastPointerX = event.clientX;
+                typographyLastPointerY = event.clientY;
+                typographyLastInput = performance.now();
+                typographyTarget.x = typographyClamp(event.clientX / Math.max(1, window.innerWidth));
+                typographyTarget.y = typographyClamp(event.clientY / Math.max(1, window.innerHeight));
+                typographyTarget.energy = typographyClamp(0.2 + distance / 92, 0.2, 1);
+                queueTypographyField();
+            }, { passive: true });
+
+            window.addEventListener('scroll', () => {
+                if (finePointer.matches && performance.now() - typographyLastInput < 1200) return;
+                const scrollRange = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+                const progress = typographyClamp(window.scrollY / scrollRange);
+                typographyTarget.x = 0.24 + progress * 0.52;
+                typographyTarget.y = 0.28 + progress * 0.48;
+                typographyTarget.energy = 0.34;
+                typographyLastInput = performance.now();
+                queueTypographyField();
+            }, { passive: true });
+
+            window.setInterval(() => {
+                if (performance.now() - typographyLastInput < 3600) return;
+                typographyGeneration += 1;
+                const phase = (typographyGeneration * 0.61803398875) % 1;
+                typographyTarget.x = 0.22 + phase * 0.56;
+                typographyTarget.y = 0.3 + (1 - phase) * 0.4;
+                typographyTarget.energy = 0.48;
+                typographyRoot.dataset.aiGeneration = String(typographyGeneration);
+                queueTypographyField();
+            }, 5800);
+        }
+
         function attachCardParallax(trigger, card) {
             if (!trigger || !card || !finePointer.matches || reducedMotion) return;
             let parallaxFrame = 0;
@@ -2979,6 +4327,23 @@
         const cursorLogo = document.getElementById('cursorLogo');
         const cursorMark = document.getElementById('cursorMark');
         const cursorTraces = Array.from(document.querySelectorAll('.cursor-trace'));
+        let activePointerLayer = null;
+
+        function updatePointerLayer(target = null) {
+            const openCard = document.querySelector('.entity-link.is-open');
+            const interactiveTarget = target?.closest(
+                '.wave-button, .name-alias, .avatar-button, .entity-link:not(.is-open), ' +
+                '.rl-concept, .emoji-button, .itera-token, .social-link, .satellite-button'
+            );
+            const nextLayer = openCard && interactiveTarget
+                ? interactiveTarget.closest('.hero, .story-line, .contact')
+                : null;
+
+            if (nextLayer === activePointerLayer) return;
+            activePointerLayer?.classList.remove('is-pointer-layer');
+            activePointerLayer = nextLayer;
+            activePointerLayer?.classList.add('is-pointer-layer');
+        }
 
         if (finePointer.matches) {
             document.body.classList.add('cursor-enabled');
@@ -2996,8 +4361,10 @@
             }
 
             function setCursorMode(target) {
+                updatePointerLayer(target);
                 const social = target.closest('.social-link');
                 const entity = target.closest('.entity-link');
+                const entityCard = target.closest('.experience-note');
                 const name = target.closest('.name-alias');
                 const avatarTarget = target.closest('.avatar-button');
                 const playful = target.closest('.wave-button, .emoji-button, .satellite-button');
@@ -3008,7 +4375,11 @@
                 let logo = null;
                 let mark = '';
 
-                if (social) {
+                if (entityCard) {
+                    mode = 'entity-card';
+                    color = getComputedStyle(entity).getPropertyValue('--brand').trim() || color;
+                    logo = entityCard.querySelector('.experience-site-link .brand-logo') || entity.querySelector('.brand-logo');
+                } else if (social) {
                     mode = 'social';
                     color = getComputedStyle(social).getPropertyValue('--brand').trim() || color;
                     logo = social.querySelector('.social-logo');
@@ -3017,9 +4388,7 @@
                     color = getComputedStyle(entity).getPropertyValue('--brand').trim() || color;
                     logo = entity.querySelector('.brand-logo');
                 } else if (name) {
-                    mode = 'name';
-                    color = '#7181a4';
-                    mark = 'aka';
+                    mode = 'text';
                 } else if (avatarTarget) {
                     mode = 'avatar';
                     mark = '♡';
@@ -3038,6 +4407,7 @@
 
                 cursorAtelier.className = `cursor-atelier is-visible is-${mode}`;
                 cursorAtelier.classList.toggle('is-pressed', document.documentElement.classList.contains('cursor-pressed'));
+                document.body.classList.toggle('cursor-entity-card', mode === 'entity-card');
                 cursorMark.textContent = mark;
                 setCursorColor(color);
 
@@ -3100,7 +4470,10 @@
                     });
                 }
 
-                cursorTraces.forEach((trace) => trace.classList.add('is-visible'));
+                cursorTraces.forEach((trace) => trace.classList.toggle(
+                    'is-visible',
+                    !cursorAtelier.classList.contains('is-entity-card')
+                ));
                 if (!traceFrame && !reducedMotion) traceFrame = window.requestAnimationFrame(drawCursorTraces);
             }, { passive: true });
 
@@ -3121,15 +4494,13 @@
             window.addEventListener('mouseout', (event) => {
                 if (event.relatedTarget) return;
                 cursorIsVisible = false;
+                updatePointerLayer();
                 cursorAtelier.classList.remove('is-visible');
                 cursorTraces.forEach((trace) => trace.classList.remove('is-visible'));
             });
         }
 
         const waveButton = document.getElementById('waveButton');
-        const greeting = document.getElementById('greeting');
-        const greetings = ['Hi there!', '你好！', 'Nice to meet you!'];
-        let greetingIndex = 0;
         let waveClicks = 0;
 
         function pop(element) {
@@ -3159,8 +4530,6 @@
         }
 
         waveButton.addEventListener('click', () => {
-            greetingIndex = (greetingIndex + 1) % greetings.length;
-            greeting.textContent = greetings[greetingIndex];
             waveClicks += 1;
             pop(waveButton);
             if (waveClicks % 4 === 0) emojiBurst(waveButton);
@@ -3177,6 +4546,7 @@
         let pendingPortraitState = null;
 
         const page = document.querySelector('.page');
+        const pageEmbraceEnabled = false;
         const pageEmbrace = document.getElementById('pageEmbrace');
         const pageEmbracePath = document.getElementById('pageEmbracePath');
         const pageEmbraceEcho = document.getElementById('pageEmbraceEcho');
@@ -3505,7 +4875,7 @@
             pageEmbraceMagnetLine.style.opacity = String(0.28 + strength * 0.72);
         }
 
-        if (finePointer.matches && !reducedMotion) {
+        if (pageEmbraceEnabled && finePointer.matches && !reducedMotion) {
             document.addEventListener('pointermove', (event) => {
                 if (event.pointerType && event.pointerType !== 'mouse') return;
                 magnetPointerX = event.clientX;
@@ -3519,6 +4889,7 @@
         }
 
         function updatePageEmbrace() {
+            if (!pageEmbraceEnabled) return;
             hideMagnetInk();
             const pageRect = page.getBoundingClientRect();
             const avatarRect = avatarButton.getBoundingClientRect();
@@ -3622,12 +4993,6 @@
             };
             renderAvatarEmbrace();
         }
-
-        const embraceResizeObserver = new ResizeObserver(updatePageEmbrace);
-        embraceResizeObserver.observe(page);
-        window.addEventListener('resize', updatePageEmbrace);
-        document.fonts.ready.then(updatePageEmbrace);
-        updatePageEmbrace();
 
         function setPortrait(revealed) {
             if (portraitRevealed === revealed) {
@@ -3824,7 +5189,7 @@
                 avatarButton.removeAttribute('aria-busy');
                 avatarSelfBuilding = false;
                 setAvatarEmbraceResponse({ pull: 0, breath: 0, pulse: -1 });
-                scheduleAvatarSelfBuild(900);
+                scheduleAvatarSelfBuild(1400);
             }
 
             try {
@@ -3902,7 +5267,7 @@
                 portraitGrow: 2400,
                 portraitHold: 420,
                 vectorReveal: 720,
-                vectorHold: 520,
+                vectorHold: 1500,
                 vectorCollapse: 980,
                 finalSeed: 320
             };
@@ -3948,7 +5313,7 @@
                 if (queuedPortraitState !== null) {
                     restoreAvatarPresentation();
                     setPortrait(queuedPortraitState);
-                    scheduleAvatarSelfBuild(920);
+                    scheduleAvatarSelfBuild(1400);
                     return;
                 }
 
@@ -4247,8 +5612,8 @@
 
         rlEmoji.addEventListener('click', nextResearchEmoji);
         attachCardParallax(rlConcept, rlConcept.querySelector('.rl-lab'));
-        if (!reducedMotion) window.setInterval(nextResearchEmoji, 1800);
-        scheduleAvatarSelfBuild(900);
+        if (!reducedMotion) window.setInterval(nextResearchEmoji, 3600);
+        scheduleAvatarSelfBuild(1800);
 
         const ucasLink = document.querySelector('.entity-ucas');
         const campusTimeFormatter = new Intl.DateTimeFormat('en-GB', {
@@ -4757,15 +6122,16 @@
         function positionExperienceNote(link) {
             const note = link.querySelector('.experience-note');
             const linkRect = link.getBoundingClientRect();
+            const viewportWidth = document.documentElement.clientWidth;
 
             if (link.matches('.entity-link--experience, .entity-link--education')) {
                 const isEducation = link.classList.contains('entity-link--education');
                 const cardInset = Math.max(8, Math.min(14, linkRect.left - 8));
                 const cardLeft = linkRect.left - cardInset;
                 const pageRect = page.getBoundingClientRect();
-                const cardRightLimit = window.innerWidth > 640
-                    ? Math.min(window.innerWidth - 12, pageRect.right - 26)
-                    : window.innerWidth - 12;
+                const cardRightLimit = viewportWidth > 640
+                    ? Math.min(viewportWidth - 12, pageRect.right - 26)
+                    : viewportWidth - 12;
                 const desiredWidth = isEducation
                     ? Math.max(420, linkRect.width + 28)
                     : 360;
@@ -4774,25 +6140,83 @@
                 note.style.width = `${noteWidth}px`;
                 note.style.setProperty('--experience-left', `${-cardInset}px`);
                 note.style.setProperty('--experience-shift-x', '0px');
-                note.style.setProperty('--experience-header-space', `${Math.ceil(linkRect.height + 18)}px`);
+                note.style.setProperty('--experience-card-inset', `${cardInset}px`);
+                const sketchClearance = isEducation ? 128 : 82;
+                const headerSpace = Math.max(Math.ceil(linkRect.height + 18), sketchClearance);
+                note.style.setProperty('--experience-header-space', `${headerSpace}px`);
                 return;
             }
 
-            const noteWidth = Math.min(340, window.innerWidth - 40);
+            const noteWidth = Math.min(340, viewportWidth - 40);
             const preferredLeft = linkRect.left + linkRect.width / 2 - noteWidth / 2;
-            const viewportLeft = Math.max(20, Math.min(preferredLeft, window.innerWidth - noteWidth - 20));
+            const viewportLeft = Math.max(20, Math.min(preferredLeft, viewportWidth - noteWidth - 20));
 
             note.style.width = `${noteWidth}px`;
             note.style.setProperty('--experience-left', `${viewportLeft - linkRect.left}px`);
             note.style.setProperty('--experience-shift-x', '0px');
         }
 
+        let activeExperienceLink = null;
+
+        function closeExperienceCards({ restoreFocus = false } = {}) {
+            const previousLink = activeExperienceLink;
+            const shouldRestoreFocus = restoreFocus || Boolean(
+                previousLink && previousLink.contains(document.activeElement)
+            );
+            experienceLinks.forEach((link) => {
+                const trigger = link.querySelector('.entity-trigger');
+                const note = link.querySelector('.experience-note');
+                link.classList.remove('is-open');
+                trigger.setAttribute('aria-expanded', 'false');
+                note.setAttribute('aria-hidden', 'true');
+                note.inert = true;
+            });
+            activeExperienceLink = null;
+            updatePointerLayer();
+            if (shouldRestoreFocus && previousLink) {
+                previousLink.querySelector('.entity-trigger').focus({ preventScroll: true });
+            }
+        }
+
+        function openExperienceCard(link) {
+            closeExperienceCards();
+            positionExperienceNote(link);
+            const trigger = link.querySelector('.entity-trigger');
+            const note = link.querySelector('.experience-note');
+            link.classList.add('is-open');
+            trigger.setAttribute('aria-expanded', 'true');
+            note.setAttribute('aria-hidden', 'false');
+            note.inert = false;
+            activeExperienceLink = link;
+            window.setTimeout(() => {
+                link.querySelector('.experience-site-link').focus({ preventScroll: true });
+            }, 120);
+        }
+
         experienceLinks.forEach((link) => {
             const note = link.querySelector('.experience-note');
-            link.addEventListener('pointerenter', () => positionExperienceNote(link));
-            link.addEventListener('focus', () => positionExperienceNote(link));
+            const trigger = link.querySelector('.entity-trigger');
+            trigger.addEventListener('click', (event) => {
+                event.stopPropagation();
+                if (link.classList.contains('is-open')) {
+                    closeExperienceCards({ restoreFocus: true });
+                } else {
+                    openExperienceCard(link);
+                }
+            });
             positionExperienceNote(link);
             attachCardParallax(link, note);
+        });
+
+        document.addEventListener('click', (event) => {
+            if (!activeExperienceLink || event.target.closest('.entity-link--experience, .entity-link--education')) return;
+            closeExperienceCards();
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key !== 'Escape' || !activeExperienceLink) return;
+            event.preventDefault();
+            closeExperienceCards({ restoreFocus: true });
         });
 
         const socialLinks = document.querySelectorAll('.social-link');
@@ -4801,10 +6225,11 @@
             const note = link.querySelector('.social-note');
             const linkRect = link.getBoundingClientRect();
             const pageRect = page.getBoundingClientRect();
-            const boundsLeft = window.innerWidth > 640 ? pageRect.left + 26 : 8;
-            const boundsRight = window.innerWidth > 640
-                ? Math.min(window.innerWidth - 12, pageRect.right - 26)
-                : window.innerWidth - 12;
+            const viewportWidth = document.documentElement.clientWidth;
+            const boundsLeft = viewportWidth > 640 ? pageRect.left + 26 : 8;
+            const boundsRight = viewportWidth > 640
+                ? Math.min(viewportWidth - 12, pageRect.right - 26)
+                : viewportWidth - 12;
             const desiredWidth = Math.max(190, linkRect.width + 20);
             let cardLeft = linkRect.left - 10;
 
