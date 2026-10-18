@@ -199,6 +199,36 @@
       "archive_path": "archive/resume/assets/images/yanxiao-zhao.jpg",
       "bytes": 170089,
       "sha256": "51ff4dbb75ec60ded184f550c62899c273cccbc9a2e1e0e7a7d68d3f83d23c3d"
+    },
+    {
+      "original_path": "index.html",
+      "archive_path": "archive/index.html",
+      "bytes": 56612,
+      "sha256": "6610619c6bb935b9f6c56c20cbba91cc1dfd27d19551d82c0ec462a1ead771ff"
+    },
+    {
+      "original_path": "assets/profile.svg",
+      "archive_path": "archive/assets/profile.svg",
+      "bytes": 52939,
+      "sha256": "46d1b8ee8d61c57506f84131026f90b240fec00f370d1f34f4c8e5154d37f3f1"
+    },
+    {
+      "original_path": "scripts/build-profile.py",
+      "archive_path": "archive/scripts/build-profile.py",
+      "bytes": 11195,
+      "sha256": "51a03e3a0edc847245395f38817c7b4f49a8c7b77ce0959aeabbdef14b3ac5a1"
+    },
+    {
+      "original_path": "scripts/profile-shell.html",
+      "archive_path": "archive/scripts/profile-shell.html",
+      "bytes": 3694,
+      "sha256": "54c90f9069d71e45cba059ecea6b2f580f5f0439cd3d571dd0a546f10a583b1a"
+    },
+    {
+      "original_path": "scripts/profile-requirements.txt",
+      "archive_path": "archive/scripts/profile-requirements.txt",
+      "bytes": 42,
+      "sha256": "60523be218ef7af1841d14a4baa17dc05d1d193000e37cb71acda2f713c6b966"
     }
   ]
 }
