@@ -1,6 +1,6 @@
 # 简历
 
-简历页面、字体、图片、PDF 和工具集中存放在此目录，可整体复制使用，不依赖首页目录的资源。此次整理没有修改简历内容或重新生成已有 PDF。
+当前简历页面、所需字体、PDF 和工具集中存放在此目录，可整体复制使用，不依赖首页目录的资源。此次整理没有修改简历内容或重新生成已有 PDF。
 
 ## 文件结构
 
@@ -8,8 +8,7 @@
 resume/
 ├── index.html            # 简历页面
 ├── assets/
-│   ├── fonts/            # 所需字体、备用字体及许可证
-│   └── images/           # 照片与校徽（保留的素材）
+│   └── fonts/            # 当前使用的 3 套字体及许可证
 ├── output/pdf/           # 导出的 PDF
 ├── scripts/
 │   ├── export-resume-pdf.sh
@@ -45,4 +44,4 @@ RESUME_DATE=261019 ./scripts/export-resume-pdf.sh ./output/pdf/YanxiaoZhao-26101
 
 检查包括单页 A4、文档标签、字体嵌入、文本顺序和文件体积。检查脚本中的必需文本与当前简历内容对应；以后修改简历内容时，也应同步维护这些检查项。
 
-首页原有的共享字体保留不动；这里使用独立副本，许可证位于 `assets/fonts/`。
+这里使用独立字体副本，许可证位于 `assets/fonts/`。未引用的备用字体、照片和校徽已移至仓库的 `archive/resume/assets/`；恢复清单见 `archive/manifest.json`。

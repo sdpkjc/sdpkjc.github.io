@@ -1,0 +1,204 @@
+{
+  "archived_on": "2026-10-19",
+  "source_commit": "306c51dab2066b392470d64a8cc3e9848b99b93a",
+  "files": [
+    {
+      "original_path": "SmileySans-Oblique.ttf.woff2",
+      "archive_path": "archive/SmileySans-Oblique.ttf.woff2",
+      "bytes": 950116,
+      "sha256": "f9f3ce3b1bec288bec96aa1f95f5624adc11800af06a9958eb2df0179f7b1217"
+    },
+    {
+      "original_path": "a.html",
+      "archive_path": "archive/a.html",
+      "bytes": 2808,
+      "sha256": "44ea636d730fa43ec194efe3ea33d8afa2b82f8a7007a004780e9e5641275cfb"
+    },
+    {
+      "original_path": "adam_wenxin.svg",
+      "archive_path": "archive/adam_wenxin.svg",
+      "bytes": 78367,
+      "sha256": "7e17020d28032ebd84f19479e0a19a7373ce2c2becc8e579f44e98e3e84aae39"
+    },
+    {
+      "original_path": "adam_wenxin_dark.svg",
+      "archive_path": "archive/adam_wenxin_dark.svg",
+      "bytes": 78320,
+      "sha256": "9d5a4c92a73b5df014163bef11449f4c1df3ad141a0789ead9ab135bc978079d"
+    },
+    {
+      "original_path": "cleanrl_pr344.jpg",
+      "archive_path": "archive/cleanrl_pr344.jpg",
+      "bytes": 77151,
+      "sha256": "5c4d8f500d709ef100c25a7e72706807ce7db59c08f2c0efafd91427e890d8a7"
+    },
+    {
+      "original_path": "my_subset.txt",
+      "archive_path": "archive/my_subset.txt",
+      "bytes": 430,
+      "sha256": "45007d0124ef4b4667a46604a47f33163f941e875850466e5991a927452605d8"
+    },
+    {
+      "original_path": "mysubsetfont.woff2",
+      "archive_path": "archive/mysubsetfont.woff2",
+      "bytes": 4792,
+      "sha256": "ea48e76147d9ce1646bbd186807fe93c9630f76d834f00d359981810499c239a"
+    },
+    {
+      "original_path": "snapshotrl.svg",
+      "archive_path": "archive/snapshotrl.svg",
+      "bytes": 273796,
+      "sha256": "c5828b3bef5285d2cda5e00502db6e408794eb3a7d727ad05e64ec1e55d18700"
+    },
+    {
+      "original_path": "social_media_card.svg",
+      "archive_path": "archive/social_media_card.svg",
+      "bytes": 162623,
+      "sha256": "6ed2fcf42e364df4e866abe47fb84f6cc54803cbd9b9cbe1b7b4f190f27426f3"
+    },
+    {
+      "original_path": "social_media_card_dark.svg",
+      "archive_path": "archive/social_media_card_dark.svg",
+      "bytes": 169516,
+      "sha256": "ccc7a154b3811592ab9da60c1f904f6e53f3fe9f32c7659706a909b61fafd811"
+    },
+    {
+      "original_path": "typed.js",
+      "archive_path": "archive/typed.js",
+      "bytes": 9842,
+      "sha256": "addba89f22bfa3c25bf3e7575855d5d03118fd8fa91202dcec7484645112df4f"
+    },
+    {
+      "original_path": "x",
+      "archive_path": "archive/x",
+      "bytes": 5089,
+      "sha256": "939c82710ec793a67c9d377907c552d100fbd701c3f22a53c0ce25d1ec6d182e"
+    },
+    {
+      "original_path": "x.html",
+      "archive_path": "archive/x.html",
+      "bytes": 3444,
+      "sha256": "d68a7b131b3c13f9bdaae5cb159aa4976ed3379483ef1046e76736f59c3958df"
+    },
+    {
+      "original_path": "assets/fonts/Monaspace-Krypton-Variable.woff2",
+      "archive_path": "archive/assets/fonts/Monaspace-Krypton-Variable.woff2",
+      "bytes": 445408,
+      "sha256": "f1357532c080c3f976e35ec1d18a92b423d4261103acb7d2cdccffa03a989fad"
+    },
+    {
+      "original_path": "assets/fonts/Monaspace-OFL.txt",
+      "archive_path": "archive/assets/fonts/Monaspace-OFL.txt",
+      "bytes": 4479,
+      "sha256": "481f459f4a5f063c0926aeefd7deac7962b36dcc51d27599a569844eedef5546"
+    },
+    {
+      "original_path": "assets/logos/li-auto.svg",
+      "archive_path": "archive/assets/logos/li-auto.svg",
+      "bytes": 516,
+      "sha256": "86c1e0f1780d80ad7e5c49e03a8a6ff7e4dd37cb8a5bd46068cbf18e012d4710"
+    },
+    {
+      "original_path": "assets/logos/sensetime.svg",
+      "archive_path": "archive/assets/logos/sensetime.svg",
+      "bytes": 1085,
+      "sha256": "31efe786eb5c3197a6cf32078d678c95c575c767398b393269068e12ed574dcc"
+    },
+    {
+      "original_path": "assets/logos/tencent-hy.svg",
+      "archive_path": "archive/assets/logos/tencent-hy.svg",
+      "bytes": 1360,
+      "sha256": "b471e7dd040c825af93a211f7a120a3aa8cd965672ee3ef756d288a0f15b602f"
+    },
+    {
+      "original_path": "assets/logos/ucas.svg",
+      "archive_path": "archive/assets/logos/ucas.svg",
+      "bytes": 285518,
+      "sha256": "66623d9449d536f30c80940680287082f255ee0bc6697c49e6a973630e3fd6a4"
+    },
+    {
+      "original_path": "assets/logos/zai.svg",
+      "archive_path": "archive/assets/logos/zai.svg",
+      "bytes": 531,
+      "sha256": "2019bb192a8c079cc4ac48109adb55bd0ad510652a58cfd40c4d6e1c76e27bc2"
+    },
+    {
+      "original_path": "assets/logos/zerontruck.svg",
+      "archive_path": "archive/assets/logos/zerontruck.svg",
+      "bytes": 8142,
+      "sha256": "d5fd947f73da368fd32ed31e818351038f79cb71b5c636410cdde5e8ecbb16c7"
+    },
+    {
+      "original_path": "assets/social/discord.svg",
+      "archive_path": "archive/assets/social/discord.svg",
+      "bytes": 1390,
+      "sha256": "716748e92aceb08cb35013d548715e250b2124a460466414af64654e840f3d47"
+    },
+    {
+      "original_path": "assets/social/email.svg",
+      "archive_path": "archive/assets/social/email.svg",
+      "bytes": 291,
+      "sha256": "477fbd0fe8ece6f13bd272abfe8aa71e1771d85c9674141aa90d587004fe8285"
+    },
+    {
+      "original_path": "assets/social/googlescholar.svg",
+      "archive_path": "archive/assets/social/googlescholar.svg",
+      "bytes": 280,
+      "sha256": "eb8255294907475c838790c797007a738130330dea43e31ce430844ee19c1bea"
+    },
+    {
+      "original_path": "assets/social/huggingface.svg",
+      "archive_path": "archive/assets/social/huggingface.svg",
+      "bytes": 3043,
+      "sha256": "6ced531aafc55003e503d7ab088dfb7c1cc061c403f5bac7694b5df5abbaf283"
+    },
+    {
+      "original_path": "assets/social/mastodon.svg",
+      "archive_path": "archive/assets/social/mastodon.svg",
+      "bytes": 1231,
+      "sha256": "00b488dfe52d8d413f6c55380719d36d32850b925346454a4254f356920ddc89"
+    },
+    {
+      "original_path": "assets/social/orcid.svg",
+      "archive_path": "archive/assets/social/orcid.svg",
+      "bytes": 524,
+      "sha256": "c356e184772ddc551209225bcefcc005d918c6b7535c4004bc6709c28769ebc6"
+    },
+    {
+      "original_path": "resume/assets/fonts/LXGW-WenKai-OFL.txt",
+      "archive_path": "archive/resume/assets/fonts/LXGW-WenKai-OFL.txt",
+      "bytes": 6026,
+      "sha256": "e99df1654223edc25d1613a8a4052b1286b73cfa346a62ac2c903ecf2a120ab3"
+    },
+    {
+      "original_path": "resume/assets/fonts/LXGWWenKai-Resume.ttf",
+      "archive_path": "archive/resume/assets/fonts/LXGWWenKai-Resume.ttf",
+      "bytes": 93436,
+      "sha256": "5fb3a8cd5b8a05ea853cde5a83dcd8383282f535b5dd77a162691376dd200e00"
+    },
+    {
+      "original_path": "resume/assets/fonts/NotoSerifSC-OFL.txt",
+      "archive_path": "archive/resume/assets/fonts/NotoSerifSC-OFL.txt",
+      "bytes": 4350,
+      "sha256": "5e0da210fb04058a8c0087985d2d456b931c2579811a49655721d3cf0c36b6d6"
+    },
+    {
+      "original_path": "resume/assets/fonts/NotoSerifSC-Resume.woff2",
+      "archive_path": "archive/resume/assets/fonts/NotoSerifSC-Resume.woff2",
+      "bytes": 87324,
+      "sha256": "d4609814a2f871c7c0b13a1d099e9b1802a398bcf7e4b312ce643358f2f5888e"
+    },
+    {
+      "original_path": "resume/assets/images/xujc.jpg",
+      "archive_path": "archive/resume/assets/images/xujc.jpg",
+      "bytes": 101052,
+      "sha256": "3e3aba334b1a8751426bcf849c72b9540492bbf2978347c4a3f82330c0453e95"
+    },
+    {
+      "original_path": "resume/assets/images/yanxiao-zhao.jpg",
+      "archive_path": "archive/resume/assets/images/yanxiao-zhao.jpg",
+      "bytes": 170089,
+      "sha256": "51ff4dbb75ec60ded184f550c62899c273cccbc9a2e1e0e7a7d68d3f83d23c3d"
+    }
+  ]
+}

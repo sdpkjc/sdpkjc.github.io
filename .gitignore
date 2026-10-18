@@ -1,0 +1,3 @@
+# macOS metadata and local scratch files are not project sources.
+.DS_Store
+/tmp/
