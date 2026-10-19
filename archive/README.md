@@ -25,7 +25,7 @@
 ## 保留在工作目录的文件
 
 - 首页：`index.html`、`adam.svg`、`adam_dark.svg`。
-- 首页资源：Recursive/Sarasa 字体及许可证、5 个实际使用的社交 SVG。无需构建工具。
+- 首页资源：本地字体及许可证、5 个实际使用的社交 SVG。无需构建工具。
 - 简历：`resume/index.html`、实际使用的 3 套字体及许可证、已有 PDF、导出和检查脚本。
 
 ## 恢复与注意事项

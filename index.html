@@ -7,25 +7,14 @@
     <title>Yanxiao Zhao</title>
     <link rel="icon" type="image/svg+xml" sizes="any" href="./adam.svg">
     <link rel="icon" type="image/svg+xml" sizes="any" href="./adam_dark.svg" media="(prefers-color-scheme: dark)">
-    <link rel="preload" href="./assets/fonts/Recursive-1.085-latin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="./assets/fonts/SarasaMonoSC-Minimal.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="./assets/fonts/ShantellSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
     <style>
-        /* Local fonts and explicit metrics keep the same proportions across platforms. */
+        /* Local Shantell Sans (OFL), with explicit metrics for consistent layout. */
         @font-face {
-            font-family: "Profile Mono";
-            src: url("./assets/fonts/Recursive-1.085-latin.woff2") format("woff2");
+            font-family: "Shantell Sans";
+            src: url("./assets/fonts/ShantellSans-Variable.woff2") format("woff2");
             font-style: normal;
-            font-weight: 300 1000;
-            font-display: block;
-            ascent-override: 95%;
-            descent-override: 25%;
-            line-gap-override: 0%;
-        }
-        @font-face {
-            font-family: "Profile Chinese";
-            src: url("./assets/fonts/SarasaMonoSC-Minimal.ttf") format("truetype");
-            font-style: normal;
-            font-weight: 400;
+            font-weight: 300 800;
             font-display: block;
             ascent-override: 95%;
             descent-override: 25%;
@@ -49,14 +38,14 @@
             padding: 24px 16px;
             background: #FCFBF8;
             color: #242321;
-            font-family: "Profile Mono", monospace;
+            font-family: "Shantell Sans", sans-serif;
             font-size: 20px;
             font-size: clamp(1rem, calc((100vw - 2rem) / 18), 1.25rem);
-            font-weight: 400;
+            font-weight: 500;
             font-style: normal;
-            font-variation-settings: "MONO" 1, "CASL" 0.2, "wght" 400, "slnt" 0, "CRSV" 0;
-            font-feature-settings: "liga" 0, "calt" 0;
-            font-kerning: none;
+            font-variation-settings: "INFM" 35, "BNCE" 0, "SPAC" 0, "ital" 0;
+            font-feature-settings: "rlig" 1;
+            font-kerning: normal;
             font-optical-sizing: none;
             font-synthesis: none;
             line-height: 1.6;
@@ -92,10 +81,6 @@
             margin-bottom: 1em;
         }
         h1 span { white-space: nowrap; }
-        .name-zh {
-            font-family: "Profile Chinese", sans-serif;
-            font-variation-settings: normal;
-        }
         a { color: inherit; text-decoration: none; }
         .bio a { white-space: nowrap; }
         .bio a:hover {
@@ -128,19 +113,13 @@
         .contact a:focus-visible { outline-offset: -1px; }
         .contact img {
             display: block;
-            width: 1em;
-            height: 1em;
+            width: 1.2em;
+            height: 1.2em;
             object-fit: contain;
-            filter: brightness(0);
-            opacity: 0.61;
+            opacity: 0.82;
             transition: opacity 150ms ease-out;
         }
-        .contact a:hover img, .contact a:focus-visible img { opacity: 0.86; }
-        .contact .email { width: 1.05em; height: 1.05em; }
-        .contact .github { width: 0.95em; height: 0.95em; }
-        .contact .scholar { width: 1.1em; height: 1.1em; }
-        .contact .x { width: 0.925em; height: 0.925em; }
-        .contact .linkedin { width: 0.9em; height: 0.9em; }
+        .contact a:hover img, .contact a:focus-visible img { opacity: 1; }
         @media (prefers-reduced-motion: reduce) {
             .contact img { transition: none; }
         }
@@ -160,27 +139,27 @@
 <body>
     <!-- Edit the profile text and links here. No build step is needed. -->
     <main aria-labelledby="profile-name">
-        <h1 id="profile-name"><span>Yanxiao Zhao</span> <span class="name-zh" lang="zh-CN">赵砚潇</span></h1>
+        <h1 id="profile-name"><span>Yanxiao Zhao</span> <span>(@sdpkjc)</span></h1>
         <div class="bio">
             <p>Reinforcement Learner</p>
-            <p>PhD Student at <a href="https://www.ucas.ac.cn/" target="_blank" rel="noopener noreferrer" aria-label="UCAS — University of Chinese Academy of Sciences">UCAS</a></p>
-            <p>Intern at <a href="https://hy.tencent.ai/" target="_blank" rel="noopener noreferrer">Tencent Hy</a></p>
+            <p>PhD Student @ <a href="https://www.ucas.ac.cn/" target="_blank" rel="noopener noreferrer" aria-label="UCAS — University of Chinese Academy of Sciences">UCAS</a></p>
+            <p>Intern @ <a href="https://hy.tencent.ai/" target="_blank" rel="noopener noreferrer">Tencent Hy</a></p>
         </div>
         <nav class="contact" aria-label="Contact links">
             <a href="mailto:hi@sdpkjc.com" aria-label="Email hi@sdpkjc.com" title="Email">
-                <img class="email" src="./assets/social/email-outline.svg" alt="" width="21" height="21">
+                <img src="./assets/social/email-ink.svg" alt="" width="24" height="24">
             </a>
             <a href="https://github.com/sdpkjc" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
-                <img class="github" src="./assets/social/github.svg" alt="" width="19" height="19">
+                <img src="./assets/social/github-ink.svg" alt="" width="24" height="24">
             </a>
             <a href="https://scholar.google.com/citations?user=Netm2wsAAAAJ" target="_blank" rel="noopener noreferrer" aria-label="Google Scholar" title="Google Scholar">
-                <img class="scholar" src="./assets/social/google-scholar-academicons.svg" alt="" width="22" height="22">
+                <img src="./assets/social/google-scholar-ink.svg" alt="" width="24" height="24">
             </a>
             <a href="https://twitter.com/sdpkjc_adam" target="_blank" rel="noopener noreferrer" aria-label="X" title="X">
-                <img class="x" src="./assets/social/x.svg" alt="" width="19" height="19">
+                <img src="./assets/social/x-ink.svg" alt="" width="24" height="24">
             </a>
             <a href="https://www.linkedin.com/in/yanxiao-zhao/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
-                <img class="linkedin" src="./assets/social/linkedin.svg" alt="" width="18" height="18">
+                <img src="./assets/social/linkedin-ink.svg" alt="" width="24" height="24">
             </a>
         </nav>
     </main>
