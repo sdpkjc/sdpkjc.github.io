@@ -64,6 +64,72 @@
             background-size: 240px 240px;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'%3E%3Cfilter id='paper' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.66' numOctaves='2' seed='17' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0' result='grain'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.12 .2' numOctaves='2' seed='29' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0' result='fiber'/%3E%3CfeComposite in='grain' in2='fiber' operator='arithmetic' k1='0' k2='.82' k3='.18' k4='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='2.4' intercept='-.6'/%3E%3CfeFuncG type='linear' slope='2.4' intercept='-.6'/%3E%3CfeFuncB type='linear' slope='2.4' intercept='-.6'/%3E%3CfeFuncA type='table' tableValues='1 1'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)'/%3E%3C/svg%3E");
         }
+        /* Related strokes keep traces of earlier gestures, with no marks in the reading area. */
+        .paper-sketch {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            z-index: -1;
+            pointer-events: none;
+            user-select: none;
+            color: #242321;
+        }
+        .paper-sketch svg {
+            position: absolute;
+            display: block;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        .paper-sketch path { vector-effect: non-scaling-stroke; }
+        .stroke-trace { opacity: 0.17; stroke-width: 1.5; }
+        .stroke-memory { opacity: 0.26; stroke-width: 1.8; }
+        .stroke-follow { opacity: 0.42; }
+        .sketch-wander {
+            width: clamp(340px, 38vw, 520px);
+            left: calc(50% - clamp(430px, 46vw, 700px));
+            bottom: calc(50% + 158px);
+        }
+        .sketch-return {
+            width: clamp(270px, 26vw, 350px);
+            left: calc(50% + 190px);
+            top: calc(50% - 115px);
+            --stroke-delay: 950ms;
+        }
+        .sketch-echo {
+            width: 260px;
+            right: calc(50% + 50px);
+            top: calc(50% + 210px);
+            --stroke-delay: 1450ms;
+        }
+        @media (prefers-reduced-motion: no-preference) {
+            .stroke-follow {
+                stroke-dasharray: 1;
+                stroke-dashoffset: 0;
+                animation: ink-follow 2600ms cubic-bezier(0.4, 0, 0.25, 1) var(--stroke-delay, 450ms) both;
+            }
+            .stroke-memory {
+                animation: ink-memory 2200ms ease-out calc(var(--stroke-delay, 450ms) + 1400ms) both;
+            }
+            @keyframes ink-follow {
+                from { stroke-dashoffset: 1; }
+                to { stroke-dashoffset: 0; }
+            }
+            @keyframes ink-memory {
+                from { opacity: 0.38; }
+                to { opacity: 0.26; }
+            }
+        }
+        @media (max-width: 600px) {
+            .sketch-wander { width: 340px; left: -108px; bottom: calc(50% + 175px); }
+            .sketch-return { width: 230px; left: calc(100% - 100px); top: calc(50% + 110px); }
+            .sketch-echo { width: 190px; right: calc(50% - 50px); top: calc(50% + 195px); }
+        }
+        @media (max-height: 540px) {
+            .paper-sketch { display: none; }
+        }
         main {
             width: 18em;
             max-width: 100%;
@@ -81,6 +147,18 @@
             margin-bottom: 1em;
         }
         h1 span { white-space: nowrap; }
+        .name { position: relative; display: inline-block; }
+        /* The quiet copy owns the width; animated glyph metrics cannot move the layout. */
+        .name-space { visibility: hidden; }
+        .name-ink { position: absolute; inset: 0; }
+        @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+            .name:hover .name-ink { animation: name-wave 1200ms ease-in-out; }
+            @keyframes name-wave {
+                0%, 100% { font-variation-settings: "INFM" 35, "BNCE" 0, "SPAC" 0, "ital" 0; }
+                38% { font-variation-settings: "INFM" 50, "BNCE" 12, "SPAC" 0, "ital" 0; }
+                70% { font-variation-settings: "INFM" 40, "BNCE" -4, "SPAC" 0, "ital" 0; }
+            }
+        }
         a { color: inherit; text-decoration: none; }
         .bio a { white-space: nowrap; }
         .bio a:hover {
@@ -125,21 +203,39 @@
         }
         @media (forced-colors: active) {
             body { background: Canvas; color: CanvasText; }
-            body::before { display: none; }
+            body::before, .paper-sketch { display: none; }
             a { color: LinkText; }
             /* Image pixels cannot inherit system colors; give them a contrasting backing. */
             .contact img { background: #fff; filter: grayscale(1); opacity: 1; forced-color-adjust: none; }
         }
         @media print {
             body { background: #fff; }
-            body::before { display: none; }
+            body::before, .paper-sketch { display: none; }
+            .name-ink { animation: none !important; }
         }
     </style>
 </head>
 <body>
+    <div class="paper-sketch" aria-hidden="true">
+        <svg class="sketch-wander" viewBox="0 0 480 210" focusable="false">
+            <path class="stroke-trace" d="M-30 150 C28 177 88 172 110 135 C129 102 120 62 95 61 C65 60 54 97 78 126 C112 168 174 159 216 120 C253 86 273 38 312 40 C347 42 357 66 386 62 C413 58 422 39 445 35"/>
+            <path class="stroke-memory" d="M-34 134 C20 159 65 163 86 141 C112 114 112 81 92 75 C70 68 58 93 75 116 C96 147 151 153 196 126 C227 94 255 61 283 59 C318 57 333 78 360 84 C397 92 426 61 473 48"/>
+            <path class="stroke-follow" pathLength="1" d="M-24 120 C25 150 68 155 90 133 C111 112 102 86 87 85 C66 84 63 105 79 124 C109 160 158 164 196 126 C227 94 255 61 283 59 C311 57 328 82 357 96 C393 113 431 85 460 91"/>
+        </svg>
+        <svg class="sketch-return" viewBox="0 0 350 410" focusable="false">
+            <path class="stroke-trace" d="M341-24 C287 12 296 54 249 64 C204 74 167 76 142 114 C112 160 130 215 176 205 C222 195 237 126 200 117 C165 108 143 156 172 207 C199 255 260 268 268 309 C275 349 252 379 268 427"/>
+            <path class="stroke-memory" d="M359-25 C302 4 315 66 267 82 C222 97 168 68 140 107 C110 149 150 196 186 175 C218 156 205 119 183 124 C154 130 165 190 206 217 C252 248 290 256 300 302 C310 347 279 389 315 432"/>
+            <path class="stroke-follow" pathLength="1" d="M380-15 C316 22 314 82 263 94 C222 104 185 84 155 112 C123 142 148 190 186 175 C218 156 205 119 183 124 C154 130 165 190 206 217 C246 243 277 260 284 301 C291 341 316 355 350 363"/>
+        </svg>
+        <svg class="sketch-echo" viewBox="0 0 300 140" focusable="false">
+            <path class="stroke-trace" d="M-20 102 C35 119 75 104 109 79 C145 53 141 17 118 20 C92 24 105 56 142 70 C182 85 221 60 247 64 C265 67 279 77 291 73"/>
+            <path class="stroke-memory" d="M-18 93 C28 108 77 102 113 74 C143 50 139 29 121 30 C101 31 102 55 134 68 C166 81 202 78 225 68 C247 59 270 63 288 59"/>
+            <path class="stroke-follow" pathLength="1" d="M-16 80 C37 104 80 101 113 74 C143 50 139 29 121 30 C101 31 102 55 134 68 C166 81 202 78 225 68 C247 59 256 44 274 41"/>
+        </svg>
+    </div>
     <!-- Edit the profile text and links here. No build step is needed. -->
     <main aria-labelledby="profile-name">
-        <h1 id="profile-name"><span>Yanxiao Zhao</span> <span>(@sdpkjc)</span></h1>
+        <h1 id="profile-name"><span class="name"><span class="name-space" aria-hidden="true">Yanxiao Zhao</span><span class="name-ink">Yanxiao Zhao</span></span> <span>(@sdpkjc)</span></h1>
         <div class="bio">
             <p>Reinforcement Learner</p>
             <p>PhD Student @ <a href="https://www.ucas.ac.cn/" target="_blank" rel="noopener noreferrer" aria-label="UCAS — University of Chinese Academy of Sciences">UCAS</a></p>
