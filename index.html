@@ -7,12 +7,22 @@
     <title>Yanxiao Zhao</title>
     <link rel="icon" type="image/svg+xml" sizes="any" href="./adam.svg">
     <link rel="icon" type="image/svg+xml" sizes="any" href="./adam_dark.svg" media="(prefers-color-scheme: dark)">
-    <link rel="preload" href="./assets/fonts/ShantellSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="./assets/fonts/ShantellSans-Latin.woff2" as="font" type="font/woff2" crossorigin>
+    <script>
+        // Measure the live site only; file:// and local previews stay offline.
+        if (["sdpkjc.com", "sdpkjc.eu.org"].includes(location.hostname)) {
+            window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+            const insights = document.createElement("script");
+            insights.defer = true;
+            insights.src = "/_vercel/speed-insights/script.js";
+            document.head.appendChild(insights);
+        }
+    </script>
     <style>
-        /* Local Shantell Sans (OFL), with explicit metrics for consistent layout. */
+        /* Local Latin subset (OFL), retaining all five variable axes and original metrics. */
         @font-face {
             font-family: "Shantell Sans";
-            src: url("./assets/fonts/ShantellSans-Variable.woff2") format("woff2");
+            src: url("./assets/fonts/ShantellSans-Latin.woff2") format("woff2");
             font-style: normal;
             font-weight: 300 800;
             font-display: block;
